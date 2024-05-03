@@ -1,8 +1,10 @@
 import service from 'modules/user/userService';
 import paginationAction from 'modules/shared/pagination/paginationAction';
-import selectors from 'modules/user/list/userListSelectors';
+import paginationSelectors from 'modules/shared/pagination/paginationSelectors';
 
 const prefix = 'USER_LIST_USERS';
+
+export const selectors = paginationSelectors('user.list');
 
 const paginationActions = paginationAction(
   prefix,

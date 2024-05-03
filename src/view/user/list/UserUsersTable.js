@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import userSelectors from 'modules/user/userSelectors';
-import selectors from 'modules/user/list/userListSelectors';
-import actions from 'modules/user/list/userListActions';
+import { selectors } from 'modules/user/userListActions';
+import actions from 'modules/user/userListActions';
 import selectorAuth from 'modules/auth/authSelectors';
 import { Table, Tag, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
@@ -63,11 +63,7 @@ class UserUsersTable extends Component {
       sorter: false,
       render: (disabled) => {
         const color = disabled ? 'red' : 'green';
-        return (
-          <Tag color={color}>
-            {disabled ? 'Inactivo' : 'Activo'}
-          </Tag>
-        );
+        return <Tag color={color}>{disabled ? 'Inactivo' : 'Activo'}</Tag>;
       },
     },
     {
@@ -83,9 +79,7 @@ class UserUsersTable extends Component {
       render: (_, record) => (
         <div className="table-actions">
           {this.props.hasPermissionToEdit && (
-            <Link to={`/user/${record.id}/edit`}>
-              {'Editar'}
-            </Link>
+            <Link to={`/user/${record.id}/edit`}>{'Editar'}</Link>
           )}
         </div>
       ),
@@ -118,8 +112,7 @@ function select(state) {
     rows: selectors.selectRows(state),
     pagination: selectors.selectPagination(state),
     filter: selectors.selectFilter(state),
-    hasPermissionToEdit:
-      userSelectors.selectPermissionToEdit(state),
+    hasPermissionToEdit: userSelectors.selectPermissionToEdit(state),
     token: selectorAuth.selectToken(state),
   };
 }

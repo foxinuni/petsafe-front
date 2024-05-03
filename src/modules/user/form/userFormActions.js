@@ -50,14 +50,17 @@ const actions = {
     }
   },
 
-  //modiifcar este para que cree por aparte el user y el profile
+  //Already modified, check the dto in the backend because it only works without validation
+  //with dto validation is giving me a headche
   doAdd: (values, token) => async (dispatch) => {
     try {
       dispatch({
         type: actions.ADD_STARTED,
       });
-      await service.create(values, token);
-
+      const userId = await service.createUser(values);
+      console.log('a ver que retorno el user');
+      console.log(userId);
+      await service.createProfile(userId, values, token);
       dispatch({
         type: actions.ADD_SUCCESS,
       });
@@ -73,34 +76,31 @@ const actions = {
     }
   },
 
-  //este en teoria se queda igual pero es verificar que el rol se envie como id
-  doUpdate:
-    (id, values, token) => async (dispatch, getState) => {
-      try {
-        dispatch({
-          type: actions.UPDATE_STARTED,
-        });
-        await service.edit(id, values, token);
+  //MODIFY THIS, CHECK HOW THE DATA IS BEING SENT, UPDATE SEPARATELY THE ROLE IN USERS AND THEN THE PROFILE
+  doUpdate: (id, values, token) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: actions.UPDATE_STARTED,
+      });
+      await service.edit(id, values, token);
 
-        dispatch({
-          type: actions.UPDATE_SUCCESS,
-        });
+      dispatch({
+        type: actions.UPDATE_SUCCESS,
+      });
 
-        const currentUser = authSelectors.selectCurrentUser(
-          getState(),
-        );
+      const currentUser = authSelectors.selectCurrentUser(getState());
 
-        Message.success('Usuario actualizado exitosamente');
+      Message.success('Usuario actualizado exitosamente');
 
-        getHistory().push('/user');
-      } catch (error) {
-        Errors.handle(error);
+      getHistory().push('/user');
+    } catch (error) {
+      Errors.handle(error);
 
-        dispatch({
-          type: actions.UPDATE_ERROR,
-        });
-      }
-    },
+      dispatch({
+        type: actions.UPDATE_ERROR,
+      });
+    }
+  },
 };
 
 export default actions;

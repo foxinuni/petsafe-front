@@ -35,15 +35,13 @@ const actions = {
   },
 
   doRegisterEmailAndPassword:
-    (email, password, name, surname, number) =>
-    async (dispatch) => {
+    (email, password, name, surname, number) => async (dispatch) => {
       try {
         dispatch({ type: actions.AUTH_REG_START });
-        const user =
-          await service.registerWithEmailAndPassword(
-            email,
-            password,
-          );
+        const user = await service.registerWithEmailAndPassword(
+          email,
+          password,
+        );
         if (user) {
           const profile = await service.createProfile(
             number,
@@ -54,9 +52,7 @@ const actions = {
           dispatch({
             type: actions.AUTH_REG_SUCCESS,
           });
-          Message.success(
-            'Perfil creado exitosamente, ingrese',
-          );
+          Message.success('Perfil creado exitosamente, ingrese');
           getHistory().push('/');
         } else {
           Errors.handle(null, dispatch);
@@ -73,45 +69,37 @@ const actions = {
       }
     },
 
-  doSigninWithEmailAndPassword:
-    (email, password) => async (dispatch) => {
-      try {
-        dispatch({ type: actions.AUTH_START });
-        const credentials = await service.signin(
-          email,
-          password,
-        );
-        if (credentials && credentials.user) {
-          credentials.user.rol = await rolService.getMe(
-            credentials.token,
-          );
-          const currentUser = await service.getProfile(
-            credentials,
-          );
-          currentUser.email = credentials.user.email;
-          currentUser.rol = credentials.user.rol;
-          delete currentUser.id;
-          dispatch({
-            type: actions.AUTH_SUCCESS,
-            payload: {
-              currentUser: currentUser,
-              token: credentials.token,
-            },
-          });
-        } else {
-          Errors.handle(null, dispatch);
-          dispatch({
-            type: actions.AUTH_ERROR,
-          });
-        }
-      } catch (error) {
-        await service.signout();
-        Errors.handle(error, dispatch);
+  doSigninWithEmailAndPassword: (email, password) => async (dispatch) => {
+    try {
+      dispatch({ type: actions.AUTH_START });
+      const credentials = await service.signin(email, password);
+      if (credentials && credentials.user) {
+        credentials.user.rol = await rolService.getMe(credentials.token);
+        const currentUser = await service.getProfile(credentials);
+        currentUser.email = credentials.user.email;
+        currentUser.rol = credentials.user.rol;
+        delete currentUser.id;
+        dispatch({
+          type: actions.AUTH_SUCCESS,
+          payload: {
+            currentUser: currentUser,
+            token: credentials.token,
+          },
+        });
+      } else {
+        Errors.handle(null, dispatch);
         dispatch({
           type: actions.AUTH_ERROR,
         });
       }
-    },
+    } catch (error) {
+      await service.signout(); //cambiar por dispatch action signout
+      Errors.handle(error, dispatch);
+      dispatch({
+        type: actions.AUTH_ERROR,
+      });
+    }
+  },
 
   doSignout: () => async (dispatch) => {
     try {
@@ -134,35 +122,33 @@ const actions = {
     }
   },
 
-  doUpdateProfile:
-    (name, surname, number, token) => async (dispatch) => {
-      try {
-        dispatch({
-          type: actions.UPDATE_PROFILE_START,
-        });
+  doUpdateProfile: (name, surname, number, token) => async (dispatch) => {
+    try {
+      dispatch({
+        type: actions.UPDATE_PROFILE_START,
+      });
 
-        const newProfile = await service.updateProfile(
-          name,
-          surname,
-          number,
-          token,
-        );
-        dispatch({
-          type: actions.UPDATE_PROFILE_SUCCESS,
-          payload: {
-            currentUser: newProfile,
-          },
-        });
-        Message.success('Perfil actualizado correctamente');
-        getHistory().push('/');
-      } catch (error) {
-        Errors.handle(error);
-
-        dispatch({
-          type: actions.UPDATE_PROFILE_ERROR,
-        });
-      }
-    },
+      const newProfile = await service.updateProfile(
+        name,
+        surname,
+        number,
+        token,
+      );
+      dispatch({
+        type: actions.UPDATE_PROFILE_SUCCESS,
+        payload: {
+          currentUser: newProfile,
+        },
+      });
+      Message.success('Perfil actualizado correctamente');
+      getHistory().push('/');
+    } catch (error) {
+      Errors.handle(error);
+      dispatch({
+        type: actions.UPDATE_PROFILE_ERROR,
+      });
+    }
+  },
 };
 
 export default actions;

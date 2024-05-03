@@ -11,18 +11,12 @@ export default class AuthService {
     };
   }
 
-  static async registerWithEmailAndPassword(
-    email,
-    password,
-  ) {
+  static async registerWithEmailAndPassword(email, password) {
     const user = {
       email: email,
       password: password,
     };
-    const response = await axios.post(
-      `${backend}/auth/register`,
-      user,
-    );
+    const response = await axios.post(`${backend}/auth/register`, user);
     delete user.password;
     user.token = response.data.token;
     user.rol = response.data.rol;
@@ -35,15 +29,11 @@ export default class AuthService {
       name: name,
       surname: surname,
     };
-    const response = await axios.post(
-      `${backend}/profiles/me`,
-      user,
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+    const response = await axios.post(`${backend}/profiles/me`, user, {
+      headers: {
+        authorization: `Bearer ${token}`,
       },
-    );
+    });
     return response.data;
   }
 
@@ -61,14 +51,11 @@ export default class AuthService {
   }
 
   static async getProfile(credentials) {
-    const response = await axios.get(
-      `${backend}/profiles/me`,
-      {
-        headers: {
-          authorization: `Bearer ${credentials.token}`,
-        },
+    const response = await axios.get(`${backend}/profiles/me`, {
+      headers: {
+        authorization: `Bearer ${credentials.token}`,
       },
-    );
+    });
     return response.data;
   }
 

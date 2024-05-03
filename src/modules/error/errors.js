@@ -1,9 +1,6 @@
 import Message from 'view/shared/message';
 import { getHistory } from 'modules/store';
-import {
-  ourOwn,
-  messages,
-} from 'modules/error/errorMessages';
+import { ourOwn, messages } from 'modules/error/errorMessages';
 
 const DEFAULT_ERROR_MESSAGE =
   'Lo lamentamos, sucedio un error, no sabemos la causa';
@@ -14,18 +11,10 @@ export const actions = {
 
 export default class Errors {
   static async handle(error, dispatch, path) {
-    if (ourOwn.includes(error.response?.status)) {
-      const errorTag = error.response.data.error.replaceAll(
-        '-',
-        '',
-      );
-      const errorObj =
-        messages[errorTag.split('.')[0]][
-          errorTag.split('.')[1]
-        ];
-      Message.error(
-        errorObj.message || DEFAULT_ERROR_MESSAGE,
-      );
+    if (ourOwn.includes(error?.response?.status)) {
+      const errorTag = error.response.data.error.replaceAll('-', '');
+      const errorObj = messages[errorTag.split('.')[0]][errorTag.split('.')[1]];
+      Message.error(errorObj.message || DEFAULT_ERROR_MESSAGE);
 
       if (path) {
         getHistory().push(path);

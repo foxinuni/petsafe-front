@@ -87,6 +87,12 @@ export const messages = {
       redirect: true,
     },
   },
+  validation: {
+    invalidrequest: {
+      message: 'Hubo un problema con los datos',
+      Redirect: false,
+    },
+  },
 };
 
 export const ourOwn = [409, 401, 403, 500, 400, 404];

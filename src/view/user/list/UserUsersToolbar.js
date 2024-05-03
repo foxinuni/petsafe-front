@@ -3,7 +3,7 @@ import Toolbar from 'view/shared/styles/Toolbar';
 import { Button, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import userSelectors from 'modules/user/userSelectors';
-import selectors from 'modules/user/list/userListSelectors';
+import { selectors } from 'modules/user/userListActions';
 import { Link } from 'react-router-dom';
 
 class UserUsersToolbar extends Component {
@@ -29,9 +29,7 @@ class UserUsersToolbar extends Component {
 
     if (disabled) {
       return (
-        <Tooltip title={'No hay informacion para exportar'}>
-          {button}
-        </Tooltip>
+        <Tooltip title={'No hay informacion para exportar'}>{button}</Tooltip>
       );
     }
 
@@ -58,10 +56,8 @@ function select(state) {
   return {
     loading: selectors.selectLoading(state),
     exportLoading: selectors.selectExportLoading(state),
-    hasPermissionToEdit:
-      userSelectors.selectPermissionToEdit(state),
-    hasPermissionToCreate:
-      userSelectors.selectPermissionToCreate(state),
+    hasPermissionToEdit: userSelectors.selectPermissionToEdit(state),
+    hasPermissionToCreate: userSelectors.selectPermissionToCreate(state),
   };
 }
 

@@ -16,9 +16,7 @@ import selectorAuth from 'modules/auth/authSelectors';
 class rolEditForm extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
-    dispatch(
-      actions.doFind(match.params.id, this.props.token),
-    );
+    dispatch(actions.doFind(match.params.id, this.props.token));
   }
 
   handleSubmit = (values) => {
@@ -27,21 +25,16 @@ class rolEditForm extends Component {
       ...values,
     };
     console.log(data);
-    data.permNumber = data.permissions.reduce(
-      (acumulator, value) => acumulator + value,
-      0,
-    );
+    data.permNumber =
+      data.permissions.reduce((acumulator, value) => acumulator + value, 0) +
+      Permissions.self;
     dispatch(actions.doUpdate(data, this.props.token));
   };
 
   initialValues = () => {
     const role = this.props.role;
     role.permissions = Permissions.asArray
-      .filter(
-        (value) =>
-          role.permissions == 1 ||
-          role.permissions & value.bit,
-      )
+      .filter((value) => role.permissions == 1 || role.permissions & value.bit)
       .map((value) => ({
         value: value.bit,
         tittle: value.name,
@@ -62,28 +55,20 @@ class rolEditForm extends Component {
           render={(form) => {
             return (
               <Form onFinish={form.handleSubmit}>
-                <InputFormItem
-                  name={'rolName'}
-                  label={'Nombre del rol'}
-                />
+                <InputFormItem name={'rolName'} label={'Nombre del rol'} />
                 <SelectFormItem
                   name={'permissions'}
                   label={'Permisos'}
-                  options={Permissions.asArray.map(
-                    (permission) => ({
-                      id: 0,
-                      value: permission.bit,
-                      label: permission.name,
-                      tittle: permission.name,
-                    }),
-                  )}
+                  options={Permissions.asArray.map((permission) => ({
+                    id: 0,
+                    value: permission.bit,
+                    label: permission.name,
+                    tittle: permission.name,
+                  }))}
                   mode={'multiple'}
                 />
 
-                <Form.Item
-                  className="form-buttons"
-                  {...tailFormItemLayout}
-                >
+                <Form.Item className="form-buttons" {...tailFormItemLayout}>
                   <Button
                     loading={saveLoading}
                     type="primary"
@@ -92,10 +77,7 @@ class rolEditForm extends Component {
                     {'Guardar'}
                   </Button>
 
-                  <Button
-                    disabled={saveLoading}
-                    onClick={form.handleReset}
-                  >
+                  <Button disabled={saveLoading} onClick={form.handleReset}>
                     {'Resetear'}
                   </Button>
                 </Form.Item>

@@ -1,10 +1,9 @@
 class Permissions {
+  static get self() {
+    return (1 << 1) + (1 << 4) + (1 << 7);
+  }
   static get values() {
     return {
-      permUserSelf: {
-        name: 'permUserSelf',
-        bit: 1 << 1,
-      },
       permUserView: {
         name: 'permUserView',
         bit: 1 << 2,
@@ -13,10 +12,6 @@ class Permissions {
         name: 'permUserManage',
         bit: 1 << 3,
       },
-      permProfileSelf: {
-        name: 'permProfileSelf',
-        bit: 1 << 4,
-      },
       permProfileView: {
         name: 'permProfileView',
         bit: 1 << 5,
@@ -24,10 +19,6 @@ class Permissions {
       permProfileManage: {
         name: 'permProfileManage',
         bit: 1 << 6,
-      },
-      permRolesSelf: {
-        name: 'permRolesSelf',
-        bit: 1 << 7,
       },
       permRolesView: {
         name: 'permRolesView',

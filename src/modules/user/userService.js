@@ -32,20 +32,23 @@ export default class UserService {
     );
   }
 
-  static async create(data, token) {
+  static async createUser(data, token) {
+    const response = await axios.post(`${backend}/auth/register`, {
+      email: data.email,
+      password: data.password,
+      role: data.roles,
+    });
+    return response.data;
+  }
+
+  static async createProfile(id, data, token) {
     await axios.post(
       `${backend}/profiles`,
       {
-        user: {
-          email: data.email,
-          password: data.password,
-        },
-        profile: {
-          name: data.name,
-          surname: data.surname,
-          number: data.number,
-        },
-        role: data.roles,
+        id: id,
+        name: data.name,
+        surname: data.surname,
+        number: data.number,
       },
       {
         headers: {
@@ -82,7 +85,6 @@ export default class UserService {
     }
     query = query.slice(0, -1);
     query += `&limit=${limit}&page=${offset}`;
-    console.log(query);
     const response = await axios.get(`${backend}/profiles?${query}`, {
       headers: {
         authorization: `Bearer ${token}`,
