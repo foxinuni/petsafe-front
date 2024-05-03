@@ -72,9 +72,7 @@ export default class AuthService {
     return response.data;
   }
 
-  static signout() {
-    //return firebase.auth().signOut();
-  }
+  static signout() {}
 
   static async updateProfile(name, surname, number, token) {
     console.log(`number es ${number} y name es ${name}`);

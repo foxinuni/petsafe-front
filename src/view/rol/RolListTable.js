@@ -7,9 +7,6 @@ import rolSelectors from 'modules/rol/rolSelectors';
 import { Link } from 'react-router-dom';
 import TableWrapper from 'view/shared/styles/TableWrapper';
 import ButtonLink from 'view/shared/styles/ButtonLink';
-import model from 'modules/auth/userModel';
-
-const { fields } = model;
 
 class RolesTable extends Component {
   componentDidMount() {

@@ -2,23 +2,16 @@ import { Button, Form } from 'antd';
 import { Formik } from 'formik';
 import actions from 'modules/user/form/userFormActions';
 import selectors from 'modules/user/form/userFormSelectors';
-import model from 'modules/auth/userModel';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ImagesFormItem from 'view/shared/form/items/ImagesFormItem';
 import SelectFormItem from 'view/shared/form/items/SelectFormItem';
-import TagsFormItem from 'view/shared/form/items/TagsFormItem';
 import InputFormItem from 'view/shared/form/items/InputFormItem';
-import FormSchema from 'view/shared/form/formSchema';
 import FormWrapper, {
   tailFormItemLayout,
 } from 'view/shared/styles/FormWrapper';
 import selectorsRoles from 'modules/rol/rolSelectors';
 import selectorAuth from 'modules/auth/authSelectors';
 import * as Yup from 'yup';
-import Password from 'antd/lib/input/Password';
-
-const { fields } = model;
 
 class UserNewForm extends Component {
   schema = Yup.object().shape({

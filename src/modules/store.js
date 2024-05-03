@@ -18,6 +18,7 @@ const loggerMiddleware = (store) => (next) => (action) => {
   return result;
 };
 
+//To implement maybe, or use axios to the refresh token, idk
 const tokenMiddleware = function (store) {
   return function (next) {
     return function (action) {

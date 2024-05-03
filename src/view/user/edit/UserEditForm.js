@@ -2,7 +2,6 @@ import { Button, Form } from 'antd';
 import { Formik } from 'formik';
 import actions from 'modules/user/form/userFormActions';
 import selectors from 'modules/user/form/userFormSelectors';
-import model from 'modules/auth/userModel';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImagesFormItem from 'view/shared/form/items/ImagesFormItem';
@@ -13,11 +12,8 @@ import Spinner from 'view/shared/Spinner';
 import FormWrapper, {
   tailFormItemLayout,
 } from 'view/shared/styles/FormWrapper';
-import FormSchema from 'view/shared/form/formSchema';
 import selectorsRoles from 'modules/rol/rolSelectors';
 import selectorAuth from 'modules/auth/authSelectors';
-
-const { fields } = model;
 
 class UserEditForm extends Component {
   schema = new FormSchema(fields.id, [

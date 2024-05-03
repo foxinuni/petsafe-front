@@ -32,8 +32,6 @@ export default class UserService {
     );
   }
 
-  static async remove(emails, roles, all = false) {}
-
   static async create(data, token) {
     await axios.post(
       `${backend}/profiles`,
@@ -137,6 +135,4 @@ export default class UserService {
     console.log(returning);
     return returning;
   }
-
-  static async fetchUserAutocomplete(query, limit) {}
 }

@@ -5,7 +5,6 @@ import selectorAuth from 'modules/auth/authSelectors';
 import actions from 'modules/user/list/userListActions';
 import actionsRoles from 'modules/rol/rolActions';
 import selectors from 'modules/user/list/userListSelectors';
-import model from 'modules/auth/userModel';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -15,8 +14,6 @@ import FilterWrapper, {
   formItemLayout,
 } from 'view/shared/styles/FilterWrapper';
 import DatePickerRangeFormItem from 'view/shared/form/items/DatePickerRangeFormItem';
-
-const { fields } = model;
 
 const intialValues = {};
 
