@@ -48,7 +48,7 @@ class UserNewForm extends Component {
 
   render() {
     const { saveLoading } = this.props;
-    console.log('render desde IamNewForm');
+    console.log('render desde hhhhhh');
     return (
       <FormWrapper>
         <Formik
