@@ -8,16 +8,11 @@ class Breadcrumb extends Component {
   };
 
   render() {
-    console.log('render desde Breadcumb');
     return (
       <AntBreadcrumb>
         {this.props.items.map((item) => (
           <AntBreadcrumb.Item key={item[0]}>
-            {this.isLink(item) ? (
-              <Link to={item[1]}>{item[0]}</Link>
-            ) : (
-              item[0]
-            )}
+            {this.isLink(item) ? <Link to={item[1]}>{item[0]}</Link> : item[0]}
           </AntBreadcrumb.Item>
         ))}
       </AntBreadcrumb>

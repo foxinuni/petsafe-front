@@ -3,17 +3,17 @@ import Layout from 'view/layout/Layout';
 import ContentWrapper from 'view/layout/styles/ContentWrapper';
 import PageTitle from 'view/shared/styles/PageTitle';
 import Breadcrumb from 'view/shared/Breadcrumb';
-import IamNewForm from 'view/user/new/UserNewForm';
+import UserNewForm from 'view/user/new/UserNewForm';
 
 class UserNewPage extends Component {
   render() {
-    console.log('render desde IamNewPage');
+    console.log('render desde NewPage');
     return (
       <React.Fragment>
         <Breadcrumb
           items={[
             ['Principal', '/'],
-            ['Usuarios', '/iam'],
+            ['Usuarios', '/user'],
             ['Nuevo usuario'],
           ]}
         />
@@ -21,7 +21,7 @@ class UserNewPage extends Component {
         <ContentWrapper>
           <PageTitle>{'Nuevo usuario'}</PageTitle>
 
-          <IamNewForm />
+          <UserNewForm />
         </ContentWrapper>
       </React.Fragment>
     );

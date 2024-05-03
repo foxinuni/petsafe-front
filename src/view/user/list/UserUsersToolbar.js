@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import Toolbar from 'view/shared/styles/Toolbar';
 import { Button, Tooltip } from 'antd';
 import { connect } from 'react-redux';
-import iamSelectors from 'modules/user/userSelectors';
+import userSelectors from 'modules/user/userSelectors';
 import selectors from 'modules/user/list/userListSelectors';
-import actions from 'modules/user/list/userListActions';
 import { Link } from 'react-router-dom';
 
 class UserUsersToolbar extends Component {
   doExport = () => {
     const { dispatch } = this.props;
-    dispatch(actions.doExport());
+    //a implementar exportacion excel
   };
 
   renderExportButton() {
@@ -40,7 +39,7 @@ class UserUsersToolbar extends Component {
   }
 
   render() {
-    console.log('render desde IamUsersToolbar');
+    console.log('render desde UsersToolbar');
     return (
       <Toolbar>
         {this.props.hasPermissionToCreate && (
@@ -60,9 +59,9 @@ function select(state) {
     loading: selectors.selectLoading(state),
     exportLoading: selectors.selectExportLoading(state),
     hasPermissionToEdit:
-      iamSelectors.selectPermissionToEdit(state),
+      userSelectors.selectPermissionToEdit(state),
     hasPermissionToCreate:
-      iamSelectors.selectPermissionToCreate(state),
+      userSelectors.selectPermissionToCreate(state),
   };
 }
 

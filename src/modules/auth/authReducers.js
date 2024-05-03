@@ -18,17 +18,7 @@ export default (state = initialData, { type, payload }) => {
     };
   }
 
-  if (type === actions.CURRENT_USER_REFRESH_SUCCESS) {
-    return {
-      ...state,
-      currentUser: payload.currentUser || null,
-    };
-  }
-
-  if (
-    type === actions.AUTH_START ||
-    type === actions.AUTH_REG_START
-  ) {
+  if (type === actions.AUTH_START || type === actions.AUTH_REG_START) {
     return {
       ...state,
       errorMessage: null,
@@ -53,10 +43,7 @@ export default (state = initialData, { type, payload }) => {
     };
   }
 
-  if (
-    type === actions.AUTH_ERROR ||
-    type === actions.AUTH_REG_ERROR
-  ) {
+  if (type === actions.AUTH_ERROR || type === actions.AUTH_REG_ERROR) {
     return {
       ...state,
       authenticationUser: null,
@@ -95,8 +82,7 @@ export default (state = initialData, { type, payload }) => {
   if (type === actions.AUTH_INIT_SUCCESS) {
     return {
       ...state,
-      authenticationUser:
-        payload.authenticationUser || null,
+      authenticationUser: payload.authenticationUser || null,
       currentUser: payload.currentUser || null,
       loadingInit: false,
     };

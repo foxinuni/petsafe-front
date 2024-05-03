@@ -5,15 +5,15 @@ import PageTitle from 'view/shared/styles/PageTitle';
 import Breadcrumb from 'view/shared/Breadcrumb';
 import UserEditForm from 'view/user/edit/UserEditForm';
 
-class IamEditPage extends Component {
+class UserEditPage extends Component {
   render() {
-    console.log('render desde IamEditPage');
+    console.log('render desde EditPage');
     return (
       <React.Fragment>
         <Breadcrumb
           items={[
             ['Principal', '/'],
-            ['Usuarios', '/iam'],
+            ['Usuarios', '/user'],
             ['Editar usuario'],
           ]}
         />
@@ -28,4 +28,4 @@ class IamEditPage extends Component {
   }
 }
 
-export default Layout(IamEditPage);
+export default Layout(UserEditPage);

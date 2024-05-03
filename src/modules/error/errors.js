@@ -14,7 +14,7 @@ export const actions = {
 
 export default class Errors {
   static async handle(error, dispatch, path) {
-    if (ourOwn.includes(error.response.status)) {
+    if (ourOwn.includes(error.response?.status)) {
       const errorTag = error.response.data.error.replaceAll(
         '-',
         '',

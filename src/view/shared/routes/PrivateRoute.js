@@ -29,12 +29,8 @@ function PrivateRoute({
             />
           );
         }
-        if (permissionChecker.isEmptyPermissions) {
-          return <Redirect to="/auth/empty-permissions" />;
-        }
-
         if (!permissionChecker.match(permissionRequired)) {
-          return <Redirect to="/403" />;
+          return <Redirect to="/auth/signin" />;
         }
 
         return <Component {...props} />;

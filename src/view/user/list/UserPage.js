@@ -9,7 +9,7 @@ import Breadcrumb from 'view/shared/Breadcrumb';
 
 class UserPage extends Component {
   render() {
-    console.log('render desde IamPage');
+    console.log('render desde Page');
     return (
       <React.Fragment>
         <Breadcrumb

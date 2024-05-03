@@ -56,64 +56,40 @@ export default class UserService {
   }
 
   static async find(id, token) {
-    const response = await axios.get(
-      `${backend}/profiles/${id}`,
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+    const response = await axios.get(`${backend}/profiles/${id}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
       },
-    );
+    });
     return response.data;
   }
 
-  static async fetchUsers(
-    filter,
-    orderBy,
-    limit = 10,
-    offset = 1,
-    token,
-  ) {
-    console.log(
-      `en el fetch la pagina es ${offset} con limit ${limit} `,
-    );
+  static async fetchUsers(filter, orderBy, limit = 10, offset = 1, token) {
     let query = '';
-    if (filter?.email) {
-      query += `email=${filter.email}&`;
-    }
-    if (filter?.name) {
-      query += `name=${filter.name}&`;
-    }
-    if (filter?.surname) {
-      query += `surname=${filter.surname}&`;
-    }
-    if (filter?.createdAtRange) {
-      const beginning = filter.createdAtRange[0].format();
-      const beginEncoded = encodeURIComponent(beginning);
-      query += `createdFrom=${beginEncoded}&`;
-      const ending = filter.createdAtRange[1].format();
-      const endingEncoded = encodeURIComponent(ending);
-      query += `createdTo=${endingEncoded}&`;
-    }
-    if (filter?.role) {
-      query += `rol=${filter.role}&`;
-    }
-    if (filter?.status) {
-      query += `status=${filter.status}&`;
+    console.log('a ver los filtros');
+    console.log(filter);
+    if (filter?.email) query += `email=${filter.email}&`;
+    if (filter?.fullName) query += `name=${filter.fullName}&`;
+    if (filter?.role) query += `rol=${filter.role}&`;
+    if (filter?.status) query += `status=${filter.status}&`;
+    if (filter?.createdAt) {
+      //  const beginning = filter.createdAtRange[0].format();
+      //  const beginEncoded = encodeURIComponent(beginning);
+      // query += `createdFrom=${beginEncoded}&`;
+      // const ending = filter.createdAtRange[1].format();
+      // const endingEncoded = encodeURIComponent(ending);
+      // query += `createdTo=${endingEncoded}&`;
     }
     query = query.slice(0, -1);
     query += `&limit=${limit}&page=${offset}`;
     console.log(query);
-    const response = await axios.get(
-      `${backend}/profiles?${query}`,
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+    const response = await axios.get(`${backend}/profiles?${query}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
       },
-    );
+    });
+
     const returning = {};
-    console.log(response.data);
     returning.rows = response.data.map((profile) => ({
       id: profile.id,
       name: `${profile.name} ${profile.surname}`,
@@ -122,17 +98,10 @@ export default class UserService {
       rol: profile.rol,
       createdAt: profile.createdAt,
       updatedAt: profile.updatedAt,
-      disabled: false,
-      avatars: {
-        id: 30,
-        name: 'nombre',
-        sizeInBytes: 10,
-        publicUrl: 'publica.com',
-        privateUrl: 'privada.com',
-      },
+      disabled: false, //by now since the backend has not implemented the status yet
     }));
-    returning.count = 50;
-    console.log(returning);
+    returning.count = 50; //the count it's supossed to be retrieved through another axios call maybe,
+    //will talk with augusto, for now lets leave it as 50 to prove that the pagination works
     return returning;
   }
 }

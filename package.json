@@ -13,12 +13,9 @@
     "connected-react-router": "^6.9.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
-    "file-saver": "^2.0.5",
-    "filesize": "^8.0.6",
     "formik": "^2.2.9",
     "history": "^4.10.1",
     "lodash": "^4.17.21",
-    "md5": "^2.3.0",
     "nprogress": "^0.2.0",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
@@ -36,7 +33,6 @@
     "redux-thunk": "^2.4.2",
     "reselect": "^4.1.5",
     "styled-components": "^5.3.3",
-    "xlsx": "^0.17.5",
     "yup": "^0.32.11"
   },
   "scripts": {

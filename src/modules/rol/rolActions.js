@@ -43,14 +43,7 @@ const actions = {
       dispatch({
         type: actions.ROL_START,
       });
-      const roles = (await service.getAll(token)).map(
-        (rol) => ({
-          id: rol.id,
-          value: rol.name,
-          tittle: rol.name,
-          label: rol.name,
-        }),
-      );
+      const roles = await service.getAll(token);
       dispatch({
         type: actions.ROL_LIST_SUCCESS,
         payload: {

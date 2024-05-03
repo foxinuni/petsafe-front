@@ -2,10 +2,7 @@ import { createSelector } from 'reselect';
 
 const selectRaw = (state) => state.auth;
 
-const selectToken = createSelector(
-  [selectRaw],
-  (auth) => auth.token,
-);
+const selectToken = createSelector([selectRaw], (auth) => auth.token);
 
 const selectAuthenticationUser = createSelector(
   [selectRaw],
@@ -24,8 +21,7 @@ const selectCurrentUserEmail = createSelector(
 
 const selectCurrentUserFullName = createSelector(
   [selectCurrentUser],
-  (currentUser) =>
-    currentUser ? currentUser.fullName : '',
+  (currentUser) => (currentUser ? currentUser.fullName : ''),
 );
 
 const selectSignedIn = createSelector(
@@ -33,10 +29,8 @@ const selectSignedIn = createSelector(
   (currentUser) => !!currentUser,
 );
 
-const selectRoles = createSelector(
-  [selectCurrentUser],
-  (currentUser) =>
-    currentUser ? currentUser.roles || [] : [],
+const selectRoles = createSelector([selectCurrentUser], (currentUser) =>
+  currentUser ? currentUser.roles || [] : [],
 );
 
 const selectEmptyPermissions = createSelector(
@@ -44,24 +38,11 @@ const selectEmptyPermissions = createSelector(
   (roles) => !roles || !roles.length,
 );
 
-const selectLoading = createSelector(
-  [selectRaw],
-  (auth) => !!auth.loading,
-);
+const selectLoading = createSelector([selectRaw], (auth) => !!auth.loading);
 
 const selectLoadingInit = createSelector(
   [selectRaw],
   (auth) => !!auth.loadingInit,
-);
-
-const selectLoadingEmailConfirmation = createSelector(
-  [selectRaw],
-  (auth) => !!auth.loadingEmailConfirmation,
-);
-
-const selectLoadingPasswordReset = createSelector(
-  [selectRaw],
-  (auth) => !!auth.loadingPasswordReset,
 );
 
 const selectLoadingUpdateProfile = createSelector(
@@ -76,8 +57,6 @@ const selectErrorMessage = createSelector(
 
 const selectors = {
   selectToken,
-  selectLoadingPasswordReset,
-  selectLoadingEmailConfirmation,
   selectLoadingInit,
   selectLoadingUpdateProfile,
   selectLoading,

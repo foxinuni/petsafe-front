@@ -20,20 +20,11 @@ class SignupPage extends Component {
       .email('Correo electronico invalido')
       .required('Debe ingresar el correo'),
     password: Yup.string()
-      .min(
-        8,
-        'La contraseña debe tener al menos 8 caracteres',
-      )
+      .min(8, 'La contraseña debe tener al menos 8 caracteres')
       .required('Debe ingresar la contraseña'),
-    name: Yup.string().required(
-      'Debe ingresar sus nombres',
-    ),
-    surname: Yup.string().required(
-      'Debe ingresar sus apellidos',
-    ),
-    number: Yup.number()
-      .integer()
-      .required('Debe ingresar su telefono'),
+    name: Yup.string().required('Debe ingresar sus nombres'),
+    surname: Yup.string().required('Debe ingresar sus apellidos'),
+    number: Yup.number().integer().required('Debe ingresar su telefono'),
   });
 
   componentDidMount() {
@@ -60,13 +51,7 @@ class SignupPage extends Component {
     };
   };
 
-  doSubmit = ({
-    email,
-    password,
-    name,
-    surname,
-    number,
-  }) => {
+  doSubmit = ({ email, password, name, surname, number }) => {
     const { dispatch } = this.props;
     dispatch(
       actions.doRegisterEmailAndPassword(
@@ -83,9 +68,8 @@ class SignupPage extends Component {
     return (
       <SignupPageWrapper
         style={{
-          background: `url('URL_DE_TU_IMAGEN') no-repeat center center`,
-          backgroundSize: 'cover',
-          padding: '40px',
+          paddingTop: '40px',
+          paddingBottom: '40px',
         }}
       >
         <Content
@@ -99,9 +83,7 @@ class SignupPage extends Component {
           }}
         >
           <Logo style={{ textAlign: 'center' }}>
-            <h1 style={{ color: '#1890ff' }}>
-              {'Pet safe'}
-            </h1>
+            <h1 style={{ color: '#1890ff' }}>{'Pet safe'}</h1>
           </Logo>
           <Formik
             initialValues={this.initialValues()}
@@ -177,9 +159,7 @@ class SignupPage extends Component {
                     textAlign: 'center',
                   }}
                 >
-                  <Link to="/auth/signin">
-                    {'Ya tengo cuenta'}
-                  </Link>
+                  <Link to="/auth/signin">{'Ya tengo cuenta'}</Link>
                 </OtherActions>
               </AntdForm>
             )}

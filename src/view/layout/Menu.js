@@ -1,5 +1,5 @@
 import { Layout as AntLayout, Menu as AntMenu } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { HomeOutlined } from '@ant-design/icons';
 import React, { Component } from 'react';
 import SiderWrapper from 'view/layout/styles/SiderWrapper';
 import { Link } from 'react-router-dom';
@@ -19,23 +19,15 @@ class Menu extends Component {
 
   componentDidMount() {
     this.toggleMenuOnResize();
-    window.addEventListener(
-      'resize',
-      this.toggleMenuOnResize,
-    );
+    window.addEventListener('resize', this.toggleMenuOnResize);
   }
 
   componentWillUnmount() {
-    window.removeEventListener(
-      'resize',
-      this.toggleMenuOnResize,
-    );
+    window.removeEventListener('resize', this.toggleMenuOnResize);
   }
 
   toggleMenuOnResize = () => {
-    window.innerWidth < 576
-      ? this.hideMenu()
-      : this.showMenu();
+    window.innerWidth < 576 ? this.hideMenu() : this.showMenu();
   };
 
   get selectedKeys() {
@@ -67,9 +59,7 @@ class Menu extends Component {
   };
 
   match = (permission) => {
-    const permissionChecker = new PermissionChecker(
-      this.props.currentUser,
-    );
+    const permissionChecker = new PermissionChecker(this.props.currentUser);
 
     return permissionChecker.match(permission);
   };
@@ -78,18 +68,16 @@ class Menu extends Component {
     return (
       <SiderWrapper
         style={{
-          display: this.props.menuVisible
-            ? 'block'
-            : 'none',
-          minHeight: '100vh', // Ensure the sidebar covers the whole height
+          display: this.props.menuVisible ? 'block' : 'none',
+          minHeight: '100vh',
         }}
       >
         <Sider
-          theme="dark" // Changed theme to dark for a different visual effect
+          theme="dark"
           trigger={null}
           collapsible
           collapsed={!this.props.menuVisible}
-          style={{ background: '#30404d' }} // Custom background color
+          style={{ background: '#30404d' }}
         >
           <div
             className="logo"
@@ -110,23 +98,16 @@ class Menu extends Component {
             style={{
               background: '#30404d',
               color: 'white',
-            }} // Ensuring consistent color styling
+            }}
           >
             {routes.privateRoutes
               .filter((privateRoute) => !!privateRoute.menu)
               .filter((privateRoutes) =>
-                this.match(
-                  privateRoutes.permissionRequired,
-                ),
+                this.match(privateRoutes.permissionRequired),
               )
               .map((privateRoute) => (
-                <AntMenu.Item
-                  key={privateRoute.path}
-                  icon={<UserOutlined />}
-                >
-                  <Link to={privateRoute.path}>
-                    {privateRoute.label}
-                  </Link>
+                <AntMenu.Item key={privateRoute.path} icon={<HomeOutlined />}>
+                  <Link to={privateRoute.path}>{privateRoute.label}</Link>
                 </AntMenu.Item>
               ))}
           </AntMenu>

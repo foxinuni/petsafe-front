@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Dropdown, Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  CloseOutlined,
+  DoubleLeftOutlined,
+} from '@ant-design/icons';
 import authActions from 'modules/auth/authActions';
 import authSelectors from 'modules/auth/authSelectors';
 import layoutActions from 'modules/layout/layoutActions';
@@ -36,13 +40,10 @@ class Header extends Component {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '0 20px',
-            background: '#f0f2f5',
+            background: '#fffff',
           }}
         >
-          <UserOutlined
-            className="trigger"
-            onClick={this.doToggleMenu}
-          />
+          <DoubleLeftOutlined className="trigger" onClick={this.doToggleMenu} />
           <Dropdown
             className="user-dropdown"
             menu={{
@@ -72,7 +73,7 @@ class Header extends Component {
                   key: 'signout',
                   label: (
                     <>
-                      <UserOutlined />
+                      <CloseOutlined />
                       {'Salir'}
                     </>
                   ),

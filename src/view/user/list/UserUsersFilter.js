@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from 'antd';
+import { Button, Col, Form, Row, DatePicker } from 'antd';
 import { Formik } from 'formik';
 import selectorsRoles from 'modules/rol/rolSelectors';
 import selectorAuth from 'modules/auth/authSelectors';
@@ -13,6 +13,7 @@ import InputFormItem from 'view/shared/form/items/InputFormItem';
 import FilterWrapper, {
   formItemLayout,
 } from 'view/shared/styles/FilterWrapper';
+
 import DatePickerRangeFormItem from 'view/shared/form/items/DatePickerRangeFormItem';
 
 const intialValues = {};
@@ -21,8 +22,6 @@ class UserUsersFilter extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
     dispatch(actionsRoles.getAllRoles(this.props.token));
-    console.log('roles encontrados');
-    console.log(this.props.roles);
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -30,6 +29,8 @@ class UserUsersFilter extends Component {
   }
 
   handleSubmit = (values) => {
+    //convert date range (if there is) to string, because sending it to the state as a moment
+    //causes issues
     const { dispatch } = this.props;
     dispatch(actions.doFetch(values, this.props.token));
   };
@@ -43,7 +44,7 @@ class UserUsersFilter extends Component {
   render() {
     if (this.props.roles) {
       const { loading } = this.props;
-      console.log('render desde IamUsersFilter');
+      console.log('render desde UsersFilter');
       return (
         <FilterWrapper
           style={{
@@ -58,17 +59,13 @@ class UserUsersFilter extends Component {
             onSubmit={this.handleSubmit}
             render={(form) => {
               return (
-                <Form
-                  onFinish={form.handleSubmit}
-                  layout="vertical"
-                >
+                <Form onFinish={form.handleSubmit} layout="vertical">
                   <Row gutter={24}>
                     <Col md={24} lg={12}>
                       <DatePickerRangeFormItem
                         name={'createdAt'}
                         label={'Creado'}
                         layout={formItemLayout}
-                        showTime
                       />
                     </Col>
                     <Col md={24} lg={12}>
@@ -108,28 +105,22 @@ class UserUsersFilter extends Component {
                     </Col>
                     <Col md={24} lg={12}>
                       <SelectFormItem
-                        name={'roles'}
+                        name={'role'}
                         label={'Rol'}
-                        options={this.props.roles.map(
-                          (rol) => {
-                            console.log(rol);
-                            return {
-                              id: rol.value,
-                              title: rol.title,
-                              label: rol.title,
-                              value: rol.value,
-                            };
-                          },
-                        )}
+                        options={this.props.roles.map((rol) => {
+                          return {
+                            id: rol.id,
+                            title: rol.name,
+                            label: rol.name,
+                            value: rol.id,
+                          };
+                        })}
                         layout={formItemLayout}
                       />
                     </Col>
                   </Row>
                   <Row>
-                    <Col
-                      className="filter-buttons"
-                      span={24}
-                    >
+                    <Col className="filter-buttons" span={24}>
                       <Button
                         loading={loading}
                         type="primary"
@@ -139,9 +130,7 @@ class UserUsersFilter extends Component {
                       </Button>
                       <Button
                         loading={loading}
-                        onClick={() =>
-                          this.handleReset(form)
-                        }
+                        onClick={() => this.handleReset(form)}
                       >
                         {'Resetear'}
                       </Button>

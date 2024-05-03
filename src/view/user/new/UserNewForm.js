@@ -99,7 +99,15 @@ class UserNewForm extends Component {
                 <SelectFormItem
                   name={'roles'}
                   label={'Rol'}
-                  options={this.props.roles}
+                  options={this.props.roles.map((rol) => {
+                    console.log(rol);
+                    return {
+                      id: rol.id,
+                      title: rol.name,
+                      label: rol.name,
+                      value: rol.id,
+                    };
+                  })}
                   required={true}
                 />
 

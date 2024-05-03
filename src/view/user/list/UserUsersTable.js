@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import iamSelectors from 'modules/user/userSelectors';
+import userSelectors from 'modules/user/userSelectors';
 import selectors from 'modules/user/list/userListSelectors';
 import actions from 'modules/user/list/userListActions';
 import selectorAuth from 'modules/auth/authSelectors';
@@ -94,7 +94,7 @@ class UserUsersTable extends Component {
 
   render() {
     const { pagination, rows, loading } = this.props;
-    console.log('render desde IamUsersTable');
+    console.log('render desde UsersTable');
     console.log(rows);
     return (
       <TableWrapper>
@@ -119,7 +119,7 @@ function select(state) {
     pagination: selectors.selectPagination(state),
     filter: selectors.selectFilter(state),
     hasPermissionToEdit:
-      iamSelectors.selectPermissionToEdit(state),
+      userSelectors.selectPermissionToEdit(state),
     token: selectorAuth.selectToken(state),
   };
 }
