@@ -113,11 +113,15 @@ class UserUsersFilter extends Component {
                         name={fields.role.name}
                         label={'Roles'}
                         options={this.props.roles.map(
-                          (rol) => ({
-                            value: rol.id,
-                            title: rol.name,
-                            label: rol.name,
-                          }),
+                          (rol) => {
+                            console.log(rol);
+                            return {
+                              id: rol.value,
+                              title: rol.title,
+                              label: rol.title,
+                              value: rol.value,
+                            };
+                          },
                         )}
                         layout={formItemLayout}
                       />

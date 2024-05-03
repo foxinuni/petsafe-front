@@ -66,8 +66,7 @@ const actions = {
 
       getHistory().push('/user');
     } catch (error) {
-      Errors.handle(error);
-
+      Errors.handle(error, dispatch, '/user');
       dispatch({
         type: actions.ADD_ERROR,
       });

@@ -15,18 +15,33 @@ import FormWrapper, {
 } from 'view/shared/styles/FormWrapper';
 import selectorsRoles from 'modules/rol/rolSelectors';
 import selectorAuth from 'modules/auth/authSelectors';
+import * as Yup from 'yup';
+import Password from 'antd/lib/input/Password';
 
 const { fields } = model;
 
 class UserNewForm extends Component {
-  schema = new FormSchema(fields.id, [
-    fields.email,
-    fields.password,
-    fields.firstName,
-    fields.lastName,
-    fields.phoneNumber,
-    fields.avatarsIam,
-  ]);
+  schema = Yup.object().shape({
+    email: Yup.string(),
+    password: Yup.string(),
+    name: Yup.string().required('Debe ingresar su nombre'),
+    surname: Yup.string().required(
+      'Debe ingresar sus apellidos',
+    ),
+    number: Yup.number()
+      .integer()
+      .required('Debe ingresar su telefono'),
+  });
+
+  initialValues = () => {
+    return {
+      email: '',
+      password: '',
+      name: '',
+      surname: '',
+      number: null,
+    };
+  };
 
   componentDidMount = () => {
     const { dispatch } = this.props;
@@ -52,60 +67,45 @@ class UserNewForm extends Component {
     return (
       <FormWrapper>
         <Formik
-          initialValues={this.schema.initialValues()}
-          validationSchema={this.schema.schema}
+          initialValues={this.initialValues()}
+          validationSchema={this.schema}
           onSubmit={this.handleSubmit}
           render={(form) => {
             return (
               <Form onFinish={form.handleSubmit}>
                 <InputFormItem
-                  name={fields.email.name}
-                  label={fields.email.label}
+                  name={'email'}
+                  label={'Correo'}
                   required={true}
                   autoFocus
                 />
+                <InputFormItem
+                  name={'password'}
+                  label={'Contraseña'}
+                  placeholder={'Contraseña'}
+                  autoComplete={'password'}
+                  required={true}
+                  type="password"
+                  size="large"
+                />
+                <InputFormItem
+                  name={'name'}
+                  label={'Nombre'}
+                />
+                <InputFormItem
+                  name={'surname'}
+                  label={'Apellidos'}
+                />
 
-                {this.isUniqueEmail(form) && (
-                  <React.Fragment>
-                    <InputFormItem
-                      name={fields.password.name}
-                      label={fields.password.label}
-                      placeholder={fields.password.label}
-                      autoComplete={fields.password.name}
-                      required={true}
-                      type="password"
-                      size="large"
-                    />
-                    <InputFormItem
-                      name={fields.firstName.name}
-                      label={fields.firstName.label}
-                    />
-                    <InputFormItem
-                      name={fields.lastName.name}
-                      label={fields.lastName.label}
-                    />
-
-                    <InputFormItem
-                      name={fields.phoneNumber.name}
-                      label={fields.phoneNumber.label}
-                      prefix={'+'}
-                    />
-
-                    <ImagesFormItem
-                      name={fields.avatarsIam.name}
-                      label={fields.avatarsIam.label}
-                      path={fields.avatarsIam.path}
-                      schema={{
-                        size: fields.avatarsIam.size,
-                      }}
-                      max={fields.avatarsIam.max}
-                    />
-                  </React.Fragment>
-                )}
+                <InputFormItem
+                  name={'number'}
+                  label={'Numero telefonico'}
+                  prefix={'+'}
+                />
 
                 <SelectFormItem
-                  name={fields.roles.name}
-                  label={fields.roles.label}
+                  name={'roles'}
+                  label={'Rol'}
                   options={this.props.roles}
                   required={true}
                 />
