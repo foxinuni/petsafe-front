@@ -2,13 +2,12 @@ import { createSelector } from 'reselect';
 import authSelectors from 'modules/auth/authSelectors';
 import PermissionChecker from 'modules/auth/permissionChecker';
 import Permissions from 'authorization/permissions';
-import paginationSelectors from 'modules/shared/pagination/paginationSelectors';
 
 const selectRaw = (state) => state.rol;
-const unlimited = true;
 const selectRoles = createSelector([selectRaw], (rol) => {
   return rol.roles;
 });
+
 const selectPermissionToRead = createSelector(
   [authSelectors.selectCurrentUser],
   (currentUser) =>

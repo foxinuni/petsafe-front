@@ -65,50 +65,51 @@ class UserUsersFilter extends Component {
                   <Row gutter={24}>
                     <Col md={24} lg={12}>
                       <DatePickerRangeFormItem
-                        name={fields.createdAtRange.name}
-                        label={fields.createdAtRange.label}
+                        name={'createdAt'}
+                        label={'Creado'}
                         layout={formItemLayout}
                         showTime
                       />
                     </Col>
                     <Col md={24} lg={12}>
                       <InputFormItem
-                        name={fields.email.name}
-                        label={fields.email.label}
+                        name={'email'}
+                        label={'Correo'}
                         layout={formItemLayout}
                       />
                     </Col>
                     <Col md={24} lg={12}>
                       <InputFormItem
-                        name={fields.firstName.name}
-                        label={fields.firstName.label}
-                        layout={formItemLayout}
-                      />
-                    </Col>
-                    <Col md={24} lg={12}>
-                      <InputFormItem
-                        name={fields.lastName.name}
-                        label={fields.lastName.label}
+                        name={'fullName'}
+                        label={'Nombre'}
                         layout={formItemLayout}
                       />
                     </Col>
                     <Col md={24} lg={12}>
                       <SelectFormItem
-                        name={fields.status.name}
-                        label={fields.status.label}
+                        name={'status'}
+                        label={'Estado'}
                         layout={formItemLayout}
-                        options={fields.status.options.map(
-                          (item) => ({
-                            value: item.id,
-                            label: item.label,
-                          }),
-                        )}
+                        options={[
+                          {
+                            id: 1,
+                            value: 1,
+                            title: 'Activo',
+                            label: 'Activo',
+                          },
+                          {
+                            id: 2,
+                            value: 0,
+                            title: 'Inactivo',
+                            label: 'Inactivo',
+                          },
+                        ]}
                       />
                     </Col>
                     <Col md={24} lg={12}>
                       <SelectFormItem
-                        name={fields.role.name}
-                        label={'Roles'}
+                        name={'roles'}
+                        label={'Rol'}
                         options={this.props.roles.map(
                           (rol) => {
                             console.log(rol);

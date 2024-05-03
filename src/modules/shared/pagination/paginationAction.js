@@ -1,13 +1,6 @@
 import Errors from 'modules/error/errors';
-import Exporter from 'modules/shared/exporter/exporter';
 
-export default (
-  prefix,
-  fetchFn,
-  selectors,
-  exporterFileName,
-  exporterFields,
-) => {
+export default (prefix, fetchFn, selectors) => {
   const actions = {
     FETCH_STARTED: `${prefix}_FETCH_STARTED`,
     FETCH_SUCCESS: `${prefix}_FETCH_SUCCESS`,
@@ -18,10 +11,6 @@ export default (
 
     PAGINATION_CHANGED: `${prefix}_PAGINATION_CHANGED`,
     SORTER_CHANGED: `${prefix}_SORTER_CHANGED`,
-
-    EXPORT_STARTED: `${prefix}_EXPORT_STARTED`,
-    EXPORT_SUCCESS: `${prefix}_EXPORT_SUCCESS`,
-    EXPORT_ERROR: `${prefix}_EXPORT_ERROR`,
 
     doChangeSelected(payload) {
       return {
@@ -36,42 +25,6 @@ export default (
       });
 
       dispatch(actions.doFetch());
-    },
-
-    doExport: () => async (dispatch, getState) => {
-      try {
-        if (!exporterFields || !exporterFields.length) {
-          throw new Error('exporterFields is required');
-        }
-
-        dispatch({
-          type: actions.EXPORT_STARTED,
-        });
-
-        const filter = selectors.selectFilter(getState());
-        console.log('accion shared/pagination/doExport');
-        const response = await fetchFn(
-          filter,
-          selectors.selectOrderBy(getState()),
-          0,
-          0,
-        );
-
-        new Exporter(
-          exporterFields,
-          exporterFileName,
-        ).transformAndExportAsExcelFile(response.rows);
-
-        dispatch({
-          type: actions.EXPORT_SUCCESS,
-        });
-      } catch (error) {
-        Errors.handle(error);
-
-        dispatch({
-          type: actions.EXPORT_ERROR,
-        });
-      }
     },
 
     doChangePaginationAndSort:

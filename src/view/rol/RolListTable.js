@@ -28,8 +28,8 @@ class RolesTable extends Component {
         </div>
       ),
     },
-    fields.disabledAsStatus.forTable({
-      sorter: false,
+    {
+      title: 'Estado',
       render: (disabled, record) => {
         if (record.type === 'role') {
           return;
@@ -38,11 +38,11 @@ class RolesTable extends Component {
         const color = disabled ? 'red' : 'green';
         return (
           <Tag color={color}>
-            {fields.disabledAsStatus.forView(disabled)}
+            {disabled ? 'Inactivo' : 'Activo'}
           </Tag>
         );
       },
-    }),
+    },
     {
       title: '',
       dataIndex: '',

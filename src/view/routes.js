@@ -46,18 +46,9 @@ const privateRoutes = [
     exact: true,
   },
 
-  /* {
-    path: '/audit-logs',
-    icon: 'file-search',
-    label: 'Logs',
-    loader: () => import('view/auditLog/AuditLogPage'),
-    menu: true,
-    permissionRequired: permissions.auditLogRead,
-  },*/
-
   {
     path: '/pet',
-    loader: () => import('view/pet/list/PetListPage'),
+    // loader: () => import(''),
     permissionRequired: permissions.permPetsView,
     exact: true,
     icon: 'right',
@@ -66,21 +57,21 @@ const privateRoutes = [
   },
   {
     path: '/pet/new',
-    loader: () => import('view/pet/form/PetFormPage'),
+    //loader: () => import(''),
     menu: false,
     permissionRequired: permissions.permPetsSelf,
     exact: true,
   },
   {
     path: '/pet/:id/edit',
-    loader: () => import('view/pet/form/PetFormPage'),
+    // loader: () => import(''),
     menu: false,
     permissionRequired: permissions.permPetsSelf,
     exact: true,
   },
   {
     path: '/pet/:id',
-    loader: () => import('view/pet/view/PetViewPage'),
+    // loader: () => import(''),
     menu: false,
     permissionRequired: permissions.permPetsView,
     exact: true,
@@ -88,8 +79,7 @@ const privateRoutes = [
 
   {
     path: '/booking',
-    loader: () =>
-      import('view/booking/list/BookingListPage'),
+    // loader: () =>import(''),
     permissionRequired: permissions.permReservationsSelf,
     exact: true,
     icon: 'right',
@@ -98,24 +88,21 @@ const privateRoutes = [
   },
   {
     path: '/booking/new',
-    loader: () =>
-      import('view/booking/form/BookingFormPage'),
+    //loader: () => import(''),
     menu: false,
     permissionRequired: permissions.permReservationsSelf,
     exact: true,
   },
   {
     path: '/booking/:id/edit',
-    loader: () =>
-      import('view/booking/form/BookingFormPage'),
+    // loader: () => import(''),
     menu: false,
     permissionRequired: permissions.permReservationsSelf,
     exact: true,
   },
   {
     path: '/booking/:id',
-    loader: () =>
-      import('view/booking/view/BookingViewPage'),
+    // loader: () => import(''),
     menu: false,
     permissionRequired: permissions.permReservationsSelf,
     exact: true,
