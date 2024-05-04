@@ -29,6 +29,7 @@ export default class AuthService {
   }
 
   static async edit(id, user, token) {
+    console.log(user);
     await axios.patch(
       `${backend}/users/${id}`,
       { roleId: user.roleId },

@@ -39,12 +39,7 @@ class UserEditForm extends Component {
 
   initialValues = () => {
     const user = { ...this.props.user };
-    user.role = {
-      id: user.role.id,
-      value: user.role.id,
-      label: user.role.name,
-      title: user.role.name,
-    };
+    user.role = user.role.id;
     return user;
   };
 

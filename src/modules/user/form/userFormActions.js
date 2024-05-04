@@ -82,7 +82,6 @@ const actions = {
     }
   },
 
-  //MODIFY THIS, CHECK HOW THE DATA IS BEING SENT, UPDATE SEPARATELY THE ROLE IN USERS AND THEN THE PROFILE
   doUpdate: (id, values, token) => async (dispatch) => {
     try {
       dispatch({

@@ -6,6 +6,7 @@ export default class UserService {
     await axios.patch(
       `${backend}/profiles/${id}`,
       {
+        id: id,
         name: data.name,
         surname: data.surname,
         number: data.number,
@@ -64,8 +65,6 @@ export default class UserService {
 
   static async fetchUsers(filter, orderBy, limit = 10, offset = 1, token) {
     let query = '';
-    console.log('a ver los filtros');
-    console.log(filter);
     if (filter?.email) query += `email=${filter.email}&`;
     if (filter?.fullName) query += `name=${filter.fullName}&`;
     if (filter?.role) query += `rol=${filter.role}&`;
