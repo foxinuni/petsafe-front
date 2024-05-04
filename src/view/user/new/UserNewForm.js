@@ -18,12 +18,8 @@ class UserNewForm extends Component {
     email: Yup.string(),
     password: Yup.string(),
     name: Yup.string().required('Debe ingresar su nombre'),
-    surname: Yup.string().required(
-      'Debe ingresar sus apellidos',
-    ),
-    number: Yup.number()
-      .integer()
-      .required('Debe ingresar su telefono'),
+    surname: Yup.string().required('Debe ingresar sus apellidos'),
+    number: Yup.number().integer().required('Debe ingresar su telefono'),
   });
 
   initialValues = () => {
@@ -48,9 +44,7 @@ class UserNewForm extends Component {
 
   isUniqueEmail(form) {
     return (
-      !form.values ||
-      !form.values.emails ||
-      form.values.emails.length <= 1
+      !form.values || !form.values.emails || form.values.emails.length <= 1
     );
   }
 
@@ -81,14 +75,8 @@ class UserNewForm extends Component {
                   type="password"
                   size="large"
                 />
-                <InputFormItem
-                  name={'name'}
-                  label={'Nombre'}
-                />
-                <InputFormItem
-                  name={'surname'}
-                  label={'Apellidos'}
-                />
+                <InputFormItem name={'name'} label={'Nombre'} />
+                <InputFormItem name={'surname'} label={'Apellidos'} />
 
                 <InputFormItem
                   name={'number'}
@@ -111,24 +99,16 @@ class UserNewForm extends Component {
                   required={true}
                 />
 
-                <Form.Item
-                  className="form-buttons"
-                  {...tailFormItemLayout}
-                >
+                <Form.Item className="form-buttons" {...tailFormItemLayout}>
                   <Button
                     loading={saveLoading}
                     type="primary"
                     htmlType="submit"
-                    icon="save"
                   >
                     {'Guardar'}
                   </Button>
 
-                  <Button
-                    disabled={saveLoading}
-                    onClick={form.handleReset}
-                    icon="undo"
-                  >
+                  <Button disabled={saveLoading} onClick={form.handleReset}>
                     {'Resetear'}
                   </Button>
                 </Form.Item>

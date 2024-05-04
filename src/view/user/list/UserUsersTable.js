@@ -4,10 +4,12 @@ import userSelectors from 'modules/user/userSelectors';
 import { selectors } from 'modules/user/userListActions';
 import actions from 'modules/user/userListActions';
 import selectorAuth from 'modules/auth/authSelectors';
-import { Table, Tag, Avatar } from 'antd';
+import { Table, Tag, Avatar, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import TableWrapper from 'view/shared/styles/TableWrapper';
+import { dateToString } from 'modules/shared/dates';
 
+const { Text } = Typography;
 class UserUsersTable extends Component {
   handleTableChange = (pagination, _, sorter) => {
     const { dispatch } = this.props;
@@ -29,7 +31,7 @@ class UserUsersTable extends Component {
   columns = [
     {
       title: 'Avatar',
-      sorter: true,
+      sorter: false,
       dataIndex: 'avatar',
       render: (_, record) => {
         return (
@@ -74,7 +76,7 @@ class UserUsersTable extends Component {
       title: 'Creado',
       dataIndex: 'createdAt',
       sorter: true,
-      render: undefined,
+      render: (record) => <Text> {dateToString(record)}</Text>,
     },
     {
       title: 'Opciones',

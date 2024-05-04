@@ -3,6 +3,7 @@ import rolService from 'modules/rol/rolService';
 import Errors from 'modules/error/errors';
 import Message from 'view/shared/message';
 import { getHistory } from 'modules/store';
+import { dateToString } from 'modules/shared/dates';
 
 const prefix = 'AUTH';
 
@@ -73,7 +74,8 @@ const actions = {
         const currentUser = await service.getProfile(credentials);
         currentUser.email = credentials.user.email;
         currentUser.rol = credentials.user.rol;
-        delete currentUser.id;
+        currentUser.createdAt = dateToString(currentUser.createdAt);
+        currentUser.updatedAt = dateToString(currentUser.updatedAt);
         dispatch({
           type: actions.AUTH_SUCCESS,
           payload: {
@@ -88,7 +90,6 @@ const actions = {
         });
       }
     } catch (error) {
-      await service.signout(); //cambiar por dispatch action signout
       Errors.handle(error, dispatch);
       dispatch({
         type: actions.AUTH_ERROR,

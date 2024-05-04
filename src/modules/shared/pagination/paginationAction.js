@@ -34,14 +34,14 @@ export default (prefix, fetchFn, selectors) => {
           type: actions.PAGINATION_CHANGED,
           payload: pagination,
         });
-        dispatch(
-          actions.doFetch(filter, token, true, orderBy),
-        );
+        dispatch(actions.doFetch(filter, token, true, orderBy));
       },
 
     doFetch:
       (filter, token, keepPagination = false, orderBy) =>
       async (dispatch, getState) => {
+        //if filter.createdAt  then convert the array of 2 (range) into unix ....
+        console.log(filter); //work in the date range filter, to convert the moments into unix
         try {
           dispatch({
             type: actions.FETCH_STARTED,

@@ -51,15 +51,7 @@ export default class UserService {
         authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
-  }
-
-  static async find(id, token) {
-    const response = await axios.get(`${backend}/profiles/${id}`, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
+    console.log(response.data);
     return response.data;
   }
 
@@ -84,7 +76,7 @@ export default class UserService {
         authorization: `Bearer ${token}`,
       },
     });
-
+    console.log(response.data);
     const returning = {};
     returning.rows = response.data.map((profile) => ({
       id: profile.id,

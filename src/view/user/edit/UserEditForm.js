@@ -55,7 +55,11 @@ class UserEditForm extends Component {
             return (
               <Form onFinish={form.handleSubmit}>
                 <ViewFormItem name={'email'} label={'Correo'} />
-
+                <ViewFormItem name={'createdAt'} label={'Fecha creacion'} />
+                <ViewFormItem
+                  name={'updatedAt'}
+                  label={'Ultima actualizacion'}
+                />
                 <InputFormItem name={'name'} label={'Nombres'} autoFocus />
 
                 <InputFormItem
@@ -89,16 +93,11 @@ class UserEditForm extends Component {
                     loading={saveLoading}
                     type="primary"
                     htmlType="submit"
-                    icon="save"
                   >
                     {'Guardar'}
                   </Button>
 
-                  <Button
-                    disabled={saveLoading}
-                    onClick={form.handleReset}
-                    icon="undo"
-                  >
+                  <Button disabled={saveLoading} onClick={form.handleReset}>
                     {'Resetear'}
                   </Button>
                 </Form.Item>

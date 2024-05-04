@@ -15,12 +15,8 @@ class ProfileFormPage extends Component {
   schema = Yup.object().shape({
     email: Yup.string(),
     name: Yup.string().required('Debe ingresar su nombre'),
-    surname: Yup.string().required(
-      'Debe ingresar sus apellidos',
-    ),
-    number: Yup.number()
-      .integer()
-      .required('Debe ingresar su telefono'),
+    surname: Yup.string().required('Debe ingresar sus apellidos'),
+    number: Yup.number().integer().required('Debe ingresar su telefono'),
   });
 
   handleSubmit = (values) => {
@@ -37,12 +33,7 @@ class ProfileFormPage extends Component {
 
   initialValues = () => {
     const currentUser = this.props.currentUser;
-    return {
-      email: currentUser.email,
-      name: currentUser.name,
-      surname: currentUser.surname,
-      number: currentUser.number,
-    };
+    return currentUser;
   };
 
   renderForm() {
@@ -57,9 +48,11 @@ class ProfileFormPage extends Component {
           render={(form) => {
             return (
               <Form onFinish={form.handleSubmit}>
+                <ViewFormItem name={'email'} label={'Correo'} />
+                <ViewFormItem name={'createdAt'} label={'Fecha creacion'} />
                 <ViewFormItem
-                  name={'email'}
-                  label={'Correo'}
+                  name={'updatedAt'}
+                  label={'Ultima acutalizacion'}
                 />
 
                 <InputFormItem
@@ -82,24 +75,16 @@ class ProfileFormPage extends Component {
                   prefix={'+'}
                 />
 
-                <Form.Item
-                  className="form-buttons"
-                  {...tailFormItemLayout}
-                >
+                <Form.Item className="form-buttons" {...tailFormItemLayout}>
                   <Button
                     loading={saveLoading}
                     type="primary"
                     htmlType="submit"
-                    icon="save"
                   >
                     {'Guardar'}
                   </Button>
 
-                  <Button
-                    disabled={saveLoading}
-                    onClick={form.handleReset}
-                    icon="undo"
-                  >
+                  <Button disabled={saveLoading} onClick={form.handleReset}>
                     {'Resetear'}
                   </Button>
                 </Form.Item>
@@ -118,8 +103,7 @@ class ProfileFormPage extends Component {
 
 function select(state) {
   return {
-    saveLoading:
-      selectors.selectLoadingUpdateProfile(state),
+    saveLoading: selectors.selectLoadingUpdateProfile(state),
     currentUser: selectors.selectCurrentUser(state),
     token: selectors.selectToken(state),
   };

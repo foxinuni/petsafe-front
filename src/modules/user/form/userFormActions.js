@@ -2,9 +2,9 @@ import Errors from 'modules/error/errors';
 import Message from 'view/shared/message';
 import service from 'modules/user/userService';
 import { getHistory } from 'modules/store';
-import authSelectors from 'modules/auth/authSelectors';
 import roleService from 'modules/rol/rolService';
 import authService from 'modules/auth/authService';
+import { dateToString } from 'modules/shared/dates';
 
 const prefix = 'USER_FORM';
 
@@ -45,6 +45,8 @@ const actions = {
           name: profile.name,
           surname: profile.surname,
           number: profile.number,
+          createdAt: dateToString(profile.createdAt),
+          updatedAt: dateToString(profile.updatedAt),
           role: role,
         },
       });
