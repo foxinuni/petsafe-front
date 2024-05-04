@@ -19,19 +19,13 @@ class UserEditForm extends Component {
   schema = Yup.object().shape({
     email: Yup.string(),
     name: Yup.string().required('Debe ingresar un nombre'),
-    surname: Yup.string().required(
-      'Debe ingresar un nombre',
-    ),
-    number: Yup.number()
-      .integer()
-      .required('Debe ingresar su telefono'),
+    surname: Yup.string().required('Debe ingresar un nombre'),
+    number: Yup.number().integer().required('Debe ingresar su telefono'),
   });
 
   componentDidMount() {
     const { dispatch, match } = this.props;
-    dispatch(
-      actions.doFind(match.params.id, this.props.token),
-    );
+    dispatch(actions.doFind(match.params.id, this.props.token));
   }
 
   handleSubmit = (values) => {
@@ -40,18 +34,17 @@ class UserEditForm extends Component {
       ...values,
     };
     delete data.email;
-    dispatch(
-      actions.doUpdate(
-        this.props.user.id,
-        data,
-        this.props.token,
-      ),
-    );
+    dispatch(actions.doUpdate(user.id, data, this.props.token));
   };
 
   initialValues = () => {
-    const user = this.props.user;
-    user.roles = user.rol;
+    const user = { ...this.props.user };
+    user.role = {
+      id: user.role.id,
+      value: user.role.id,
+      label: user.role.name,
+      title: user.role.name,
+    };
     return user;
   };
 
@@ -66,16 +59,9 @@ class UserEditForm extends Component {
           render={(form) => {
             return (
               <Form onFinish={form.handleSubmit}>
-                <ViewFormItem
-                  name={'email'}
-                  label={'Correo'}
-                />
+                <ViewFormItem name={'email'} label={'Correo'} />
 
-                <InputFormItem
-                  name={'name'}
-                  label={'Nombres'}
-                  autoFocus
-                />
+                <InputFormItem name={'name'} label={'Nombres'} autoFocus />
 
                 <InputFormItem
                   name={'surname'}
@@ -91,10 +77,9 @@ class UserEditForm extends Component {
                 />
 
                 <SelectFormItem
-                  name={'roles'}
+                  name={'role'}
                   label={'Rol'}
                   options={this.props.roles.map((rol) => {
-                    console.log(rol);
                     return {
                       id: rol.id,
                       title: rol.name,
@@ -104,10 +89,7 @@ class UserEditForm extends Component {
                   })}
                 />
 
-                <Form.Item
-                  className="form-buttons"
-                  {...tailFormItemLayout}
-                >
+                <Form.Item className="form-buttons" {...tailFormItemLayout}>
                   <Button
                     loading={saveLoading}
                     type="primary"

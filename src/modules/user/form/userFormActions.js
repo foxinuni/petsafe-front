@@ -3,6 +3,8 @@ import Message from 'view/shared/message';
 import service from 'modules/user/userService';
 import { getHistory } from 'modules/store';
 import authSelectors from 'modules/auth/authSelectors';
+import roleService from 'modules/rol/rolService';
+import authService from 'modules/auth/authService';
 
 const prefix = 'USER_FORM';
 
@@ -27,26 +29,30 @@ const actions = {
     };
   },
 
-  //modificar este para que obtenga el usuario por partes, osea user, y luego profile.
   doFind: (id, token) => async (dispatch) => {
     try {
       dispatch({
         type: actions.FIND_STARTED,
       });
-      const user = await service.find(id, token);
-
+      const profile = await service.findProfile(id, token);
+      const user = await authService.findUser(id, token);
+      const role = await roleService.find(user.roleId, token);
       dispatch({
         type: actions.FIND_SUCCESS,
-        payload: user,
+        payload: {
+          id: user.id,
+          email: user.email,
+          name: profile.name,
+          surname: profile.surname,
+          number: profile.number,
+          role: role,
+        },
       });
     } catch (error) {
-      Errors.handle(error);
-
+      Errors.handle(error, dispatch, '/user');
       dispatch({
         type: actions.FIND_ERROR,
       });
-
-      getHistory().push('/user');
     }
   },
 
@@ -77,25 +83,26 @@ const actions = {
   },
 
   //MODIFY THIS, CHECK HOW THE DATA IS BEING SENT, UPDATE SEPARATELY THE ROLE IN USERS AND THEN THE PROFILE
-  doUpdate: (id, values, token) => async (dispatch, getState) => {
+  doUpdate: (id, values, token) => async (dispatch) => {
     try {
       dispatch({
         type: actions.UPDATE_STARTED,
       });
       await service.edit(id, values, token);
+      const user = {
+        roleId: values.role,
+      };
+      await authService.edit(id, user, token);
 
       dispatch({
         type: actions.UPDATE_SUCCESS,
       });
 
-      const currentUser = authSelectors.selectCurrentUser(getState());
-
       Message.success('Usuario actualizado exitosamente');
 
       getHistory().push('/user');
     } catch (error) {
-      Errors.handle(error);
-
+      Errors.handle(error, dispatch, '/user');
       dispatch({
         type: actions.UPDATE_ERROR,
       });

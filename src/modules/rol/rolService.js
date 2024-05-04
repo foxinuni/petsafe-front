@@ -3,14 +3,11 @@ import axios from 'axios';
 
 export default class RolService {
   static async getMe(token) {
-    const response = await axios.get(
-      `${backend}/roles/me`,
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+    const response = await axios.get(`${backend}/roles/me`, {
+      headers: {
+        authorization: `Bearer ${token}`,
       },
-    );
+    });
     return response.data;
   }
 
@@ -24,14 +21,11 @@ export default class RolService {
   }
 
   static async find(id, token) {
-    const response = await axios.get(
-      `${backend}/roles/${id}`,
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+    const response = await axios.get(`${backend}/roles/${id}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
       },
-    );
+    });
 
     return {
       id: response.data.id,

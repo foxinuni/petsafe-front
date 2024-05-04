@@ -22,6 +22,11 @@ export default class Errors {
       }
       if (!errorObj.redirect) return;
     }
+    if (path) {
+      Message.error(error.message || DEFAULT_ERROR_MESSAGE);
+      getHistory().push(path);
+      return;
+    }
     dispatch({
       type: actions.ERROR_SENT,
       payload: {

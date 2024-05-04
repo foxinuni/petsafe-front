@@ -26,8 +26,8 @@ class rolEditForm extends Component {
     };
     console.log(data);
     data.permNumber =
-      data.permissions.reduce((acumulator, value) => acumulator + value, 0) +
-      Permissions.self;
+      (data.permissions?.reduce((acumulator, value) => acumulator + value, 0) ||
+        0) + Permissions.self;
     dispatch(actions.doUpdate(data, this.props.token));
   };
 

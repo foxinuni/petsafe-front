@@ -25,10 +25,9 @@ class rolEditForm extends Component {
       ...values,
     };
     console.log(data);
-    data.permNumber = data.permissions.reduce(
-      (acumulator, value) => acumulator + value,
-      0,
-    );
+    data.permNumber =
+      (data.permissions?.reduce((acumulator, value) => acumulator + value, 0) ||
+        0) + Permissions.self;
     dispatch(actions.doCreate(data, this.props.token));
   };
 
@@ -50,28 +49,20 @@ class rolEditForm extends Component {
           render={(form) => {
             return (
               <Form onFinish={form.handleSubmit}>
-                <InputFormItem
-                  name={'rolName'}
-                  label={'Nombre del rol'}
-                />
+                <InputFormItem name={'rolName'} label={'Nombre del rol'} />
                 <SelectFormItem
                   name={'permissions'}
                   label={'Permisos'}
-                  options={Permissions.asArray.map(
-                    (permission) => ({
-                      id: 0,
-                      value: permission.bit,
-                      label: permission.name,
-                      tittle: permission.name,
-                    }),
-                  )}
+                  options={Permissions.asArray.map((permission) => ({
+                    id: 0,
+                    value: permission.bit,
+                    label: permission.name,
+                    tittle: permission.name,
+                  }))}
                   mode={'multiple'}
                 />
 
-                <Form.Item
-                  className="form-buttons"
-                  {...tailFormItemLayout}
-                >
+                <Form.Item className="form-buttons" {...tailFormItemLayout}>
                   <Button
                     loading={saveLoading}
                     type="primary"
@@ -80,10 +71,7 @@ class rolEditForm extends Component {
                     {'Guardar'}
                   </Button>
 
-                  <Button
-                    disabled={saveLoading}
-                    onClick={form.handleReset}
-                  >
+                  <Button disabled={saveLoading} onClick={form.handleReset}>
                     {'Eliminar'}
                   </Button>
                 </Form.Item>

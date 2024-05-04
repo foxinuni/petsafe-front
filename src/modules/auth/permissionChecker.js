@@ -1,9 +1,7 @@
 export default class PermissionChecker {
   constructor(currentUser) {
     this.currentUser = currentUser;
-    this.userRol = currentUser
-      ? currentUser.rol.permissions
-      : null;
+    this.userRol = currentUser ? currentUser.rol.permissions : null;
   }
 
   match(permission) {
@@ -25,19 +23,7 @@ export default class PermissionChecker {
     return perm & this.userRol;
   }
 
-  get isEmptyPermissions() {
-    if (!this.isAuthenticated) {
-      return false;
-    }
-
-    return !this.userRol;
-  }
-
   get isAuthenticated() {
     return !!this.currentUser;
-  }
-
-  get isEmailVerified() {
-    return true;
   }
 }

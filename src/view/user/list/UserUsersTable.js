@@ -35,9 +35,7 @@ class UserUsersTable extends Component {
         return (
           <Avatar
             src={
-              record.avatars && record.avatars.length
-                ? record.avatars[0].publicUrl
-                : undefined
+              'https://yt3.ggpht.com/fokeCONf6oIpN0gnHnZODLBaDXXYL9WZyx5B--YLb_8hupDtkNQnK4uVJqidWpjO0VnvdTkbsw=s176-c-k-c0x00ffffff-no-rj-mo'
             }
             alt="avatar"
           />
@@ -65,6 +63,12 @@ class UserUsersTable extends Component {
         const color = disabled ? 'red' : 'green';
         return <Tag color={color}>{disabled ? 'Inactivo' : 'Activo'}</Tag>;
       },
+    },
+    {
+      title: 'Rol',
+      dataIndex: 'rol',
+      sorter: false,
+      render: undefined,
     },
     {
       title: 'Creado',

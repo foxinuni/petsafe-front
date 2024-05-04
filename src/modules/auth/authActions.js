@@ -43,12 +43,7 @@ const actions = {
           password,
         );
         if (user) {
-          const profile = await service.createProfile(
-            number,
-            name,
-            surname,
-            user.token,
-          );
+          await service.createProfile(number, name, surname, user.token);
           dispatch({
             type: actions.AUTH_REG_SUCCESS,
           });

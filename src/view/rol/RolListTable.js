@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import actionsRoles from 'modules/rol/rolActions';
 import selectorAuth from 'modules/auth/authSelectors';
-import { Table, Tooltip, Tag, Popconfirm } from 'antd';
+import { Table, Tag, Popconfirm } from 'antd';
 import rolSelectors from 'modules/rol/rolSelectors';
 import { Link } from 'react-router-dom';
 import TableWrapper from 'view/shared/styles/TableWrapper';
@@ -24,23 +24,23 @@ class RolesTable extends Component {
       title: 'name',
       render: (_, record) => (
         <div className="table-actions">
-          <p>{record.label}</p>
+          <p>{record.name}</p>
         </div>
       ),
     },
     {
       title: 'Estado',
       render: (disabled, record) => {
+        const color = 'green';
+        return <Tag color={color}>{'Activo'}</Tag>;
+        //Implement correctly when we have status at backend
+        /*render: (disabled, record) => {
         if (record.type === 'role') {
           return;
         }
 
         const color = disabled ? 'red' : 'green';
-        return (
-          <Tag color={color}>
-            {disabled ? 'Inactivo' : 'Activo'}
-          </Tag>
-        );
+        return <Tag color={color}>{disabled ? 'Inactivo' : 'Activo'}</Tag>;*/
       },
     },
     {
@@ -50,9 +50,7 @@ class RolesTable extends Component {
       render: (_, record) => (
         <div className="table-actions">
           {this.props.hasPermissionToEdit && (
-            <Link to={`/roles/${record.id}/edit`}>
-              {'Editar'}
-            </Link>
+            <Link to={`/roles/${record.id}/edit`}>{'Editar'}</Link>
           )}
           {this.props.hasPermissionToEdit && (
             <Popconfirm
@@ -92,8 +90,7 @@ function select(state) {
     loading: rolSelectors.selectLoading(state),
     rows: rolSelectors.selectRoles(state),
     token: selectorAuth.selectToken(state),
-    hasPermissionToEdit:
-      rolSelectors.selectPermissionToEdit(state),
+    hasPermissionToEdit: rolSelectors.selectPermissionToEdit(state),
   };
 }
 

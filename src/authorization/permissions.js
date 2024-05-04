@@ -1,6 +1,6 @@
 class Permissions {
   static get self() {
-    return (1 << 1) + (1 << 4) + (1 << 7);
+    return 81;
   }
   static get values() {
     return {

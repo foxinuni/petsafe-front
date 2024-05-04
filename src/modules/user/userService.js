@@ -2,27 +2,13 @@ import axios from 'axios';
 import { backend } from 'config/development';
 
 export default class UserService {
-  static async enable(ids) {
-    return this._changeStatus(ids, false);
-  }
-
-  static async disable(ids) {
-    return this._changeStatus(ids, true);
-  }
-
-  static async _changeStatus(ids, disabled) {}
-
   static async edit(id, data, token) {
     await axios.patch(
       `${backend}/profiles/${id}`,
       {
-        profile: {
-          id: id,
-          name: data.name,
-          surname: data.surname,
-          number: data.number,
-        },
-        role: data.roles,
+        name: data.name,
+        surname: data.surname,
+        number: data.number,
       },
       {
         headers: {
@@ -56,6 +42,15 @@ export default class UserService {
         },
       },
     );
+  }
+
+  static async findProfile(id, token) {
+    const response = await axios.get(`${backend}/profiles/${id}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   }
 
   static async find(id, token) {

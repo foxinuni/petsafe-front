@@ -2,15 +2,6 @@ import { backend } from 'config/development';
 import axios from 'axios';
 
 export default class AuthService {
-  static getCurrentUser() {
-    return {
-      user: {
-        emailVerified: 'juan@gmail.com',
-        id: 15,
-      },
-    };
-  }
-
   static async registerWithEmailAndPassword(email, password) {
     const user = {
       email: email,
@@ -37,6 +28,18 @@ export default class AuthService {
     return response.data;
   }
 
+  static async edit(id, user, token) {
+    await axios.patch(
+      `${backend}/users/${id}`,
+      { roleId: user.roleId },
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  }
+
   static async signin(email, password) {
     const credentials = {
       user: { email: email, password: password },
@@ -54,6 +57,15 @@ export default class AuthService {
     const response = await axios.get(`${backend}/profiles/me`, {
       headers: {
         authorization: `Bearer ${credentials.token}`,
+      },
+    });
+    return response.data;
+  }
+
+  static async findUser(id, token) {
+    const response = await axios.get(`${backend}/users/${id}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
       },
     });
     return response.data;

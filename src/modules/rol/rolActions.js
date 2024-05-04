@@ -51,6 +51,7 @@ const actions = {
         },
       });
     } catch (error) {
+      Errors.handle(error, dispatch, '/');
       dispatch({
         type: actions.ROL_LIST_ERROR,
       });
@@ -76,6 +77,7 @@ const actions = {
         });
       }
     } catch (error) {
+      Errors.handle(error, dispatch, '/roles');
       dispatch({
         type: actions.ROL_ERROR,
         payload: { role: null },
@@ -98,6 +100,7 @@ const actions = {
       Message.success('Rol actualizado');
       getHistory().push('/roles');
     } catch (error) {
+      Errors.handle(error, dispatch, '/roles');
       dispatch({
         type: actions.UPDATE_ERROR,
       });
@@ -119,6 +122,7 @@ const actions = {
       Message.success('Rol creado');
       getHistory().push('/roles');
     } catch (error) {
+      Errors.handle(error, dispatch, '/roles');
       dispatch({
         type: actions.CREATE_ERROR,
       });
@@ -140,7 +144,7 @@ const actions = {
 
       getHistory().push('/roles');
     } catch (error) {
-      Errors.handle(error);
+      Errors.handle(error, dispatch, '/roles');
       dispatch({
         type: actions.DESTROY_ERROR,
       });
