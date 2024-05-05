@@ -2,13 +2,7 @@ import Errors from 'modules/error/errors';
 import Message from 'view/shared/message';
 import { getHistory } from 'modules/store';
 
-export default ({
-  prefix,
-  findFn,
-  createFn,
-  updateFn,
-  redirectTo,
-}) => {
+export default ({ prefix, findFn, createFn, updateFn, redirectTo }) => {
   const actions = {
     RESET: `${prefix}_RESET`,
 
@@ -43,7 +37,7 @@ export default ({
           payload: record,
         });
       } catch (error) {
-        Errors.handle(error);
+        Errors.handle(error, dispatch, '/');
 
         dispatch({
           type: actions.FIND_ERROR,
@@ -53,54 +47,29 @@ export default ({
       }
     },
 
-    doCreate: (values) => async (dispatch) => {
+    doUpdate: (id, values) => async (dispatch, getState) => {
       try {
         dispatch({
-          type: actions.CREATE_STARTED,
+          type: actions.UPDATE_STARTED,
         });
-        console.log('accion shared/form/doCreate');
-        await createFn(values);
+        console.log('accion shared/form/doUpdate');
+        await updateFn(id, values);
 
         dispatch({
-          type: actions.CREATE_SUCCESS,
+          type: actions.UPDATE_SUCCESS,
         });
 
-        Message.success('Creacion exitosa');
+        Message.success('Actualizacion exitosa');
 
         getHistory().push(redirectTo);
       } catch (error) {
-        Errors.handle(error);
+        Errors.handle(error, dispatch, '/');
 
         dispatch({
-          type: actions.CREATE_ERROR,
+          type: actions.UPDATE_ERROR,
         });
       }
     },
-
-    doUpdate:
-      (id, values) => async (dispatch, getState) => {
-        try {
-          dispatch({
-            type: actions.UPDATE_STARTED,
-          });
-          console.log('accion shared/form/doUpdate');
-          await updateFn(id, values);
-
-          dispatch({
-            type: actions.UPDATE_SUCCESS,
-          });
-
-          Message.success('Actualizacion exitosa');
-
-          getHistory().push(redirectTo);
-        } catch (error) {
-          Errors.handle(error);
-
-          dispatch({
-            type: actions.UPDATE_ERROR,
-          });
-        }
-      },
   };
 
   return actions;

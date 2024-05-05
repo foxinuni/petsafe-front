@@ -2,9 +2,6 @@ import { configureStore as configureAppStore } from '@reduxjs/toolkit';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import createRootReducer from 'modules/reducers';
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-import thunkMiddleware from 'redux-thunk';
 
 const history = createBrowserHistory();
 

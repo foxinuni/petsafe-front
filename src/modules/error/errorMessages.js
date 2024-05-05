@@ -1,6 +1,3 @@
-import { message } from 'antd';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
-
 export const messages = {
   auth: {
     userexists: {

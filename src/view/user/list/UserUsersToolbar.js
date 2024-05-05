@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import authSelectors from 'authorization/authorizationSelector';
 import { selectors } from 'modules/user/userListActions';
 import { Link } from 'react-router-dom';
+import { PlusOutlined } from '@ant-design/icons';
 
 class UserUsersToolbar extends Component {
   doExport = () => {
@@ -41,7 +42,9 @@ class UserUsersToolbar extends Component {
       <Toolbar>
         {this.props.permissionToManage && (
           <Link to="/user/new">
-            <Button type="primary">{'Nuevo'}</Button>
+            <Button type="primary" icon={<PlusOutlined />}>
+              {'Nuevo'}
+            </Button>
           </Link>
         )}
 

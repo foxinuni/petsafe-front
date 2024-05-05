@@ -22,8 +22,7 @@ export default (prefix, fetchFn, selectors) => {
     },
 
     doChangePaginationAndSort:
-      (pagination, filter, sorter, token, orderBy) =>
-      async (dispatch, getState) => {
+      (pagination, filter, token, orderBy) => async (dispatch, getState) => {
         dispatch({
           type: actions.PAGINATION_CHANGED,
           payload: pagination,

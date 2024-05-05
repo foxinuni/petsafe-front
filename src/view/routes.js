@@ -48,7 +48,7 @@ const privateRoutes = [
 
   {
     path: '/pet',
-    // loader: () => import(''),
+    loader: () => import('view/pet/list/PetListPage'),
     permissionRequired: [permissions.permPetsView, permissions.permPetsSelf],
     exact: true,
     icon: 'right',
@@ -71,7 +71,7 @@ const privateRoutes = [
   },
 
   {
-    path: '/booking',
+    path: '/reservation',
     // loader: () =>import(''),
     permissionRequired: [
       permissions.permReservationsSelf,
@@ -83,7 +83,7 @@ const privateRoutes = [
     menu: true,
   },
   {
-    path: '/booking/new',
+    path: '/reservation/new',
     //loader: () => import(''),
     menu: false,
     permissionRequired: [
@@ -93,7 +93,7 @@ const privateRoutes = [
     exact: true,
   },
   {
-    path: '/booking/:id/edit',
+    path: '/reservation/:id/edit',
     // loader: () => import(''),
     menu: false,
     permissionRequired: [
@@ -103,7 +103,7 @@ const privateRoutes = [
     exact: true,
   },
   {
-    path: '/booking/:id',
+    path: '/reservation/:id',
     // loader: () => import(''),
     menu: false,
     permissionRequired: [

@@ -10,9 +10,7 @@ class RolPage extends Component {
   render() {
     return (
       <React.Fragment>
-        <Breadcrumb
-          items={[['Principal', '/'], ['Roles']]}
-        />
+        <Breadcrumb items={[['Principal', '/'], ['Roles']]} />
 
         <ContentWrapper>
           <PageTitle>{'Roles'}</PageTitle>

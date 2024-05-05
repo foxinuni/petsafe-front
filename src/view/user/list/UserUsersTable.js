@@ -13,14 +13,10 @@ class UserUsersTable extends Component {
   handleTableChange = (pagination, _, sorter) => {
     const { dispatch } = this.props;
     const token = this.props.token;
-    console.log('en el table change');
-    console.log(this.props.filter);
-    console.log(sorter);
     dispatch(
       actions.doChangePaginationAndSort(
         pagination,
         this.props.filter,
-        sorter,
         token,
         sorter,
       ),
