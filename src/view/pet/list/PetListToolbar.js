@@ -41,15 +41,7 @@ class PetToolbar extends Component {
 
   render() {
     return (
-      <Toolbar
-        style={{
-          background: '#f0f2f5',
-          padding: '10px 20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'start',
-        }}
-      >
+      <Toolbar>
         {(this.props.permissionToManage || this.props.permissionSelf) && (
           <Link to="/pet/new">
             <Button

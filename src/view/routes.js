@@ -57,14 +57,14 @@ const privateRoutes = [
   },
   {
     path: '/pet/new',
-    //loader: () => import(''),
+    loader: () => import('view/pet/form/PetFormPage'),
     menu: false,
     permissionRequired: [permissions.permPetsSelf, permissions.permPetsManage],
     exact: true,
   },
   {
     path: '/pet/:id/edit',
-    // loader: () => import(''),
+    loader: () => import('view/pet/form/PetFormPage'),
     menu: false,
     permissionRequired: [permissions.permPetsSelf, permissions.permPetsManage],
     exact: true,

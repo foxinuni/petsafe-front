@@ -12,12 +12,17 @@ import authSelectors from 'authorization/authorizationSelector';
 import InputFormItem from 'view/shared/form/items/InputFormItem';
 import DatePickerRangeFormItem from 'view/shared/form/items/DatePickerRangeFormItem';
 import SelectFormItem from 'view/shared/form/items/SelectFormItem';
+import petActions from 'modules/pet/form/petFormActions';
+import petSelectors from 'modules/pet/form/petFormSelectors';
 
 const intialValues = {};
 
 class PetListFilter extends Component {
   componentWillMount() {
-    //obtener razas, usuarios, etc, lo necesario
+    const { dispatch } = this.props;
+    dispatch(petActions.getAllTypes(this.props.token));
+    if (this.props.pemissionUsers && this.props.permissionManage)
+      dispatch(petActions.getAllUsers(this.props.token));
   }
   componentDidMount() {
     /* const { dispatch } = this.props;
@@ -36,129 +41,117 @@ class PetListFilter extends Component {
   };
 
   render() {
-    const { loading } = this.props;
-    return (
-      <FilterWrapper
-        style={{
-          padding: '20px',
-          background: '#f0f2f5',
-          borderRadius: '8px',
-          boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-        }}
-      >
-        <Formik
-          initialValues={intialValues}
-          onSubmit={this.handleSubmit}
-          render={(form) => {
-            return (
-              <Form onFinish={form.handleSubmit} layout="vertical">
-                <Row gutter={24}>
-                  <Col md={24} lg={12}>
-                    <InputFormItem
-                      name={'name'}
-                      label={'Nombre'}
-                      layout={formItemLayout}
-                    />
-                  </Col>
-                  <Col md={24} lg={12}>
-                    <DatePickerRangeFormItem
-                      name={'createdAt'}
-                      label={'Creado'}
-                      layout={formItemLayout}
-                    />
-                  </Col>
-                  {this.props.permissionManage && this.props.pemissionUsers && (
+    if (this.props.users && this.props.types) {
+      const { loading } = this.props;
+      return (
+        <FilterWrapper
+          style={{
+            padding: '20px',
+            background: '#f0f2f5',
+            borderRadius: '8px',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+          }}
+        >
+          <Formik
+            initialValues={intialValues}
+            onSubmit={this.handleSubmit}
+            render={(form) => {
+              return (
+                <Form onFinish={form.handleSubmit} layout="vertical">
+                  <Row gutter={24}>
                     <Col md={24} lg={12}>
-                      <SelectFormItem
-                        name={'owner'}
-                        label={'Dueño'}
+                      <InputFormItem
+                        name={'name'}
+                        label={'Nombre'}
                         layout={formItemLayout}
-                        options={[
-                          {
-                            id: 1,
-                            value: 'juandiego',
-                            title: 'juandiego',
-                            label: 'juandiego',
-                          },
-                        ]}
                       />
                     </Col>
-                  )}
-                  <Col md={24} lg={12}>
-                    <InputFormItem
-                      name={'age'}
-                      label={'Edad'}
-                      layout={formItemLayout}
-                    />
-                  </Col>
-                  <Col md={24} lg={12}>
-                    <SelectFormItem
-                      name={'type'}
-                      label={'Tipo'}
-                      options={[
-                        {
-                          id: 5,
-                          value: 'cat',
-                          title: 'cat',
-                          label: 'cat',
-                        },
-                      ]}
-                      layout={formItemLayout}
-                    />
-                  </Col>
-                  <Col md={24} lg={12}>
-                    <SelectFormItem
-                      name={'size'}
-                      label={'Tamaño'}
-                      options={[
-                        {
-                          id: 5,
-                          value: 'small',
-                          title: 'small',
-                          label: 'small',
-                        },
-                      ]}
-                      layout={formItemLayout}
-                    />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col
-                    span={24}
-                    style={{
-                      textAlign: 'right',
-                      marginTop: '20px',
-                    }}
-                  >
-                    <Button
-                      loading={loading}
-                      icon={<SearchOutlined />}
-                      type="primary"
-                      htmlType="submit"
-                      style={{ marginRight: '10px' }}
+                    <Col md={24} lg={12}>
+                      <DatePickerRangeFormItem
+                        name={'createdAt'}
+                        label={'Creado'}
+                        layout={formItemLayout}
+                      />
+                    </Col>
+                    {this.props.permissionManage &&
+                      this.props.pemissionUsers && (
+                        <Col md={24} lg={12}>
+                          <SelectFormItem
+                            name={'owner'}
+                            label={'Dueño'}
+                            layout={formItemLayout}
+                            options={this.props.users.rows.map((user) => ({
+                              id: user.id,
+                              value: user.id,
+                              title: user.name,
+                              label: user.name,
+                            }))}
+                          />
+                        </Col>
+                      )}
+                    <Col md={24} lg={12}>
+                      <InputFormItem
+                        name={'age'}
+                        label={'Edad'}
+                        layout={formItemLayout}
+                      />
+                    </Col>
+                    <Col md={24} lg={12}>
+                      <SelectFormItem
+                        name={'type'}
+                        label={'Tipo'}
+                        options={this.props.types.map((type) => ({
+                          id: type.id,
+                          value: type.id,
+                          label: type.name,
+                          title: type.name,
+                        }))}
+                        layout={formItemLayout}
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col
+                      span={24}
+                      style={{
+                        textAlign: 'right',
+                        marginTop: '20px',
+                      }}
                     >
-                      {'Buscar'}
-                    </Button>
-                    <Button
-                      loading={loading}
-                      onClick={() => this.handleReset(form)}
-                    >
-                      {'Resetear'}
-                    </Button>
-                  </Col>
-                </Row>
-              </Form>
-            );
-          }}
-        />
-      </FilterWrapper>
-    );
+                      <Button
+                        loading={loading}
+                        icon={<SearchOutlined />}
+                        type="primary"
+                        htmlType="submit"
+                        style={{ marginRight: '10px' }}
+                      >
+                        {'Buscar'}
+                      </Button>
+                      <Button
+                        loading={loading}
+                        onClick={() => this.handleReset(form)}
+                      >
+                        {'Resetear'}
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
+              );
+            }}
+          />
+        </FilterWrapper>
+      );
+    } else {
+      return <div>Loading...</div>;
+    }
   }
 }
 
 function select(state) {
   return {
     token: authSelectors.selectToken(state),
+    types: petSelectors.selectTypes(state),
+    users: petSelectors.selectUsers(state),
     permissionManage: authSelectors.selectPermViewPets(state),
     pemissionUsers: authSelectors.selectPermViewProfiles(state),
   };
