@@ -132,7 +132,20 @@ const actions = {
       });
     }*/
   },
-
+  doCreate: (values, token) => async (dispatch) => {
+    try {
+      dispatch({ type: actions.ADD_STARTED });
+      await service.doCreate(values, token);
+      dispatch({
+        type: actions.ADD_SUCCESS,
+      });
+      Message.success('Mascota agregada exitosamente');
+      getHistory().push('/pet');
+    } catch (error) {
+      Errors.handle(error, dispatch, '/pet');
+      dispatch({ type: actions.ADD_ERROR });
+    }
+  },
   doUpdate: (id, values, token) => async (dispatch) => {
     /* try {
       dispatch({

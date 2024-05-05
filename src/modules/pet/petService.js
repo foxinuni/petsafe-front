@@ -23,4 +23,40 @@ export default class PetService {
 
     return response.data;
   }
+
+  static async doCreate(pet, token) {
+    if (pet.me) {
+      await axios.post(
+        `${backend}/pets/me`,
+        {
+          userId: pet.owner,
+          breedId: pet.breed,
+          stateId: pet.state,
+          name: pet.name,
+          age: pet.age,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+      );
+    } else {
+      await axios.post(
+        `${backend}/pets`,
+        {
+          userId: pet.owner,
+          breedId: pet.breed,
+          stateId: pet.state,
+          name: pet.name,
+          age: pet.age,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+      );
+    }
+  }
 }

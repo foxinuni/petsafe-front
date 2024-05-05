@@ -14,6 +14,7 @@ import SelectFormItem from 'view/shared/form/items/SelectFormItem';
 import authSelector from 'authorization/authorizationSelector';
 import petSelectors from 'modules/pet/form/petFormSelectors';
 import petActions from 'modules/pet/form/petFormActions';
+import selectorAuth from 'modules/auth/authSelectors';
 import * as Yup from 'yup';
 
 class PetForm extends Component {
@@ -25,6 +26,8 @@ class PetForm extends Component {
 
   componentWillMount() {
     const { dispatch } = this.props;
+    if (this.props.pemissionUsers)
+      dispatch(petActions.getAllUsers(this.props.token));
     dispatch(petActions.getAllBreeds(this.props.token));
   }
   componentDidMount() {
@@ -42,27 +45,34 @@ class PetForm extends Component {
     return !!match.params.id;
   }
   handleSubmit = (values) => {
-    const { dispatch, match } = this.props;
-    const { id, ...data } = this.schema.cast(values);
+    const { dispatch, pet } = this.props;
+    if (!values.owner) {
+      values.me = true;
+      values.owner = this.props.currentUser.id;
+    }
+    if (!values.state) {
+      values.state = '7e68b58b-9a70-49b9-be76-4062cf9ed39d';
+    }
 
     if (this.isEditing()) {
-      dispatch(actions.doUpdate(id, data, this.props.token));
+      dispatch(actions.doUpdate(pet.id, values, this.props.token));
     } else {
-      dispatch(actions.doCreate(data, this.props.token));
+      dispatch(actions.doCreate(values, this.props.token));
     }
   };
 
   initialValues = () => {
-    const record = this.props.record;
+    const pet = this.props.pet;
 
-    if (this.isEditing() && record) {
-      return record;
+    if (this.isEditing() && pet) {
+      return pet;
     }
 
     return {
       name: '',
       owner: '',
       breed: '',
+      state: '',
       reservations: '',
     };
   };
@@ -85,12 +95,31 @@ class PetForm extends Component {
                       name={'owner'}
                       label={'Dueño'}
                       required={true}
+                      options={this.props.users.rows.map((user) => ({
+                        id: user.id,
+                        value: user.id,
+                        title: user.name,
+                        label: user.name,
+                      }))}
+                    />
+                  )}
+                  {this.isEditing() && (
+                    <SelectFormItem
+                      name={'state'}
+                      label={'Estado'}
+                      required={true}
                       options={[
                         {
-                          id: 1,
-                          value: 'juandiego',
-                          title: 'juandiego',
-                          label: 'juandiego',
+                          id: '7e68b58b-9a70-49b9-be76-4062cf9ed39d',
+                          label: 'Vivo',
+                          value: '7e68b58b-9a70-49b9-be76-4062cf9ed39d',
+                          title: 'Vivo',
+                        },
+                        {
+                          id: 'fa6e2e74-c0a7-496c-a1ae-05f80b72818d	',
+                          label: 'Muerto',
+                          value: 'fa6e2e74-c0a7-496c-a1ae-05f80b72818d	',
+                          title: 'Muerto',
                         },
                       ]}
                     />
@@ -148,13 +177,13 @@ class PetForm extends Component {
   }
 
   render() {
-    const { findLoading, record } = this.props;
+    const { findLoading, pet } = this.props;
 
     if (findLoading) {
       return <Spinner />;
     }
 
-    if (this.isEditing() && !record) {
+    if (this.isEditing() && !pet) {
       return <Spinner />;
     }
 
@@ -166,12 +195,14 @@ function select(state) {
   return {
     findLoading: selectors.selectFindLoading(state),
     saveLoading: selectors.selectSaveLoading(state),
-    record: selectors.selectPet(state),
+    pet: selectors.selectPet(state),
     token: authSelector.selectToken(state),
     users: petSelectors.selectUsers(state),
     breeds: petSelectors.selectBreeds(state),
     permissionToManage: authSelector.selectPermManagePets(state),
     permissionToSeeReserv: authSelector.selectPermViewReserv(state),
+    currentUser: selectorAuth.selectCurrentUser(state),
+    pemissionUsers: authSelector.selectPermViewProfiles(state),
   };
 }
 

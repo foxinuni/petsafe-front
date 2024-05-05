@@ -8,10 +8,11 @@ export default class PermissionChecker {
     if (!permission) {
       return true;
     }
-    if (permission instanceof Array)
+    if (permission instanceof Array) {
       return this.rolesMatchOneOf(
-        permission.reduce((previous, current) => previous + current, 0),
+        permission.reduce((previous, current) => previous + current.bit, 0),
       );
+    }
     return this.rolesMatchOneOf(permission.bit);
   }
 

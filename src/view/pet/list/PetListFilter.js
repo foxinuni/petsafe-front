@@ -21,9 +21,11 @@ class PetListFilter extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
     dispatch(petActions.getAllTypes(this.props.token));
-    if (this.props.pemissionUsers && this.props.permissionManage)
+    if (this.props.pemissionUsers && this.props.permissionManage) {
       dispatch(petActions.getAllUsers(this.props.token));
+    }
   }
+
   componentDidMount() {
     /* const { dispatch } = this.props;
     dispatch(actions.doFetch(null, this.props.token));*/
@@ -89,6 +91,27 @@ class PetListFilter extends Component {
                           />
                         </Col>
                       )}
+                    <Col md={24} lg={12}>
+                      <SelectFormItem
+                        name={'state'}
+                        label={'Estado'}
+                        layout={formItemLayout}
+                        options={[
+                          {
+                            id: '7e68b58b-9a70-49b9-be76-4062cf9ed39d',
+                            label: 'Vivo',
+                            value: '7e68b58b-9a70-49b9-be76-4062cf9ed39d',
+                            title: 'Vivo',
+                          },
+                          {
+                            id: 'fa6e2e74-c0a7-496c-a1ae-05f80b72818d	',
+                            label: 'Muerto',
+                            value: 'fa6e2e74-c0a7-496c-a1ae-05f80b72818d	',
+                            title: 'Muerto',
+                          },
+                        ]}
+                      />
+                    </Col>
                     <Col md={24} lg={12}>
                       <InputFormItem
                         name={'age'}
