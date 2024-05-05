@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
+/*import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import selectors from 'modules/user/userSelectors';
+import selectors from 'authorization/authorizationSelector';
 
 class UserListItem extends Component {
   valueAsArray = () => {
@@ -35,9 +35,7 @@ class UserListItem extends Component {
     if (this.props.hasPermissionToRead) {
       return (
         <div key={record.id}>
-          <Link to={`/user/${record.id}`}>
-            {this.label(record)}
-          </Link>
+          <Link to={`/user/${record.id}`}>{this.label(record)}</Link>
         </div>
       );
     }
@@ -50,9 +48,7 @@ class UserListItem extends Component {
       return null;
     }
     console.log('render desde UsersListItem');
-    return this.valueAsArray().map((value) =>
-      this.displayableRecord(value),
-    );
+    return this.valueAsArray().map((value) => this.displayableRecord(value));
   }
 }
 
@@ -61,8 +57,8 @@ UserListItem.propTypes = {
 };
 
 const select = (state) => ({
-  hasPermissionToRead:
-    selectors.selectPermissionToRead(state),
+  hasPermissionToRead: selectors.selectPermissionToRead(state),
 });
 
 export default connect(select)(UserListItem);
+*/

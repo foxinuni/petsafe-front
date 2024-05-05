@@ -1,18 +1,21 @@
 export default class PermissionChecker {
   constructor(currentUser) {
     this.currentUser = currentUser;
-    this.userRol = currentUser ? currentUser.rol.permissions : null;
+    this.userRol = currentUser ? currentUser?.rol?.permissions : null;
   }
 
   match(permission) {
     if (!permission) {
       return true;
     }
+    if (permission instanceof Array)
+      return this.rolesMatchOneOf(
+        permission.reduce((previous, current) => previous + current, 0),
+      );
     return this.rolesMatchOneOf(permission.bit);
   }
 
   rolesMatchOneOf(perm) {
-    console.log(`preguntando por permiso: ${perm}`);
     if (!this.userRol || !perm) {
       return false;
     }

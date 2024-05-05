@@ -1,9 +1,6 @@
-import PermissionChecker from 'modules/auth/permissionChecker';
+import PermissionChecker from 'authorization/permissionChecker';
 import React from 'react';
-import {
-  Redirect,
-  Route as MyRoute,
-} from 'react-router-dom';
+import { Redirect, Route as MyRoute } from 'react-router-dom';
 
 function PrivateRoute({
   component: Component,
@@ -15,9 +12,7 @@ function PrivateRoute({
     <MyRoute
       {...rest}
       render={(props) => {
-        const permissionChecker = new PermissionChecker(
-          currentUser,
-        );
+        const permissionChecker = new PermissionChecker(currentUser);
 
         if (!permissionChecker.isAuthenticated) {
           return (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Toolbar from 'view/shared/styles/Toolbar';
 import { Button, Tooltip } from 'antd';
 import { connect } from 'react-redux';
-import userSelectors from 'modules/user/userSelectors';
+import authSelectors from 'authorization/authorizationSelector';
 import { selectors } from 'modules/user/userListActions';
 import { Link } from 'react-router-dom';
 
@@ -37,10 +37,9 @@ class UserUsersToolbar extends Component {
   }
 
   render() {
-    console.log('render desde UsersToolbar');
     return (
       <Toolbar>
-        {this.props.hasPermissionToCreate && (
+        {this.props.permissionToManage && (
           <Link to="/user/new">
             <Button type="primary">{'Nuevo'}</Button>
           </Link>
@@ -56,8 +55,7 @@ function select(state) {
   return {
     loading: selectors.selectLoading(state),
     exportLoading: selectors.selectExportLoading(state),
-    hasPermissionToEdit: userSelectors.selectPermissionToEdit(state),
-    hasPermissionToCreate: userSelectors.selectPermissionToCreate(state),
+    permissionToManage: authSelectors.selectPermManageProfiles(state),
   };
 }
 

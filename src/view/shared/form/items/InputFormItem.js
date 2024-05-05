@@ -24,24 +24,13 @@ export class InputFormItemNotFast extends Component {
       errorMessage,
       required,
     } = this.props;
-    console.log('render desde InputFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
         required={required}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <Input
@@ -91,10 +80,7 @@ class InputFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <InputFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <InputFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

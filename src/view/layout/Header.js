@@ -31,7 +31,6 @@ class Header extends Component {
   };
 
   render() {
-    console.log('render desde Header');
     return (
       <HeaderWrapper>
         <AntHeader

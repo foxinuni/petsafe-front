@@ -1,4 +1,4 @@
-import { Form } from 'antd';
+/*import { Form } from 'antd';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { viewItemLayout } from 'view/shared/styles/ViewWrapper';
@@ -76,3 +76,4 @@ const select = (state) => ({
 });
 
 export default connect(select)(UserViewItem);
+*/

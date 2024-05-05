@@ -9,12 +9,9 @@ import Breadcrumb from 'view/shared/Breadcrumb';
 
 class UserPage extends Component {
   render() {
-    console.log('render desde Page');
     return (
       <React.Fragment>
-        <Breadcrumb
-          items={[['Principal', '/'], ['Usuarios']]}
-        />
+        <Breadcrumb items={[['Principal', '/'], ['Usuarios']]} />
 
         <ContentWrapper>
           <PageTitle>{'Usuarios'}</PageTitle>

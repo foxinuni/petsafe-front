@@ -1,4 +1,5 @@
 import Errors from 'modules/error/errors';
+import { momentToUnix } from 'modules/shared/dates';
 
 export default (prefix, fetchFn, selectors) => {
   const actions = {
@@ -11,13 +12,6 @@ export default (prefix, fetchFn, selectors) => {
 
     PAGINATION_CHANGED: `${prefix}_PAGINATION_CHANGED`,
     SORTER_CHANGED: `${prefix}_SORTER_CHANGED`,
-
-    doChangeSelected(payload) {
-      return {
-        type: actions.SELECTEDS_CHANGED,
-        payload,
-      };
-    },
 
     doReset: () => async (dispatch) => {
       dispatch({
@@ -40,8 +34,14 @@ export default (prefix, fetchFn, selectors) => {
     doFetch:
       (filter, token, keepPagination = false, orderBy) =>
       async (dispatch, getState) => {
-        //if filter.createdAt  then convert the array of 2 (range) into unix ....
-        console.log(filter); //work in the date range filter, to convert the moments into unix
+        for (const key in filter) {
+          if (filter[key] instanceof Array) {
+            filter[key] = {
+              since: momentToUnix(filter[key][0]),
+              to: momentToUnix(filter[key][1]),
+            };
+          }
+        }
         try {
           dispatch({
             type: actions.FETCH_STARTED,
@@ -64,7 +64,7 @@ export default (prefix, fetchFn, selectors) => {
             },
           });
         } catch (error) {
-          Errors.handle(error);
+          Errors.handle(error, dispatch, '/');
 
           dispatch({
             type: actions.FETCH_ERROR,

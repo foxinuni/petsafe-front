@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import actionsRoles from 'modules/rol/rolActions';
-import selectorAuth from 'modules/auth/authSelectors';
+import authSelectors from 'authorization/authorizationSelector';
 import { Table, Tag, Popconfirm } from 'antd';
 import rolSelectors from 'modules/rol/rolSelectors';
 import { Link } from 'react-router-dom';
@@ -49,10 +49,10 @@ class RolesTable extends Component {
       width: '160px',
       render: (_, record) => (
         <div className="table-actions">
-          {this.props.hasPermissionToEdit && (
+          {this.props.permissionToManage && (
             <Link to={`/roles/${record.id}/edit`}>{'Editar'}</Link>
           )}
-          {this.props.hasPermissionToEdit && (
+          {this.props.permissionToManage && (
             <Popconfirm
               title={'Estas seguro?'}
               onConfirm={() => this.doDestroy(record.id)}
@@ -89,8 +89,8 @@ function select(state) {
   return {
     loading: rolSelectors.selectLoading(state),
     rows: rolSelectors.selectRoles(state),
-    token: selectorAuth.selectToken(state),
-    hasPermissionToEdit: rolSelectors.selectPermissionToEdit(state),
+    token: authSelectors.selectToken(state),
+    permissionToManage: authSelectors.selectPermManageRoles(state),
   };
 }
 

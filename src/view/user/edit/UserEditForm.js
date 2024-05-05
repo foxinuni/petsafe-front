@@ -12,7 +12,7 @@ import FormWrapper, {
   tailFormItemLayout,
 } from 'view/shared/styles/FormWrapper';
 import selectorsRoles from 'modules/rol/rolSelectors';
-import selectorAuth from 'modules/auth/authSelectors';
+import authSelector from 'authorization/authorizationSelector';
 import * as Yup from 'yup';
 
 class UserEditForm extends Component {
@@ -130,7 +130,7 @@ function select(state) {
     saveLoading: selectors.selectSaveLoading(state),
     user: selectors.selectUser(state),
     roles: selectorsRoles.selectRoles(state),
-    token: selectorAuth.selectToken(state),
+    token: authSelector.selectToken(state),
   };
 }
 

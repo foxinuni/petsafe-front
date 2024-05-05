@@ -10,7 +10,7 @@ import FormWrapper, {
   tailFormItemLayout,
 } from 'view/shared/styles/FormWrapper';
 import selectorsRoles from 'modules/rol/rolSelectors';
-import selectorAuth from 'modules/auth/authSelectors';
+import authSelector from 'authorization/authorizationSelector';
 import * as Yup from 'yup';
 
 class UserNewForm extends Component {
@@ -125,7 +125,7 @@ function select(state) {
   return {
     saveLoading: selectors.selectSaveLoading(state),
     roles: selectorsRoles.selectRoles(state),
-    token: selectorAuth.selectToken(state),
+    token: authSelector.selectToken(state),
   };
 }
 

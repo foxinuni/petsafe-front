@@ -4,3 +4,7 @@ export function dateToString(date) {
     dateType.getMonth(),
   ).padStart(2, '0')}/${String(dateType.getFullYear()).padStart(4, '0')}`;
 }
+
+export function momentToUnix(moment) {
+  return moment.valueOf();
+}

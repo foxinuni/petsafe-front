@@ -5,7 +5,7 @@ import SiderWrapper from 'view/layout/styles/SiderWrapper';
 import { Link } from 'react-router-dom';
 import authSelectors from 'modules/auth/authSelectors';
 import { connect } from 'react-redux';
-import PermissionChecker from 'modules/auth/permissionChecker';
+import PermissionChecker from 'authorization/permissionChecker';
 import actions from 'modules/layout/layoutActions';
 import layoutSelectors from 'modules/layout/layoutSelectors';
 import routes from 'view/routes';
@@ -34,7 +34,7 @@ class Menu extends Component {
     const url = this.props.url;
 
     const match = routes.privateRoutes.find((option) => {
-      if (option.menu.exact) {
+      if (option.exact) {
         return url === option.path;
       }
 

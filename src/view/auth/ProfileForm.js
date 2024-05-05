@@ -2,6 +2,7 @@ import { Button, Form } from 'antd';
 import { Formik } from 'formik';
 import actions from 'modules/auth/authActions';
 import selectors from 'modules/auth/authSelectors';
+import authSelectors from 'authorization/authorizationSelector';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import InputFormItem from 'view/shared/form/items/InputFormItem';
@@ -105,7 +106,7 @@ function select(state) {
   return {
     saveLoading: selectors.selectLoadingUpdateProfile(state),
     currentUser: selectors.selectCurrentUser(state),
-    token: selectors.selectToken(state),
+    token: authSelectors.selectToken(state),
   };
 }
 

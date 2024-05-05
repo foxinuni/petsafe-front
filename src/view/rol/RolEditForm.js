@@ -11,7 +11,7 @@ import InputFormItem from 'view/shared/form/items/InputFormItem';
 import SelectFormItem from 'view/shared/form/items/SelectFormItem';
 import Permissions from 'authorization/permissions';
 import { connect } from 'react-redux';
-import selectorAuth from 'modules/auth/authSelectors';
+import authSelector from 'authorization/authorizationSelector';
 
 class rolEditForm extends Component {
   componentDidMount() {
@@ -62,8 +62,8 @@ class rolEditForm extends Component {
                   options={Permissions.asArray.map((permission) => ({
                     id: 0,
                     value: permission.bit,
-                    label: permission.name,
-                    tittle: permission.name,
+                    label: permission.label,
+                    tittle: permission.label,
                   }))}
                   mode={'multiple'}
                 />
@@ -109,7 +109,7 @@ function select(state) {
     findLoading: selectors.selectFindLoading(state),
     saveLoading: selectors.selectSaveLoading(state),
     role: selectors.selectRol(state),
-    token: selectorAuth.selectToken(state),
+    token: authSelector.selectToken(state),
   };
 }
 

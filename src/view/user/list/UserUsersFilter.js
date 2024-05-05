@@ -1,7 +1,7 @@
 import { Button, Col, Form, Row, DatePicker } from 'antd';
 import { Formik } from 'formik';
 import selectorsRoles from 'modules/rol/rolSelectors';
-import selectorAuth from 'modules/auth/authSelectors';
+import authSelectors from 'authorization/authorizationSelector';
 import actions from 'modules/user/userListActions';
 import actionsRoles from 'modules/rol/rolActions';
 import { selectors } from 'modules/user/userListActions';
@@ -77,7 +77,7 @@ class UserUsersFilter extends Component {
                     </Col>
                     <Col md={24} lg={12}>
                       <InputFormItem
-                        name={'fullName'}
+                        name={'name'}
                         label={'Nombre'}
                         layout={formItemLayout}
                       />
@@ -152,7 +152,7 @@ function select(state) {
   return {
     filter: selectors.selectFilter(state),
     roles: selectorsRoles.selectRoles(state),
-    token: selectorAuth.selectToken(state),
+    token: authSelectors.selectToken(state),
   };
 }
 

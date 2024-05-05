@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import userSelectors from 'modules/user/userSelectors';
 import { selectors } from 'modules/user/userListActions';
 import actions from 'modules/user/userListActions';
-import selectorAuth from 'modules/auth/authSelectors';
+import authSelectors from 'authorization/authorizationSelector';
 import { Table, Tag, Avatar, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import TableWrapper from 'view/shared/styles/TableWrapper';
@@ -84,7 +83,7 @@ class UserUsersTable extends Component {
       width: '160px',
       render: (_, record) => (
         <div className="table-actions">
-          {this.props.hasPermissionToEdit && (
+          {this.props.permissionToManage && (
             <Link to={`/user/${record.id}/edit`}>{'Editar'}</Link>
           )}
         </div>
@@ -94,8 +93,6 @@ class UserUsersTable extends Component {
 
   render() {
     const { pagination, rows, loading } = this.props;
-    console.log('render desde UsersTable');
-    console.log(rows);
     return (
       <TableWrapper>
         <Table
@@ -118,8 +115,8 @@ function select(state) {
     rows: selectors.selectRows(state),
     pagination: selectors.selectPagination(state),
     filter: selectors.selectFilter(state),
-    hasPermissionToEdit: userSelectors.selectPermissionToEdit(state),
-    token: selectorAuth.selectToken(state),
+    permissionToManage: authSelectors.selectPermManageProfiles(state),
+    token: authSelectors.selectToken(state),
   };
 }
 
