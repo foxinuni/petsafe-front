@@ -1,6 +1,6 @@
 import { Table, Popconfirm, Typography } from 'antd';
-//import actions from 'modules/pet/list/petListActions';
-//import selectors from 'modules/pet/list/petListSelectors';
+import actions from 'modules/pet/petListActions';
+import { selectors } from 'modules/pet/petListActions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { dateToString } from 'modules/shared/dates';
 const { Text } = Typography;
 class PetListTable extends Component {
   handleTableChange = (pagination, _, sorter) => {
-    /* const { dispatch } = this.props;
+    const { dispatch } = this.props;
     const token = this.props.token;
     dispatch(
       actions.doChangePaginationAndSort(
@@ -21,7 +21,7 @@ class PetListTable extends Component {
         token,
         sorter,
       ),
-    );*/
+    );
   };
 
   doDestroy = (id) => {
@@ -57,14 +57,20 @@ class PetListTable extends Component {
       render: undefined,
     },
     {
-      tutle: 'Raza',
+      title: 'Raza',
       dataIndex: 'breed',
       sorter: true,
       render: undefined,
     },
     {
-      tutle: 'Tamaño',
-      dataIndex: 'size',
+      title: 'Edad',
+      dataIndex: 'age',
+      sorter: true,
+      render: undefined,
+    },
+    {
+      title: 'Estado',
+      dataIndex: 'state',
       sorter: false,
       render: undefined,
     },
@@ -118,11 +124,10 @@ class PetListTable extends Component {
 
 function select(state) {
   return {
-    loading: false,
-    // loading: selectors.selectLoading(state),
-    // rows: selectors.selectRows(state),
-    // pagination: selectors.selectPagination(state),
-    // filter: selectors.selectFilter(state),
+    loading: selectors.selectLoading(state),
+    rows: selectors.selectRows(state),
+    pagination: selectors.selectPagination(state),
+    filter: selectors.selectFilter(state),
     permissionToEditUsers: authSelectors.selectPermManageProfiles(state),
     permissionToEdit: authSelectors.selectPermManagePets(state),
   };

@@ -90,4 +90,43 @@ export default class PetService {
       );
     }
   }
+
+  static async fetchPets(filter, orderBy, limit = 10, offset = 0, token) {
+    let query = '';
+    for (const key in filter) {
+      if (!filter[key].since) {
+        query += `${key}=${filter[key]}&`;
+      } else {
+        query += `createdSince=${filter[key].since}&`;
+        query += `createdTo=${filter[key].to}&`;
+      }
+    }
+    if (orderBy) {
+      query += `orderBy=${orderBy.field}&orderType=${orderBy.order}&`;
+    }
+    query = query.slice(0, -1);
+    query += `&limit=${limit}&page=${offset}`;
+    console.log(query);
+    const response = await axios.get(`${backend}/pets?${query}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    const returning = {};
+    returning.rows = response.data.map((pet) => ({
+      owner: {
+        id: 'sssss',
+        label: 'juan diego',
+      },
+      name: pet.name,
+      type: 'nose',
+      breed: pet.breedId,
+      state: pet.stateId,
+      age: pet.age,
+      createdAt: pet.createdAt,
+    }));
+    //returning.count = parseInt(response.data.count);
+    returning.count = 50;
+    return returning;
+  }
 }

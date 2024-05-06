@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { SearchOutlined } from '@ant-design/icons';
-//import actions from 'modules/pet/list/petListActions';
+import actions from 'modules/pet/petListActions';
 import FilterWrapper, {
   formItemLayout,
 } from 'view/shared/styles/FilterWrapper';
@@ -20,30 +20,30 @@ const intialValues = {};
 class PetListFilter extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(petActions.getAllTypes(this.props.token));
     if (this.props.pemissionUsers && this.props.permissionManage) {
       dispatch(petActions.getAllUsers(this.props.token));
     }
+    dispatch(petActions.getAllTypes(this.props.token));
   }
 
   componentDidMount() {
-    /* const { dispatch } = this.props;
-    dispatch(actions.doFetch(null, this.props.token));*/
+    const { dispatch } = this.props;
+    dispatch(actions.doFetch(null, this.props.token));
   }
 
   handleSubmit = (values) => {
-    /*const { dispatch } = this.props;
-    dispatch(actions.doFetch(values, this.props.token));*/
+    const { dispatch } = this.props;
+    dispatch(actions.doFetch(values, this.props.token));
   };
 
   handleReset = (form) => {
-    /*form.setValues({});
+    form.setValues({});
     const { dispatch } = this.props;
-    dispatch(actions.doReset());*/
+    dispatch(actions.doReset());
   };
 
   render() {
-    if (this.props.users && this.props.types) {
+    if (this.props.types) {
       const { loading } = this.props;
       return (
         <FilterWrapper

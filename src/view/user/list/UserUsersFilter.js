@@ -41,7 +41,6 @@ class UserUsersFilter extends Component {
   render() {
     if (this.props.roles) {
       const { loading } = this.props;
-      console.log('render desde UsersFilter');
       return (
         <FilterWrapper
           style={{

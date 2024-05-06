@@ -4,7 +4,7 @@ import paginationSelectors from 'modules/shared/pagination/paginationSelectors';
 
 const prefix = 'PET_LIST';
 
-export const selectors = paginationSelectors('pet.list');
+export const selectors = paginationSelectors('pets.list');
 
 const paginationActions = paginationAction(
   prefix,

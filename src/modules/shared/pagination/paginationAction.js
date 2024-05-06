@@ -54,7 +54,6 @@ export default (prefix, fetchFn, selectors) => {
             selectors.selectOffset(getState()),
             token,
           );
-
           dispatch({
             type: actions.FETCH_SUCCESS,
             payload: {
