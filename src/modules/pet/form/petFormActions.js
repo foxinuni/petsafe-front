@@ -18,6 +18,7 @@ const actions = {
 
   BREEDS_STARTED: `${prefix}_BREEDS_STARTED`,
   BREEDS_SUCCESS: `${prefix}_BREEDS_STARTED`,
+  BREEDS_RESET: `${prefix}_BREEDS_RESET`,
 
   USERS_STARTED: `${prefix}_USERS_STARTED`,
   USERS_SUCCESS: `${prefix}_USERS_STARTED`,
@@ -38,6 +39,10 @@ const actions = {
     return {
       type: actions.RESET,
     };
+  },
+
+  resetBreeds: () => async (dispatch) => {
+    dispatch({ type: actions.BREEDS_RESET });
   },
 
   getAllTypes: (token) => async (dispatch) => {
@@ -67,9 +72,9 @@ const actions = {
       Errors.handle(error, dispatch, '/');
     }
   },
-  getAllBreeds: (token) => async (dispatch) => {
+  getAllBreeds: (token, type) => async (dispatch) => {
     try {
-      const breeds = await service.getBreeds(token);
+      const breeds = await service.getBreeds(token, type);
       dispatch({
         type: actions.BREEDS_SUCCESS,
         payload: {

@@ -28,6 +28,12 @@ export default (state = initialData, { type, payload }) => {
       breeds: payload.breeds,
     };
   }
+  if (type === actions.BREEDS_RESET) {
+    return {
+      ...state,
+      breeds: null,
+    };
+  }
 
   if (type === actions.USERS_SUCCESS) {
     return {

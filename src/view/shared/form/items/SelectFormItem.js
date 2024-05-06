@@ -24,32 +24,23 @@ class SelectFormItemNotFast extends Component {
       inputProps,
       errorMessage,
       required,
+      onChange,
     } = this.props;
-    console.log('render desde SelectedFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
         required={required}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <Select
           id={name}
-          onChange={(value) =>
-            form.setFieldValue(name, value)
-          }
+          onChange={(value) => {
+            form.setFieldValue(name, value);
+            if (onChange) onChange(value);
+          }}
           onBlur={() => form.setFieldTouched(name)}
           value={form.values[name]}
           size={size || undefined}
@@ -98,6 +89,7 @@ SelectFormItemNotFast.propTypes = {
   formItemProps: PropTypes.object,
   inputProps: PropTypes.object,
   mode: PropTypes.string,
+  onChange: PropTypes.object,
 };
 
 class SelectFormItem extends Component {
@@ -106,10 +98,7 @@ class SelectFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <SelectFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <SelectFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

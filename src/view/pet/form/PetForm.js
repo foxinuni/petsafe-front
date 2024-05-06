@@ -20,7 +20,6 @@ import * as Yup from 'yup';
 class PetForm extends Component {
   schema = Yup.object().shape({
     name: Yup.string().required('Debe ingresar un nombre'),
-    breed: Yup.string().required('Debe seleccionar una raza'),
     age: Yup.number().integer().required('Debe ingresar la edad'),
   });
 
@@ -28,7 +27,7 @@ class PetForm extends Component {
     const { dispatch } = this.props;
     if (this.props.pemissionUsers)
       dispatch(petActions.getAllUsers(this.props.token));
-    dispatch(petActions.getAllBreeds(this.props.token));
+    dispatch(petActions.getAllTypes(this.props.token));
   }
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -61,6 +60,23 @@ class PetForm extends Component {
     }
   };
 
+  newType = true;
+
+  handleTypeChange = (value) => {
+    const { dispatch } = this.props;
+    dispatch(petActions.resetBreeds());
+    if (value) {
+      dispatch(petActions.getAllBreeds(this.props.token, value));
+      this.newType = false;
+    } else {
+      this.newType = true;
+    }
+  };
+  newBreed = true;
+  handleBreedChange = (value) => {
+    if (value) this.newBreed = false;
+    else this.newBreed = true;
+  };
   initialValues = () => {
     const pet = this.props.pet;
 
@@ -78,7 +94,7 @@ class PetForm extends Component {
   };
 
   renderForm() {
-    if (this.props.breeds) {
+    if (this.props.types) {
       const { saveLoading } = this.props;
 
       return (
@@ -134,16 +150,43 @@ class PetForm extends Component {
                   />
                   <InputFormItem name={'age'} label={'Edad'} required={true} />
                   <SelectFormItem
-                    name={'breed'}
-                    label={'Raza'}
-                    required={true}
-                    options={this.props.breeds.map((breed) => ({
-                      id: breed.id,
-                      value: breed.id,
-                      label: breed.name,
-                      title: breed.name,
+                    name={'type'}
+                    label={'Tipo'}
+                    options={this.props.types.map((type) => ({
+                      id: type.id,
+                      value: type.id,
+                      label: type.name,
+                      title: type.name,
                     }))}
+                    onChange={this.handleTypeChange}
                   />
+                  {this.newType && (
+                    <InputFormItem
+                      name={'newType'}
+                      label={'Tipo diferente'}
+                      required={true}
+                    />
+                  )}
+                  {this.props.breeds && (
+                    <SelectFormItem
+                      name={'breed'}
+                      label={'Raza'}
+                      options={this.props.breeds.map((breed) => ({
+                        id: breed.id,
+                        value: breed.id,
+                        label: breed.name,
+                        title: breed.name,
+                      }))}
+                      onChange={this.handleBreedChange}
+                    />
+                  )}
+                  {this.newBreed && (
+                    <InputFormItem
+                      name={'newBreed'}
+                      label={'Raza distinta'}
+                      required={true}
+                    />
+                  )}
 
                   {this.isEditing() && !this.props.permissionToSeeReserv && (
                     <ViewFormItem
@@ -198,6 +241,7 @@ function select(state) {
     pet: selectors.selectPet(state),
     token: authSelector.selectToken(state),
     users: petSelectors.selectUsers(state),
+    types: petSelectors.selectTypes(state),
     breeds: petSelectors.selectBreeds(state),
     permissionToManage: authSelector.selectPermManagePets(state),
     permissionToSeeReserv: authSelector.selectPermViewReserv(state),
