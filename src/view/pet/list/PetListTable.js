@@ -8,6 +8,7 @@ import TableWrapper from 'view/shared/styles/TableWrapper';
 import ButtonLink from 'view/shared/styles/ButtonLink';
 import authSelectors from 'authorization/authorizationSelector';
 import { dateToString } from 'modules/shared/dates';
+import petActions from 'modules/pet/form/petFormActions';
 
 const { Text } = Typography;
 class PetListTable extends Component {
@@ -26,7 +27,7 @@ class PetListTable extends Component {
 
   doDestroy = (id) => {
     const { dispatch } = this.props;
-    //  dispatch(actionsRoles.doDestroy(id, this.props.token));
+    dispatch(petActions.destroy(id, this.props.token));
   };
 
   columns = [
@@ -130,6 +131,7 @@ function select(state) {
     filter: selectors.selectFilter(state),
     permissionToEditUsers: authSelectors.selectPermManageProfiles(state),
     permissionToEdit: authSelectors.selectPermManagePets(state),
+    token: authSelectors.selectToken(state),
   };
 }
 

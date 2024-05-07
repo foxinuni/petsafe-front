@@ -2,6 +2,13 @@ import axios from 'axios';
 import { backend } from 'config/development';
 
 export default class PetService {
+  static async delete(id, token) {
+    await axios.delete(`${backend}/pets/${id}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+  }
   static async edit(pet, values, token) {
     await axios.patch(
       `${backend}/pets/${pet.id}`,

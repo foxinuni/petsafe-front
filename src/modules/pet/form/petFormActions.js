@@ -34,6 +34,10 @@ const actions = {
   UPDATE_SUCCESS: `${prefix}_UPDATE_SUCCESS`,
   UPDATE_ERROR: `${prefix}_UPDATE_ERROR`,
 
+  DESTROY_STARTED: `${prefix}_DESTROY_STARTED`,
+  DESTROY_SUCCESS: `${prefix}_DESTROY_SUCCESS`,
+  DESTROY_ERROR: `${prefix}_DESTROY_ERROR`,
+
   doNew: () => {
     return {
       type: actions.RESET,
@@ -164,6 +168,28 @@ const actions = {
       Errors.handle(error, dispatch, '/pet');
       dispatch({
         type: actions.UPDATE_ERROR,
+      });
+    }
+  },
+
+  destroy: (id, token) => async (dispatch) => {
+    try {
+      dispatch({
+        type: actions.DESTROY_STARTED,
+      });
+
+      await service.delete(id, token);
+
+      dispatch({
+        type: actions.DESTROY_SUCCESS,
+      });
+      Message.success('Mascota eliminada correctamente');
+
+      getHistory().push('/pet');
+    } catch (error) {
+      Errors.handle(error, dispatch, '/pet');
+      dispatch({
+        type: actions.DESTROY_ERROR,
       });
     }
   },
