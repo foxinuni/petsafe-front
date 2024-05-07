@@ -30,10 +30,18 @@ class PetForm extends Component {
     dispatch(petActions.getAllTypes(this.props.token));
   }
   componentDidMount() {
-    const { dispatch, match } = this.props;
+    const { dispatch, match, token } = this.props;
 
     if (this.isEditing()) {
-      dispatch(actions.doFind(match.params.id));
+      dispatch(
+        actions.doFind(
+          match.params.id,
+          token,
+          this.props.permissionToSeeReserv,
+          this.props.permissionToManage,
+          this.props.currentUser,
+        ),
+      );
     } else {
       dispatch(actions.doNew());
     }
@@ -54,7 +62,7 @@ class PetForm extends Component {
     }
 
     if (this.isEditing()) {
-      dispatch(actions.doUpdate(pet.id, values, this.props.token));
+      dispatch(actions.doUpdate(values, this.props.pet, this.props.token));
     } else {
       dispatch(actions.doCreate(values, this.props.token));
     }
@@ -81,7 +89,7 @@ class PetForm extends Component {
     const pet = this.props.pet;
 
     if (this.isEditing() && pet) {
-      return pet;
+      return { ...pet, owner: pet.owner.name, breed: pet.breed.name };
     }
 
     return {
@@ -89,7 +97,10 @@ class PetForm extends Component {
       owner: '',
       breed: '',
       state: '',
+      age: 0,
       reservations: '',
+      createdAt: '',
+      updatedAt: '',
     };
   };
 
@@ -111,12 +122,24 @@ class PetForm extends Component {
                       name={'owner'}
                       label={'Dueño'}
                       required={true}
-                      options={this.props.users.rows.map((user) => ({
+                      options={this.props.users?.rows?.map((user) => ({
                         id: user.id,
                         value: user.id,
                         title: user.name,
                         label: user.name,
                       }))}
+                    />
+                  )}
+                  {this.isEditing() && (
+                    <ViewFormItem name={'owner'} label={'Dueño'} />
+                  )}
+                  {this.isEditing() && (
+                    <ViewFormItem name={'createdAt'} label={'Creada'} />
+                  )}
+                  {this.isEditing() && (
+                    <ViewFormItem
+                      name={'updatedAt'}
+                      label={'Ultima actualizacion'}
                     />
                   )}
                   {this.isEditing() && (
@@ -140,38 +163,40 @@ class PetForm extends Component {
                       ]}
                     />
                   )}
-                  {this.isEditing() && !this.props.permissionToManage && (
-                    <ViewFormItem name={'owner'} label={'Dueño'} />
-                  )}
                   <InputFormItem
                     name={'name'}
                     label={'Nombre'}
                     required={true}
                   />
                   <InputFormItem name={'age'} label={'Edad'} required={true} />
-                  <SelectFormItem
-                    name={'type'}
-                    label={'Tipo'}
-                    options={this.props.types.map((type) => ({
-                      id: type.id,
-                      value: type.id,
-                      label: type.name,
-                      title: type.name,
-                    }))}
-                    onChange={this.handleTypeChange}
-                  />
-                  {this.newType && (
+                  {!this.isEditing() && (
+                    <SelectFormItem
+                      name={'type'}
+                      label={'Tipo'}
+                      options={this.props.types?.map((type) => ({
+                        id: type.id,
+                        value: type.id,
+                        label: type.name,
+                        title: type.name,
+                      }))}
+                      onChange={this.handleTypeChange}
+                    />
+                  )}
+                  {this.newType && !this.isEditing() && (
                     <InputFormItem
                       name={'newType'}
                       label={'Tipo diferente'}
                       required={true}
                     />
                   )}
+                  {this.isEditing() && (
+                    <ViewFormItem name={'type'} label={'Tipo'} />
+                  )}
                   {this.props.breeds && (
                     <SelectFormItem
                       name={'breed'}
                       label={'Raza'}
-                      options={this.props.breeds.map((breed) => ({
+                      options={this.props.breeds?.map((breed) => ({
                         id: breed.id,
                         value: breed.id,
                         label: breed.name,
@@ -180,12 +205,15 @@ class PetForm extends Component {
                       onChange={this.handleBreedChange}
                     />
                   )}
-                  {this.newBreed && (
+                  {this.newBreed && !this.isEditing() && (
                     <InputFormItem
                       name={'newBreed'}
                       label={'Raza distinta'}
                       required={true}
                     />
+                  )}
+                  {this.isEditing() && (
+                    <ViewFormItem name={'breed'} label={'Raza'} />
                   )}
 
                   {this.isEditing() && !this.props.permissionToSeeReserv && (

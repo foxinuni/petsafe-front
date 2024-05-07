@@ -15,7 +15,6 @@ export default (
       pageSize: INITIAL_PAGE_SIZE,
     },
     sorter: {},
-    selectedKeys: [],
     ...additionalInitialData,
   };
 
@@ -23,13 +22,6 @@ export default (
     if (type === actions.RESETED) {
       return {
         ...initialData,
-      };
-    }
-
-    if (type === actions.SELECTEDS_CHANGED) {
-      return {
-        ...state,
-        selectedKeys: payload || [],
       };
     }
 
@@ -54,7 +46,6 @@ export default (
       return {
         ...state,
         loading: true,
-        selectedKeys: [],
         filter: payload ? payload.filter : {},
         pagination:
           payload && payload.keepPagination

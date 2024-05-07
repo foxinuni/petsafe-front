@@ -75,7 +75,7 @@ export default class UserService {
         authorization: `Bearer ${token}`,
       },
     });
-    const returning = {};
+    const returning = { rows: [] };
     returning.rows = response.data.rows.map((profile) => ({
       ...profile,
       name: `${profile.name} ${profile.surname}`,

@@ -3,8 +3,7 @@ import Message from 'view/shared/message';
 import service from 'modules/pet/petService';
 import userService from 'modules/user/userService';
 import { getHistory } from 'modules/store';
-import roleService from 'modules/rol/rolService';
-import authService from 'modules/auth/authService';
+import reservService from 'modules/reservation/reservService';
 
 import { dateToString } from 'modules/shared/dates';
 
@@ -85,58 +84,55 @@ const actions = {
       Errors.handle(error, dispatch, '/pet');
     }
   },
-  doFind: (id, token) => async (dispatch) => {
-    /*try {
-      dispatch({
-        type: actions.FIND_STARTED,
-      });
-      const profile = await service.findProfile(id, token);
-      const user = await authService.findUser(id, token);
-      const role = await roleService.find(user.roleId, token);
-      dispatch({
-        type: actions.FIND_SUCCESS,
-        payload: {
-          id: user.id,
-          email: user.email,
-          name: profile.name,
-          surname: profile.surname,
-          number: profile.number,
-          createdAt: dateToString(profile.createdAt),
-          updatedAt: dateToString(profile.updatedAt),
-          role: role,
-        },
-      });
-    } catch (error) {
-      Errors.handle(error, dispatch, '/user');
-      dispatch({
-        type: actions.FIND_ERROR,
-      });
-    }*/
-  },
+  doFind:
+    (id, token, seeReservs, notMyOwn, currentUser) => async (dispatch) => {
+      try {
+        dispatch({
+          type: actions.FIND_STARTED,
+        });
+        const pet = await service.findPet(id, token);
+        const breed = await service.findBreed(pet.breedId, token);
+        const type = await service.findType(breed.typeId, token);
+        //pending, when reservations are well
+        if (seeReservs) {
+          const reservations = await reservService.getAll(
+            { petId: id },
+            null,
+            100,
+            1,
+            token,
+          );
+        }
+        const owner = notMyOwn
+          ? await userService.findProfile(pet.userId, token)
+          : {
+              name: `${currentUser.name} ${currentUser.surname}`,
+              id: currentUser.id,
+            };
+        //  const reservString = reservations?.map((reservation) => (`${dateToString(reservation.)}`))  not by now since there are no dates
+        dispatch({
+          type: actions.FIND_SUCCESS,
+          payload: {
+            id: pet.id,
+            name: pet.name,
+            age: pet.age,
+            owner: owner,
+            state: pet.stateId,
+            breed: { name: breed.name, id: breed.id },
+            type: type.name,
+            createdAt: dateToString(pet.createdAt),
+            updatedAt: dateToString(pet.updatedAt),
+            reservations: '',
+          },
+        });
+      } catch (error) {
+        Errors.handle(error, dispatch, '/pet');
+        dispatch({
+          type: actions.FIND_ERROR,
+        });
+      }
+    },
 
-  doAdd: (values, token) => async (dispatch) => {
-    /*try {
-      dispatch({
-        type: actions.ADD_STARTED,
-      });
-      const userId = await service.createUser(values);
-      console.log('a ver que retorno el user');
-      console.log(userId);
-      await service.createProfile(userId, values, token);
-      dispatch({
-        type: actions.ADD_SUCCESS,
-      });
-
-      Message.success('Usuario creado exitosamente');
-
-      getHistory().push('/user');
-    } catch (error) {
-      Errors.handle(error, dispatch, '/user');
-      dispatch({
-        type: actions.ADD_ERROR,
-      });
-    }*/
-  },
   doCreate: (values, token) => async (dispatch) => {
     try {
       dispatch({ type: actions.ADD_STARTED });
@@ -151,30 +147,25 @@ const actions = {
       dispatch({ type: actions.ADD_ERROR });
     }
   },
-  doUpdate: (id, values, token) => async (dispatch) => {
-    /* try {
+  doUpdate: (values, pet, token) => async (dispatch) => {
+    try {
       dispatch({
         type: actions.UPDATE_STARTED,
       });
-      await service.edit(id, values, token);
-      const user = {
-        roleId: values.role,
-      };
-      await authService.edit(id, user, token);
-
+      await service.edit(pet, values, token);
       dispatch({
         type: actions.UPDATE_SUCCESS,
       });
 
-      Message.success('Usuario actualizado exitosamente');
+      Message.success('Mascota actualizado exitosamente');
 
-      getHistory().push('/user');
+      getHistory().push('/pet');
     } catch (error) {
-      Errors.handle(error, dispatch, '/user');
+      Errors.handle(error, dispatch, '/pet');
       dispatch({
         type: actions.UPDATE_ERROR,
       });
-    }*/
+    }
   },
 };
 
