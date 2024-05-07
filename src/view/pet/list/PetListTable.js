@@ -1,4 +1,4 @@
-import { Table, Popconfirm, Typography } from 'antd';
+import { Table, Popconfirm, Tag, Typography } from 'antd';
 import actions from 'modules/pet/petListActions';
 import { selectors } from 'modules/pet/petListActions';
 import React, { Component } from 'react';
@@ -73,7 +73,10 @@ class PetListTable extends Component {
       title: 'Estado',
       dataIndex: 'state',
       sorter: false,
-      render: undefined,
+      render: (state) => {
+        const color = state === 'Dead' ? 'red' : 'green';
+        return <Tag color={color}>{state === 'Dead' ? 'Muerto' : 'Vivo'}</Tag>;
+      },
     },
     {
       title: 'Creado',

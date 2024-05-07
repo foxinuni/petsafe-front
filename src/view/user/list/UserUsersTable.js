@@ -53,15 +53,6 @@ class UserUsersTable extends Component {
       render: undefined,
     },
     {
-      title: 'Estado',
-      dataIndex: 'disabled',
-      sorter: false,
-      render: (disabled) => {
-        const color = disabled ? 'red' : 'green';
-        return <Tag color={color}>{disabled ? 'Inactivo' : 'Activo'}</Tag>;
-      },
-    },
-    {
       title: 'Rol',
       dataIndex: 'rol',
       sorter: false,

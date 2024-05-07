@@ -14,13 +14,14 @@ import DatePickerRangeFormItem from 'view/shared/form/items/DatePickerRangeFormI
 import SelectFormItem from 'view/shared/form/items/SelectFormItem';
 import petActions from 'modules/pet/form/petFormActions';
 import petSelectors from 'modules/pet/form/petFormSelectors';
+import selectorAuth from 'modules/auth/authSelectors';
 
 const intialValues = {};
 
 class PetListFilter extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
-    if (this.props.pemissionUsers && this.props.permissionManage) {
+    if (this.props.pemissionUsers && this.props.permissionView) {
       dispatch(petActions.getAllUsers(this.props.token));
     }
     dispatch(petActions.getAllTypes(this.props.token));
@@ -28,11 +29,14 @@ class PetListFilter extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(actions.doFetch(null, this.props.token));
+    dispatch(
+      actions.doFetch({ me: !this.props.permissionView }, this.props.token),
+    );
   }
 
   handleSubmit = (values) => {
     const { dispatch } = this.props;
+    if (!this.props.permissionView) values.me = true;
     dispatch(actions.doFetch(values, this.props.token));
   };
 
@@ -75,22 +79,21 @@ class PetListFilter extends Component {
                         layout={formItemLayout}
                       />
                     </Col>
-                    {this.props.permissionManage &&
-                      this.props.pemissionUsers && (
-                        <Col md={24} lg={12}>
-                          <SelectFormItem
-                            name={'owner'}
-                            label={'Dueño'}
-                            layout={formItemLayout}
-                            options={this.props.users.rows.map((user) => ({
-                              id: user.id,
-                              value: user.id,
-                              title: user.name,
-                              label: user.name,
-                            }))}
-                          />
-                        </Col>
-                      )}
+                    {this.props.permissionView && this.props.pemissionUsers && (
+                      <Col md={24} lg={12}>
+                        <SelectFormItem
+                          name={'owner'}
+                          label={'Dueño'}
+                          layout={formItemLayout}
+                          options={this.props.users.rows.map((user) => ({
+                            id: user.id,
+                            value: user.id,
+                            title: user.name,
+                            label: user.name,
+                          }))}
+                        />
+                      </Col>
+                    )}
                     <Col md={24} lg={12}>
                       <SelectFormItem
                         name={'state'}
@@ -175,8 +178,9 @@ function select(state) {
     token: authSelectors.selectToken(state),
     types: petSelectors.selectTypes(state),
     users: petSelectors.selectUsers(state),
-    permissionManage: authSelectors.selectPermViewPets(state),
+    permissionView: authSelectors.selectPermViewPets(state),
     pemissionUsers: authSelectors.selectPermViewProfiles(state),
+    currentUser: selectorAuth.selectCurrentUser(state),
   };
 }
 

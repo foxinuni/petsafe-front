@@ -10,8 +10,10 @@ export default class PetService {
     });
   }
   static async edit(pet, values, token) {
+    let url = '/pets/';
+    if (values.me) url = '/pets/me/';
     await axios.patch(
-      `${backend}/pets/${pet.id}`,
+      `${backend}${url}${pet.id}`,
       {
         id: values.id,
         name: values.name,
@@ -27,6 +29,7 @@ export default class PetService {
       },
     );
   }
+
   static async findPet(id, token) {
     const response = await axios.get(`${backend}/pets/${id}`, {
       headers: {
@@ -156,8 +159,11 @@ export default class PetService {
     }
     query = query.slice(0, -1);
     query += `&limit=${limit}&page=${offset}`;
-    console.log(query);
-    const response = await axios.get(`${backend}/pets?${query}`, {
+    const path = filter.me
+      ? `${backend}/pets/me?${query}`
+      : `${backend}/pets?${query}`;
+
+    const response = await axios.get(path, {
       headers: {
         authorization: `Bearer ${token}`,
       },

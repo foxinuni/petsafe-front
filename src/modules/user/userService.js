@@ -80,7 +80,6 @@ export default class UserService {
       ...profile,
       name: `${profile.name} ${profile.surname}`,
       id: profile.id,
-      disabled: false, //by now since the backend has not implemented the status yet
     }));
     returning.count = parseInt(response.data.count);
     return returning;

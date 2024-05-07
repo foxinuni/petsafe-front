@@ -53,7 +53,7 @@ class PetForm extends Component {
   }
   handleSubmit = (values) => {
     const { dispatch, pet } = this.props;
-    if (!values.owner) {
+    if (!values.owner || !this.props.permissionToManage) {
       values.me = true;
       values.owner = this.props.currentUser.id;
     }
