@@ -72,7 +72,7 @@ const privateRoutes = [
 
   {
     path: '/reservation',
-    // loader: () =>import(''),
+    loader: () => import('view/reservation/list/ReservListPage'),
     permissionRequired: [
       permissions.permReservationsSelf,
       permissions.permReservationsView,
