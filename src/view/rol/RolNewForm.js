@@ -24,11 +24,7 @@ class rolEditForm extends Component {
     const data = {
       ...values,
     };
-    console.log(data);
-    data.permNumber =
-      (data.permissions?.reduce((acumulator, value) => acumulator + value, 0) ||
-        0) + Permissions.self;
-    dispatch(actions.doCreate(data, this.props.token));
+    dispatch(actions.doCreate(data, Permissions.self, this.props.token));
   };
 
   initialValues = () => {
@@ -55,7 +51,7 @@ class rolEditForm extends Component {
                   label={'Permisos'}
                   options={Permissions.asArray.map((permission) => ({
                     id: 0,
-                    value: permission.bit,
+                    value: permission.bit + (permission.prereq ?? 0),
                     label: permission.label,
                     tittle: permission.label,
                   }))}

@@ -22,7 +22,7 @@ export default class UserService {
     const response = await axios.post(`${backend}/auth/register`, {
       email: data.email,
       password: data.password,
-      role: data.roles,
+      roleId: data.roles,
     });
     return response.data;
   }

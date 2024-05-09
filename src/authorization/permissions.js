@@ -13,6 +13,7 @@ class Permissions {
         name: 'permProfileManage',
         label: 'Editar/crear perfiles',
         bit: (1 << 6) + (1 << 3), //so it combines user and profile
+        prereq: (1 << 5) + (1 << 2),
       },
       permRolesView: {
         name: 'permRolesView',
@@ -23,6 +24,7 @@ class Permissions {
         name: 'permRolesManage',
         label: 'Editar/ver roles',
         bit: 1 << 9,
+        prereq: 1 << 8,
       },
       permPetsSelf: {
         name: 'permPetsSelf',
@@ -38,6 +40,7 @@ class Permissions {
         name: 'permPetsManage',
         label: 'Editar/crear mascotas todos',
         bit: 1 << 12,
+        prerq: 1 << 11,
       },
       permReservationsSelf: {
         name: 'permReservationsSelf',
@@ -53,6 +56,7 @@ class Permissions {
         name: 'PermReservationsManage',
         label: 'Editar/crear reservaciones todos',
         bit: 1 << 15,
+        prerq: 1 << 14,
       },
     };
   }

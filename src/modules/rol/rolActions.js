@@ -85,12 +85,16 @@ const actions = {
     }
   },
 
-  doUpdate: (data, token) => async (dispatch) => {
+  doUpdate: (data, self, token) => async (dispatch) => {
     try {
       dispatch({
         type: actions.UPDATE_START,
       });
-
+      data.permNumber =
+        (data.permissions?.reduce(
+          (acumulator, value) => acumulator + value,
+          0,
+        ) || 0) + self;
       await service.doUpdate(data, token);
 
       dispatch({
@@ -107,12 +111,16 @@ const actions = {
     }
   },
 
-  doCreate: (data, token) => async (dispatch) => {
+  doCreate: (data, self, token) => async (dispatch) => {
     try {
       dispatch({
         type: actions.CREATE_START,
       });
-
+      data.permNumber =
+        (data.permissions?.reduce(
+          (acumulator, value) => acumulator + value,
+          0,
+        ) || 0) + self;
       await service.create(data, token);
 
       dispatch({
