@@ -90,6 +90,10 @@ class PetListTable extends Component {
       width: '160px',
       render: (_, record) => (
         <div className="table-actions">
+          {(this.props.permissionToReservSelf ||
+            this.props.permissionToReservManage) && (
+            <Link to={`/reservation/${record.id}/new`}>{'Reservar'}</Link>
+          )}
           {this.props.permissionToEdit && (
             <Link to={`/pet/${record.id}/edit`}>{'Editar'}</Link>
           )}
@@ -134,6 +138,8 @@ function select(state) {
     filter: selectors.selectFilter(state),
     permissionToEditUsers: authSelectors.selectPermManageProfiles(state),
     permissionToEdit: authSelectors.selectPermManagePets(state),
+    permissionToReservSelf: authSelectors.selectPermSelfReserv(state),
+    permissionToReservManage: authSelectors.selectPermManageReserv(state),
     token: authSelectors.selectToken(state),
   };
 }

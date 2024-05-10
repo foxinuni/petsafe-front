@@ -21,7 +21,7 @@ const intialValues = {};
 class PetListFilter extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
-    if (this.props.pemissionUsers && this.props.permissionView) {
+    if (this.props.pemissionUsers) {
       dispatch(petActions.getAllUsers(this.props.token));
     }
     dispatch(petActions.getAllTypes(this.props.token));

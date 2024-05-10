@@ -49,6 +49,8 @@ class PetForm extends Component {
 
   isEditing() {
     const { match } = this.props;
+    console.log('match es');
+    console.log(match);
     return !!match.params.id;
   }
   handleSubmit = (values) => {

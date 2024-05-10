@@ -5,6 +5,7 @@ import user from 'modules/user/userReducers';
 import rol from 'modules/rol/rolReducers';
 import error from 'modules/error/errorReducers';
 import pets from 'modules/pet/petReducers';
+import reserv from 'modules/reservation/reservReducers';
 import { combineReducers } from 'redux';
 
 export default (history) =>
@@ -16,4 +17,5 @@ export default (history) =>
     rol,
     pets,
     error,
+    reserv,
   });

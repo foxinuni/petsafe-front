@@ -83,8 +83,8 @@ const privateRoutes = [
     menu: true,
   },
   {
-    path: '/reservation/new',
-    //loader: () => import(''),
+    path: '/reservation/:id/new',
+    loader: () => import('view/reservation/form/ReservFormPage'),
     menu: false,
     permissionRequired: [
       permissions.permReservationsSelf,
@@ -94,7 +94,7 @@ const privateRoutes = [
   },
   {
     path: '/reservation/:id/edit',
-    // loader: () => import(''),
+    loader: () => import('view/reservation/form/ReservFormPage'),
     menu: false,
     permissionRequired: [
       permissions.permReservationsSelf,

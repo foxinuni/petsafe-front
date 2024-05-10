@@ -25,26 +25,17 @@ class DatePickerFormItemNotFast extends Component {
         {...layout}
         label={label}
         required={required}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-        )}
-        help={
-          FormErrors.displayableError(form, name) || hint
-        }
+        validateStatus={FormErrors.validateStatus(form, name)}
+        help={FormErrors.displayableError(form, name) || hint}
         {...formItemProps}
       >
         <DatePicker
           id={name}
-          onChange={(value) =>
-            form.setFieldValue(name, value)
-          }
+          onChange={(value) => form.setFieldValue(name, value)}
           value={form.values[name]}
           autoFocus={autoFocus || false}
           style={{ width: '100%' }}
-          showTime={
-            showTime ? { format: 'HH:mm' } : undefined
-          }
+          showTime={showTime ? { format: 'HH:mm' } : undefined}
           format={showTime ? 'YYYY-MM-DD HH:mm' : undefined}
           {...inputProps}
         />
@@ -78,10 +69,7 @@ class DatePickerFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <DatePickerFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <DatePickerFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

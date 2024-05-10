@@ -7,7 +7,7 @@ import ContentWrapper from 'view/layout/styles/ContentWrapper';
 import PageTitle from 'view/shared/styles/PageTitle';
 import Breadcrumb from 'view/shared/Breadcrumb';
 
-class BookingListPage extends Component {
+class ReservListPage extends Component {
   render() {
     return (
       <React.Fragment>
@@ -25,4 +25,4 @@ class BookingListPage extends Component {
   }
 }
 
-export default Layout(BookingListPage);
+export default Layout(ReservListPage);
