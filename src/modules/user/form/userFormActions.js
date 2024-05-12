@@ -36,7 +36,7 @@ const actions = {
       });
       const profile = await service.findProfile(id, token);
       const user = await authService.findUser(id, token);
-      const role = await roleService.find(user.roleId, token);
+      const role = await roleService.find(user.role_id, token);
       dispatch({
         type: actions.FIND_SUCCESS,
         payload: {
@@ -45,8 +45,8 @@ const actions = {
           name: profile.name,
           surname: profile.surname,
           number: profile.number,
-          createdAt: dateToString(profile.createdAt),
-          updatedAt: dateToString(profile.updatedAt),
+          createdAt: dateToString(profile.created_at),
+          updatedAt: dateToString(profile.updated_at),
           role: role,
         },
       });
@@ -65,8 +65,16 @@ const actions = {
       dispatch({
         type: actions.ADD_STARTED,
       });
-      const userId = await service.createUser(values);
-      await service.createProfile(userId, values, token);
+      const user = await service.createUser(values, token);
+      await service.createProfile(
+        {
+          number: values.number,
+          name: values.name,
+          surname: values.surname,
+          id: user.id,
+        },
+        token,
+      );
       dispatch({
         type: actions.ADD_SUCCESS,
       });

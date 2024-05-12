@@ -74,8 +74,10 @@ const actions = {
         const currentUser = await service.getProfile(credentials);
         currentUser.email = credentials.user.email;
         currentUser.rol = credentials.user.rol;
-        currentUser.createdAt = dateToString(currentUser.createdAt);
-        currentUser.updatedAt = dateToString(currentUser.updatedAt);
+        currentUser.createdAt = dateToString(currentUser.created_at);
+        currentUser.updatedAt = dateToString(currentUser.updated_at);
+        delete currentUser.created_at;
+        delete currentUser.updated_at;
         dispatch({
           type: actions.AUTH_SUCCESS,
           payload: {

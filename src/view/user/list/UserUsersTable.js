@@ -42,13 +42,13 @@ class UserUsersTable extends Component {
 
     {
       title: 'Correo',
-      sorter: true,
+      sorter: false,
       dataIndex: 'email',
       render: undefined,
     },
     {
       title: 'Nombre completo',
-      sorter: true,
+      sorter: false,
       dataIndex: 'name',
       render: undefined,
     },
@@ -61,7 +61,7 @@ class UserUsersTable extends Component {
     {
       title: 'Creado',
       dataIndex: 'createdAt',
-      sorter: true,
+      sorter: false,
       render: (record) => <Text> {dateToString(record)}</Text>,
     },
     {

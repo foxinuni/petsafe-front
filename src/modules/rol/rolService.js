@@ -12,11 +12,13 @@ export default class RolService {
   }
 
   static async getAll(token) {
+    console.log('los roles');
     const response = await axios.get(`${backend}/roles`, {
       headers: {
         authorization: `Bearer ${token}`,
       },
     });
+    console.log(response.data);
     return response.data;
   }
 

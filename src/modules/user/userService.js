@@ -1,11 +1,15 @@
 import axios from 'axios';
 import { backend } from 'config/development';
+import roleService from 'modules/rol/rolService';
+import authService from 'modules/auth/authService';
+import { forEach } from 'lodash';
 
 export default class UserService {
   static async edit(id, data, token) {
     await axios.patch(
       `${backend}/profiles/${id}`,
       {
+        id: id,
         name: data.name,
         surname: data.surname,
         number: data.number,
@@ -19,22 +23,27 @@ export default class UserService {
   }
 
   static async createUser(data, token) {
-    const response = await axios.post(`${backend}/auth/register`, {
-      email: data.email,
-      password: data.password,
-      roleId: data.roles,
-    });
+    const response = await axios.post(
+      `${backend}/users`,
+      {
+        email: data.email,
+        password: data.password,
+        role_id: data.roles,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      },
+    );
     return response.data;
   }
 
-  static async createProfile(id, data, token) {
+  static async createProfile(profile, token) {
     await axios.post(
       `${backend}/profiles`,
       {
-        id: id,
-        name: data.name,
-        surname: data.surname,
-        number: data.number,
+        ...profile,
       },
       {
         headers: {
@@ -56,14 +65,14 @@ export default class UserService {
   static async fetchUsers(filter, orderBy, limit = 10, offset = 1, token) {
     let query = '';
     for (const key in filter) {
-      if (!filter[key].since) {
+      if (!filter[key].since && filter[key]) {
         query += `${key}=${filter[key]}&`;
       } else {
         query += `createdSince=${filter[key].since}&`;
         query += `createdTo=${filter[key].to}&`;
       }
     }
-    if (orderBy) {
+    if (orderBy?.field && orderBy?.order) {
       query += `orderBy=${orderBy.field}&orderType=${orderBy.order}&`;
     }
     query = query.slice(0, -1);
@@ -75,12 +84,19 @@ export default class UserService {
       },
     });
     const returning = { rows: [] };
-    returning.rows = response.data.rows.map((profile) => ({
-      ...profile,
-      name: `${profile.name} ${profile.surname}`,
-      id: profile.id,
-    }));
-    returning.count = parseInt(response.data.count);
+    for (const profile of response.data) {
+      const user = await authService.findUser(profile.id, token);
+      const role = await roleService.find(user.role_id, token);
+      returning.rows.push({
+        name: `${profile.name} ${profile.surname}`,
+        id: profile.id,
+        createdAt: profile.created_at,
+        updatedAt: profile.updated_at,
+        rol: role.rolName,
+        email: user.email,
+      });
+    }
+    returning.count = 1000;
     return returning;
   }
 }

@@ -80,27 +80,6 @@ class UserUsersFilter extends Component {
                     </Col>
                     <Col md={24} lg={12}>
                       <SelectFormItem
-                        name={'status'}
-                        label={'Estado'}
-                        layout={formItemLayout}
-                        options={[
-                          {
-                            id: 1,
-                            value: 1,
-                            title: 'Activo',
-                            label: 'Activo',
-                          },
-                          {
-                            id: 2,
-                            value: 0,
-                            title: 'Inactivo',
-                            label: 'Inactivo',
-                          },
-                        ]}
-                      />
-                    </Col>
-                    <Col md={24} lg={12}>
-                      <SelectFormItem
                         name={'role'}
                         label={'Rol'}
                         options={this.props.roles.map((rol) => {

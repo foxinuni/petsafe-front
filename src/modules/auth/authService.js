@@ -31,7 +31,7 @@ export default class AuthService {
   static async edit(id, user, token) {
     await axios.patch(
       `${backend}/users/${id}`,
-      { roleId: user.roleId },
+      { role_id: user.roleId },
       {
         headers: {
           authorization: `Bearer ${token}`,
