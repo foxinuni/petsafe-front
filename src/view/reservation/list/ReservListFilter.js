@@ -21,17 +21,21 @@ class ReservListFilter extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
     if (this.props.pemissionUsers && this.props.permissionViewPets) {
+      console.log('si entro al if');
+      dispatch(reservActions.getOwners(this.props.token));
     }
-    //dispatch de estados
+    console.log('antes de buscar estados');
+    console.log(this.props.owners);
+    dispatch(reservActions.getStates(this.props.token));
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(actions.doFetch());
+    dispatch(actions.doFetch(null, this.props.token));
   }
 
   handleSubmit = (values) => {
     const { dispatch } = this.props;
-    dispatch(actions.doFetch(values));
+    dispatch(actions.doFetch(values, this.props.token));
   };
 
   handleReset = (form) => {
@@ -45,6 +49,8 @@ class ReservListFilter extends Component {
     dispatch(reservActions.resetOwner());
     if (value) {
       dispatch(reservActions.getPetsFrom(this.props.token, value));
+    } else {
+      dispatch(reservActions.resetPets());
     }
   };
 
@@ -73,7 +79,6 @@ class ReservListFilter extends Component {
                         name={'createdAt'}
                         label={'creado'}
                         layout={formItemLayout}
-                        showTime
                       />
                     </Col>
                     {this.props.permissionViewPets &&
@@ -83,7 +88,7 @@ class ReservListFilter extends Component {
                             name={'owner'}
                             label={'Dueño'}
                             layout={formItemLayout}
-                            options={this.props.users.rows.map((user) => ({
+                            options={this.props.owners.map((user) => ({
                               id: user.id,
                               value: user.id,
                               title: user.name,
@@ -99,7 +104,7 @@ class ReservListFilter extends Component {
                           name={'pet'}
                           label={'Mascota'}
                           layout={formItemLayout}
-                          options={this.props.ownerPets.rows.map((pet) => ({
+                          options={this.props.ownerPets.map((pet) => ({
                             id: pet.id,
                             value: pet.id,
                             title: pet.name,
@@ -113,7 +118,6 @@ class ReservListFilter extends Component {
                         name={'arrival'}
                         label={'Llegada'}
                         layout={formItemLayout}
-                        showTime
                       />
                     </Col>
                     <Col md={24} lg={12}>
@@ -121,7 +125,6 @@ class ReservListFilter extends Component {
                         name={'departure'}
                         label={'Salida'}
                         layout={formItemLayout}
-                        showTime
                       />
                     </Col>
                     <Col md={24} lg={12}>
@@ -149,7 +152,6 @@ class ReservListFilter extends Component {
                     <Col className="filter-buttons" span={24}>
                       <Button
                         loading={loading}
-                        icon="search"
                         type="primary"
                         htmlType="submit"
                       >
@@ -158,7 +160,6 @@ class ReservListFilter extends Component {
                       <Button
                         loading={loading}
                         onClick={() => this.handleReset(form)}
-                        icon="undo"
                       >
                         {'Resetear'}
                       </Button>
@@ -179,12 +180,12 @@ class ReservListFilter extends Component {
 function select(state) {
   return {
     filter: selectors.selectFilter(state),
-    ownerPets: reservSelectors.selectOwnerPets(state),
     pemissionUsers: authSelectors.selectPermViewProfiles(state),
     permissionViewPets: authSelectors.selectPermViewPets(state),
-    users: reservSelectors.selectUsers(state),
-    pets: reservSelectors.selectOwnerPets(state),
+    token: authSelectors.selectToken(state),
     states: reservSelectors.selectStates(state),
+    owners: reservSelectors.selectUsers(state),
+    ownerPets: reservSelectors.selectOwnerPets(state),
   };
 }
 

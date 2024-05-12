@@ -10,8 +10,15 @@ import TableWrapper from 'view/shared/styles/TableWrapper';
 class ReservListTable extends Component {
   handleTableChange = (pagination, _, sorter) => {
     const { dispatch } = this.props;
-
-    dispatch(actions.doChangePaginationAndSort(pagination, sorter));
+    const token = this.props.token;
+    dispatch(
+      actions.doChangePaginationAndSort(
+        pagination,
+        this.props.filter,
+        token,
+        sorter,
+      ),
+    );
   };
 
   columns = [
@@ -102,6 +109,7 @@ function select(state) {
     rows: selectors.selectRows(state),
     pagination: selectors.selectPagination(state),
     filter: selectors.selectFilter(state),
+    token: authSelectors.selectToken(state),
     permissionToEditUsers: authSelectors.selectPermManageProfiles(state),
     permissionToEditPets: authSelectors.selectPermManagePets(state),
     permissionToEdit: authSelectors.selectPermManageReserv(state),

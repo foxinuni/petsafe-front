@@ -18,7 +18,6 @@ class ReservToolbar extends Component {
     const button = (
       <Button
         disabled={disabled}
-        icon="file-excel"
         onClick={this.doExport}
         loading={exportLoading}
       >

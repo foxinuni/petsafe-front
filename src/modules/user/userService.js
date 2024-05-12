@@ -55,6 +55,7 @@ export default class UserService {
   }
 
   static async fetchUsers(filter, orderBy, limit = 10, offset = 1, token) {
+    console.log('buscando los usuarios');
     let query = '';
     for (const key in filter) {
       if (!filter[key].since) {

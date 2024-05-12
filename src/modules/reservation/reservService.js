@@ -2,7 +2,25 @@ import axios from 'axios';
 import { backend } from 'config/development';
 
 export default class ReservService {
+  static async getStates(token) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          {
+            name: 'completed',
+            id: 'sdjfhkjsdhfjk',
+          },
+          {
+            name: 'cancelled',
+            id: 'shdfjshjsdfds21423',
+          },
+        ]);
+      }, 500);
+    });
+  }
+
   static async getAll(filter, orderBy, limit = 10, offset = 1, token) {
+    console.log(`el token enviado es ${token}`);
     let query = '';
     for (const key in filter) {
       if (!filter[key].since) {

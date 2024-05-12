@@ -124,16 +124,11 @@ class ReservForm extends Component {
                     loading={saveLoading}
                     type="primary"
                     htmlType="submit"
-                    icon="save"
                   >
                     {'Guardar'}
                   </Button>
 
-                  <Button
-                    disabled={saveLoading}
-                    onClick={form.handleReset}
-                    icon="undo"
-                  >
+                  <Button disabled={saveLoading} onClick={form.handleReset}>
                     {'Resetear'}
                   </Button>
                 </Form.Item>
