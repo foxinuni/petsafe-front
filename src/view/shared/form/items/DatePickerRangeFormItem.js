@@ -19,32 +19,22 @@ class DatePickerRangeFormItemNotFast extends Component {
       inputProps,
       required,
     } = this.props;
-    console.log('render desde DatePickerRangeFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-        )}
-        help={
-          FormErrors.displayableError(form, name) || hint
-        }
+        validateStatus={FormErrors.validateStatus(form, name)}
+        help={FormErrors.displayableError(form, name) || hint}
         required={required}
         {...formItemProps}
       >
         <DatePicker.RangePicker
           id={name}
-          onChange={(value) =>
-            form.setFieldValue(name, value)
-          }
+          onChange={(value) => form.setFieldValue(name, value)}
           value={form.values[name]}
           autoFocus={autoFocus || false}
           style={{ width: '100%' }}
-          showTime={
-            showTime ? { format: 'HH:mm' } : undefined
-          }
+          showTime={showTime ? { format: 'HH:mm' } : undefined}
           format={showTime ? 'YYYY-MM-DD HH:mm' : undefined}
           {...inputProps}
         />
@@ -77,10 +67,7 @@ class DatePickerRangeFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <DatePickerRangeFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <DatePickerRangeFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

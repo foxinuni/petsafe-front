@@ -37,7 +37,6 @@ class rolEditForm extends Component {
         id: 0,
         label: value.name,
       }));
-    console.log(role.permissions);
     return role;
   };
 

@@ -70,24 +70,13 @@ class InputNumberRangeFormItemNotFast extends Component {
       errorMessage,
       required,
     } = this.props;
-    console.log('render desde InputNumberRangeFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
         required={required}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <div
@@ -100,9 +89,7 @@ class InputNumberRangeFormItemNotFast extends Component {
           <InputNumber
             style={{ width: '100%' }}
             id={`${name}Start`}
-            onChange={(value) =>
-              this.handleStartChanged(value)
-            }
+            onChange={(value) => this.handleStartChanged(value)}
             onBlur={() => form.setFieldTouched(name)}
             value={this.startValue()}
             size={size || undefined}
@@ -126,9 +113,7 @@ class InputNumberRangeFormItemNotFast extends Component {
           <InputNumber
             style={{ width: '100%' }}
             id={`${name}End`}
-            onChange={(value) =>
-              this.handleEndChanged(value)
-            }
+            onChange={(value) => this.handleEndChanged(value)}
             onBlur={() => form.setFieldTouched(name)}
             value={this.endValue()}
             size={size || undefined}
@@ -171,10 +156,7 @@ class InputNumberRangeFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <InputNumberRangeFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <InputNumberRangeFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

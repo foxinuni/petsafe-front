@@ -7,7 +7,6 @@ import { FastField } from 'formik';
 class ViewFormItemNotFast extends Component {
   render() {
     const { label, name, form, layout } = this.props;
-    console.log('render desde ViewFormItem');
     return (
       <Form.Item {...layout} label={label}>
         <strong>{form.values[name]}</strong>
@@ -33,10 +32,7 @@ class ViewFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <ViewFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <ViewFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

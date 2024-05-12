@@ -22,33 +22,20 @@ class TagsFormItemNotFast extends Component {
       errorMessage,
       required,
     } = this.props;
-    console.log('render desde TagsFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
         required={required}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <Select
           mode="tags"
           style={{ width: '100%' }}
           value={form.values[name]}
-          onChange={(value) =>
-            form.setFieldValue(name, value)
-          }
+          onChange={(value) => form.setFieldValue(name, value)}
           onBlur={() => form.setFieldTouched(name)}
           notFoundContent={notFoundContent}
           placeholder={placeholder || undefined}
@@ -90,10 +77,7 @@ class TagsFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <TagsFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <TagsFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

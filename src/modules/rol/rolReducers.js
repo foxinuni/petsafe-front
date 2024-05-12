@@ -17,7 +17,6 @@ export default (state = initialData, { type, payload }) => {
     };
   }
   if (type === actions.ROL_LIST_SUCCESS) {
-    console.log(payload.roles);
     return {
       ...state,
       roles: payload.roles || null,

@@ -8,8 +8,6 @@ const { Content } = AntLayout;
 const Layout = (WrappedComponent) =>
   class extends Component {
     render() {
-      console.log('render desde layout');
-      console.log(this.props);
       return (
         <LayoutWrapper>
           <Menu url={this.props.match.url} />

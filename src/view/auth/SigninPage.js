@@ -1,9 +1,4 @@
-import {
-  Button,
-  Divider,
-  Form as AntdForm,
-  Spin,
-} from 'antd';
+import { Button, Divider, Form as AntdForm, Spin } from 'antd';
 import { Formik } from 'formik';
 import actions from 'modules/auth/authActions';
 import selectors from 'modules/auth/authSelectors';
@@ -25,10 +20,7 @@ class SigninPage extends Component {
       .email('Correo electronico invalido')
       .required('Debe ingresar el correo'),
     password: Yup.string()
-      .min(
-        8,
-        'La contraseña debe tener al menos 8 caracteres',
-      )
+      .min(8, 'La contraseña debe tener al menos 8 caracteres')
       .required('Debe ingresar la contraseña'),
   });
 
@@ -55,13 +47,10 @@ class SigninPage extends Component {
 
   doSubmit = ({ email, password }) => {
     const { dispatch } = this.props;
-    dispatch(
-      actions.doSigninWithEmailAndPassword(email, password),
-    );
+    dispatch(actions.doSigninWithEmailAndPassword(email, password));
   };
 
   render() {
-    console.log('renderizandi');
     return (
       <SigninPageWrapper
         style={{
@@ -79,9 +68,7 @@ class SigninPage extends Component {
           }}
         >
           <Logo style={{ textAlign: 'center' }}>
-            <h1 style={{ color: '#1890ff' }}>
-              {'Pet safe'}
-            </h1>
+            <h1 style={{ color: '#1890ff' }}>{'Pet safe'}</h1>
           </Logo>
           <Divider>Ingresar</Divider>
           <Formik
@@ -120,10 +107,7 @@ class SigninPage extends Component {
                 >
                   {'Ingresar'}
                 </Button>
-                <Spin
-                  spinning={this.props.loading}
-                  indicator={<div />}
-                ></Spin>
+                <Spin spinning={this.props.loading} indicator={<div />}></Spin>
 
                 <OtherActions
                   style={{
@@ -131,9 +115,7 @@ class SigninPage extends Component {
                     textAlign: 'center',
                   }}
                 >
-                  <Link to="/auth/signup">
-                    {'Registrarse'}
-                  </Link>
+                  <Link to="/auth/signup">{'Registrarse'}</Link>
                 </OtherActions>
               </AntdForm>
             )}

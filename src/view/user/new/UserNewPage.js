@@ -7,15 +7,10 @@ import UserNewForm from 'view/user/new/UserNewForm';
 
 class UserNewPage extends Component {
   render() {
-    console.log('render desde NewPage');
     return (
       <React.Fragment>
         <Breadcrumb
-          items={[
-            ['Principal', '/'],
-            ['Usuarios', '/user'],
-            ['Nuevo usuario'],
-          ]}
+          items={[['Principal', '/'], ['Usuarios', '/user'], ['Nuevo usuario']]}
         />
 
         <ContentWrapper>

@@ -71,24 +71,13 @@ class InputRangeFormItemNotFast extends Component {
       errorMessage,
       required,
     } = this.props;
-    console.log('render desde InputRangeFormItEM');
     return (
       <Form.Item
         {...layout}
         label={label}
         required={required}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <div
@@ -102,9 +91,7 @@ class InputRangeFormItemNotFast extends Component {
             style={{ width: '100%' }}
             id={`${name}Start`}
             type={type}
-            onChange={(event) =>
-              this.handleStartChanged(event.target.value)
-            }
+            onChange={(event) => this.handleStartChanged(event.target.value)}
             onBlur={() => form.setFieldTouched(name)}
             value={this.startValue()}
             size={size || undefined}
@@ -129,9 +116,7 @@ class InputRangeFormItemNotFast extends Component {
             style={{ width: '100%' }}
             id={`${name}End`}
             type={type}
-            onChange={(event) =>
-              this.handleEndChanged(event.target.value)
-            }
+            onChange={(event) => this.handleEndChanged(event.target.value)}
             onBlur={() => form.setFieldTouched(name)}
             value={this.endValue()}
             size={size || undefined}
@@ -176,10 +161,7 @@ class InputRangeFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <InputRangeFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <InputRangeFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

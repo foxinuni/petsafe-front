@@ -39,7 +39,6 @@ class ProfileFormPage extends Component {
 
   renderForm() {
     const { saveLoading } = this.props;
-    console.log('render desde ProfileForm');
     return (
       <FormWrapper>
         <Formik

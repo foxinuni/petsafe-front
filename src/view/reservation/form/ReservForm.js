@@ -72,7 +72,6 @@ class ReservForm extends Component {
 
   renderForm() {
     const { saveLoading } = this.props;
-    console.log('render desde bookingform');
     return (
       <FormWrapper>
         <Formik

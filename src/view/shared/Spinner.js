@@ -3,7 +3,6 @@ import { Spin } from 'antd';
 
 class Spinner extends Component {
   render() {
-    console.log('render desde Spinner');
     return (
       <div
         style={{

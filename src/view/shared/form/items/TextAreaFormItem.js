@@ -25,24 +25,13 @@ class TextAreaFormItemNotFast extends Component {
       required,
       rows,
     } = this.props;
-    console.log('render desde TextAreaFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
         required={required}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <Input.TextArea
@@ -95,10 +84,7 @@ class TextAreaFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <TextAreaFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <TextAreaFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

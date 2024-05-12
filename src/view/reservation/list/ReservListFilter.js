@@ -21,11 +21,8 @@ class ReservListFilter extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
     if (this.props.pemissionUsers && this.props.permissionViewPets) {
-      console.log('si entro al if');
       dispatch(reservActions.getOwners(this.props.token));
     }
-    console.log('antes de buscar estados');
-    console.log(this.props.owners);
     dispatch(reservActions.getStates(this.props.token));
   }
   componentDidMount() {
@@ -57,7 +54,6 @@ class ReservListFilter extends Component {
   render() {
     if (this.props.states) {
       const { loading } = this.props;
-      console.log('render desde bookingListFilter');
       return (
         <FilterWrapper
           style={{

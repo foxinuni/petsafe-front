@@ -20,7 +20,6 @@ export default class ReservService {
   }
 
   static async getAll(filter, orderBy, limit = 10, offset = 1, token) {
-    console.log(`el token enviado es ${token}`);
     let query = '';
     for (const key in filter) {
       if (!filter[key].since) {

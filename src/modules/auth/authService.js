@@ -29,7 +29,6 @@ export default class AuthService {
   }
 
   static async edit(id, user, token) {
-    console.log(user);
     await axios.patch(
       `${backend}/users/${id}`,
       { roleId: user.roleId },
@@ -75,7 +74,6 @@ export default class AuthService {
   static signout() {}
 
   static async updateProfile(name, surname, number, token) {
-    console.log(`number es ${number} y name es ${name}`);
     const response = await axios.patch(
       `${backend}/profiles/me`,
       {

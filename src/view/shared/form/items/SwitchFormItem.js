@@ -18,30 +18,17 @@ class SwitchFormItemNotFast extends Component {
       inputProps,
       errorMessage,
     } = this.props;
-    console.log('render desde SwitchFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <Switch
           id={name}
-          onChange={(checked) =>
-            form.setFieldValue(name, checked)
-          }
+          onChange={(checked) => form.setFieldValue(name, checked)}
           onBlur={form.handleBlur}
           checked={!!form.values[name]}
           size={size || undefined}
@@ -75,10 +62,7 @@ class SwitchFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <SwitchFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <SwitchFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

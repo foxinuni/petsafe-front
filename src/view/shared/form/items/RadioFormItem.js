@@ -20,31 +20,18 @@ class RadioFormItemNotFast extends Component {
       errorMessage,
       required,
     } = this.props;
-    console.log('render desde RadioFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
         required={required}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <RadioGroup
           id={name}
-          onChange={(e) =>
-            form.setFieldValue(name, e.target.value)
-          }
+          onChange={(e) => form.setFieldValue(name, e.target.value)}
           options={options}
           onBlur={() => form.setFieldTouched(name)}
           value={form.values[name]}
@@ -79,10 +66,7 @@ class RadioFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <RadioFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <RadioFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

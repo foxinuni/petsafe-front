@@ -16,7 +16,6 @@ class PetFormPage extends Component {
   };
 
   render() {
-    console.log('render desde PetFormPage');
     return (
       <React.Fragment>
         <Breadcrumb

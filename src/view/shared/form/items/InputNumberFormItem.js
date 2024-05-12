@@ -23,32 +23,19 @@ class InputNumberFormItemNotFast extends Component {
       errorMessage,
       required,
     } = this.props;
-    console.log('render desde InputNUmberFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
         required={required}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <InputNumber
           style={{ width: '100%' }}
           id={name}
-          onChange={(value) =>
-            form.setFieldValue(name, value)
-          }
+          onChange={(value) => form.setFieldValue(name, value)}
           onBlur={form.handleBlur}
           value={form.values[name]}
           size={size || undefined}
@@ -90,10 +77,7 @@ class InputNumberFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <InputNumberFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <InputNumberFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

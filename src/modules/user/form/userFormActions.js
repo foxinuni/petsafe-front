@@ -66,8 +66,6 @@ const actions = {
         type: actions.ADD_STARTED,
       });
       const userId = await service.createUser(values);
-      console.log('a ver que retorno el user');
-      console.log(userId);
       await service.createProfile(userId, values, token);
       dispatch({
         type: actions.ADD_SUCCESS,

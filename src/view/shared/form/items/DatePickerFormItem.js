@@ -19,7 +19,6 @@ class DatePickerFormItemNotFast extends Component {
       inputProps,
       required,
     } = this.props;
-    console.log('render desde DatePickerFormItem');
     return (
       <Form.Item
         {...layout}

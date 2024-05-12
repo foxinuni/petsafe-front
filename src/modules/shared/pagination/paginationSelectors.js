@@ -5,7 +5,6 @@ export default (rawPath, unlimited) => {
   const selectRaw = (state) => _get(state, rawPath);
 
   const selectLoading = createSelector([selectRaw], (raw) => {
-    console.log(rawPath);
     return raw.loading;
   });
 

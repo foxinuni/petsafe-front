@@ -84,7 +84,6 @@ class ReservListTable extends Component {
   ];
 
   render() {
-    console.log('render desde BookingListTable');
     const { pagination, rows, loading } = this.props;
 
     return (

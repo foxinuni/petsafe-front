@@ -38,7 +38,6 @@ class RoutesComponent extends Component {
     if (this.props.loading) {
       return <div />;
     }
-    console.log('render desde RoutesComponent');
     return (
       <MySwitch>
         {routes.publicRoutes.map((route) => (

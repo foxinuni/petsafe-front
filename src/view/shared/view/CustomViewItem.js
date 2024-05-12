@@ -9,8 +9,7 @@ class CustomViewItem extends Component {
       (!this.props.value &&
         this.props.value !== 0 &&
         this.props.value !== false) ||
-      (Array.isArray(this.props.value) &&
-        !this.props.value.length)
+      (Array.isArray(this.props.value) && !this.props.value.length)
     );
   }
 
@@ -18,12 +17,8 @@ class CustomViewItem extends Component {
     if (this.isBlank()) {
       return null;
     }
-    console.log('render desde CustomViewItem');
     return (
-      <Form.Item
-        {...viewItemLayout}
-        label={this.props.label}
-      >
+      <Form.Item {...viewItemLayout} label={this.props.label}>
         {this.props.render(this.props.value)}
       </Form.Item>
     );

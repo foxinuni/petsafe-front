@@ -7,12 +7,9 @@ import ProfileForm from 'view/auth/ProfileForm';
 
 class ProfileFormPage extends Component {
   render() {
-    console.log('render desde ProfileFormPage');
     return (
       <React.Fragment>
-        <Breadcrumb
-          items={[['Princiapl', '/'], ['Usuarios']]}
-        />
+        <Breadcrumb items={[['Princiapl', '/'], ['Usuarios']]} />
 
         <ContentWrapper>
           <PageTitle>{'Usuarios'}</PageTitle>

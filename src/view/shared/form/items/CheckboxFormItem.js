@@ -18,23 +18,12 @@ class CheckboxFormItemNotFast extends Component {
       inputProps,
       errorMessage,
     } = this.props;
-    console.log('render desde CheckBoxFormItem');
     return (
       <Form.Item
         {...layout}
         label={label}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
-        help={
-          FormErrors.displayableError(
-            form,
-            name,
-            errorMessage,
-          ) || hint
-        }
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
+        help={FormErrors.displayableError(form, name, errorMessage) || hint}
         {...formItemProps}
       >
         <Checkbox
@@ -73,10 +62,7 @@ class CheckboxFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <CheckboxFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <CheckboxFormItemNotFast {...this.props} form={form} />
         )}
       />
     );

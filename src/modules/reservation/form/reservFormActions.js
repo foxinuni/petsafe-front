@@ -33,7 +33,6 @@ const actions = {
   getStates: (token) => async (dispatch) => {
     try {
       const states = await service.getStates(token);
-      console.log(states);
       dispatch({
         type: actions.STATES_FETCH_SUCCESS,
         payload: { states },

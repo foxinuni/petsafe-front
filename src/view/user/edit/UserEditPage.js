@@ -7,7 +7,6 @@ import UserEditForm from 'view/user/edit/UserEditForm';
 
 class UserEditPage extends Component {
   render() {
-    console.log('render desde EditPage');
     return (
       <React.Fragment>
         <Breadcrumb

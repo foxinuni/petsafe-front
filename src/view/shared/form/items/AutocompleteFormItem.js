@@ -39,9 +39,7 @@ class AutocompleteFormItemNotFast extends Component {
     const { form, name, mapper } = this.props;
 
     if (form.values[name]) {
-      return form.values[name].map((value) =>
-        mapper.toAutocomplete(value),
-      );
+      return form.values[name].map((value) => mapper.toAutocomplete(value));
     }
 
     return [];
@@ -107,12 +105,12 @@ class AutocompleteFormItemNotFast extends Component {
       await this.handleSearchServer();
     }
 
-    const clientSideDataSource =
-      this.state.serverSideDataSource.filter((item) =>
+    const clientSideDataSource = this.state.serverSideDataSource.filter(
+      (item) =>
         String(item.label || '')
           .toLowerCase()
           .includes(String(value || '').toLowerCase()),
-      );
+    );
 
     this.setState({
       loading: false,
@@ -151,7 +149,6 @@ class AutocompleteFormItemNotFast extends Component {
 
   render() {
     const { loading } = this.state;
-    console.log('render desde AutoCompleteFormItem');
     const {
       form,
       label,
@@ -179,19 +176,11 @@ class AutocompleteFormItemNotFast extends Component {
         {...layout}
         label={label}
         required={required}
-        validateStatus={FormErrors.validateStatus(
-          form,
-          name,
-          errorMessage,
-        )}
+        validateStatus={FormErrors.validateStatus(form, name, errorMessage)}
         help={
           loading
             ? 'Cargando...'
-            : FormErrors.displayableError(
-                form,
-                name,
-                errorMessage,
-              ) || hint
+            : FormErrors.displayableError(form, name, errorMessage) || hint
         }
         {...formItemProps}
       >
@@ -210,9 +199,7 @@ class AutocompleteFormItemNotFast extends Component {
           size={size || undefined}
           autoFocus={autoFocus || false}
           dataSource={this.dataSource()}
-          defaultActiveFirstOption={
-            defaultActiveFirstOption
-          }
+          defaultActiveFirstOption={defaultActiveFirstOption}
           allowClear={allowClear}
           {...inputProps}
         >
@@ -261,10 +248,7 @@ class AutocompleteFormItem extends Component {
       <FastField
         name={this.props.name}
         render={({ form }) => (
-          <AutocompleteFormItemNotFast
-            {...this.props}
-            form={form}
-          />
+          <AutocompleteFormItemNotFast {...this.props} form={form} />
         )}
       />
     );
