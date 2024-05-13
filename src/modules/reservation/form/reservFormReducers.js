@@ -1,16 +1,53 @@
 import actions from 'modules/reservation/form/reservFormActions';
 
 const initialData = {
-  findLoading: false,
   saveLoading: false,
   owners: null,
   pets: null,
   reservation: null,
   states: null,
   owner: null,
+  pet: null,
+  fee: 0,
 };
 
 export default (state = initialData, { type, payload }) => {
+  if (type === actions.CREATE_ERROR) {
+    return {
+      ...initialData,
+    };
+  }
+  if (type === actions.FEE_CHANGED) {
+    return {
+      ...state,
+      fee: payload,
+    };
+  }
+  if (type === actions.RESET_FEE) {
+    return {
+      ...state,
+      fee: 0,
+    };
+  }
+  if (type === actions.RESET) {
+    return {
+      ...initialData,
+    };
+  }
+  if (type === actions.PET_FIND_ERROR) {
+    return {
+      ...state,
+      pet: null,
+      owner: null,
+    };
+  }
+  if (type === actions.PET_FIND_SUCCESS) {
+    return {
+      ...state,
+      pet: payload.pet,
+      owner: payload.owner,
+    };
+  }
   if (type === actions.RESET) {
     return {
       ...initialData,

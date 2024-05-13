@@ -30,7 +30,13 @@ class PetListFilter extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(
-      actions.doFetch({ me: !this.props.permissionView }, this.props.token),
+      actions.doFetch(
+        { me: !this.props.permissionView },
+        this.props.token,
+        true,
+        null,
+        this.props.currentUser,
+      ),
     );
   }
 

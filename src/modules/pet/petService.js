@@ -114,7 +114,6 @@ export default class PetService {
       await axios.post(
         `${backend}/pets/me`,
         {
-          user_id: values.owner,
           breed_id: values.breed,
           name: values.name,
           age: values.age,
@@ -143,7 +142,14 @@ export default class PetService {
     }
   }
 
-  static async fetchPets(filter, orderBy, limit = 10, offset = 1, token) {
+  static async fetchPets(
+    filter,
+    orderBy,
+    limit = 10,
+    offset = 1,
+    token,
+    currentUser,
+  ) {
     let query = '';
     for (const key in filter) {
       if (!filter[key]?.since && filter[key] && key != 'me') {
@@ -168,15 +174,30 @@ export default class PetService {
       },
     });
     const returning = { rows: [] };
+    let permissUsers = true;
     for (const pet of response.data) {
-      const owner = await userService.findProfile(pet.user_id, token);
+      let owner = null;
+      if (filter.me) {
+        owner = {
+          id: currentUser.id,
+          label: `${currentUser.name} ${currentUser.surname}`,
+        };
+      } else if (permissUsers) {
+        try {
+          owner = await userService.findProfile(pet.user_id, token);
+        } catch (error) {
+          permissUsers = false;
+        }
+      }
       const breed = await PetService.findBreed(pet.breed_id, token);
       returning.rows.push({
         id: pet.id,
-        owner: {
-          id: owner.id,
-          label: `${owner.name} ${owner.surname}`,
-        },
+        owner: owner
+          ? {
+              id: owner.id,
+              label: `${owner.name} ${owner.surname}`,
+            }
+          : null,
         name: pet.name,
         breed: breed.name,
         age: pet.age,

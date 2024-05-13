@@ -2,6 +2,7 @@ import { Button, Form } from 'antd';
 import { Formik } from 'formik';
 import actions from 'modules/reservation/form/reservFormActions';
 import selectors from 'modules/reservation/form/reservFormSelectors';
+import authSelector from 'authorization/authorizationSelector';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ViewFormItem from 'view/shared/form/items/ViewFormItem';
@@ -11,8 +12,9 @@ import FormWrapper, {
 } from 'view/shared/styles/FormWrapper';
 import TextAreaFormItem from 'view/shared/form/items/TextAreaFormItem';
 import SelectFormItem from 'view/shared/form/items/SelectFormItem';
-import DatePickerFormItem from 'view/shared/form/items/DatePickerFormItem';
+import DatePickerRangeFormItem from 'view/shared/form/items/DatePickerRangeFormItem';
 import moment from 'moment';
+import ViewFeeItem from 'view/shared/form/items/ViewFeeItem';
 import * as Yup from 'yup';
 
 class ReservForm extends Component {
@@ -24,25 +26,32 @@ class ReservForm extends Component {
     if (this.isEditing()) {
       dispatch(actions.doFind(match.params.id));
     } else {
-      //if not editing then also seek for the selected pet with the params.id, and through it also the owner
       dispatch(actions.doNew());
+      dispatch(
+        actions.seekPet(
+          this.props.token,
+          match.params.id,
+          this.props.permissionUsers,
+        ),
+      );
     }
   }
 
   isEditing = () => {
     const { match } = this.props;
-    if (match.path === '/reservation/:id/new') return false;
-    return true;
+    return !String(match.path).includes('new');
   };
 
   handleSubmit = (values) => {
     const { dispatch } = this.props;
-    const { id, ...data } = this.schema.cast(values);
 
     if (this.isEditing()) {
-      dispatch(actions.doUpdate(id, data));
+      dispatch(actions.doUpdate());
     } else {
-      dispatch(actions.doCreate(data));
+      console.log(values);
+      dispatch(
+        actions.doCreate(values, this.props.match.params.id, this.props.token),
+      );
     }
   };
 
@@ -60,106 +69,113 @@ class ReservForm extends Component {
         fee: reservation.fee,
       };
     }
-
     return {
-      //owner: //include owner selected
-      // pet : //include pet selected,
+      owner: this.props.permissionUsers
+        ? `${this.props.owner.name} ${this.props.owner.surname}`
+        : '',
+      pet: this.props.pet.name,
       clientNotes: '',
       employeeNotes: '',
       fee: '',
     };
   };
 
-  renderForm() {
-    const { saveLoading } = this.props;
-    return (
-      <FormWrapper>
-        <Formik
-          initialValues={this.initialValues()}
-          validationSchema={this.schema}
-          onSubmit={this.handleSubmit}
-          render={(form) => {
-            return (
-              <Form onFinish={form.handleSubmit}>
-                <ViewFormItem name={'owner'} label={'Dueño'} />
-                <ViewFormItem name={'pet'} label={'Mascota'} />
-                <DatePickerFormItem
-                  name={'arrival'}
-                  label={'Llegada'}
-                  required={true}
-                />
-                <DatePickerFormItem
-                  name={'departure'}
-                  label={'Salida'}
-                  required={true}
-                />
-                <TextAreaFormItem
-                  name={'clientNotes'}
-                  label={'Anotaciones del cliente'}
-                  required={false}
-                />
-                <TextAreaFormItem
-                  name={'employeeNotes'}
-                  label={'Notas de estadia: '}
-                  required={false}
-                />
-                {this.isEditing() && (
-                  <SelectFormItem
-                    name={'states'}
-                    label={'Estado'}
-                    options={this.props.states.map((state) => ({
-                      id: state.id,
-                      value: state.id,
-                      label: state.name,
-                      tittle: state.name,
-                    }))}
-                    required={true}
-                  />
-                )}
-                <ViewFormItem name={'fee'} label={'Tarifa'} />
-
-                <Form.Item className="form-buttons" {...tailFormItemLayout}>
-                  <Button
-                    loading={saveLoading}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    {'Guardar'}
-                  </Button>
-
-                  <Button disabled={saveLoading} onClick={form.handleReset}>
-                    {'Resetear'}
-                  </Button>
-                </Form.Item>
-              </Form>
-            );
-          }}
-        />
-      </FormWrapper>
-    );
-  }
+  handleFee = (dates) => {
+    const { dispatch } = this.props;
+    dispatch(actions.resetFee());
+    if (dates && dates[0] && dates[1]) dispatch(actions.newFee(dates));
+  };
 
   render() {
-    const { findLoading, record } = this.props;
+    if ((this.props.owner || !this.props.permissionUsers) && this.props.pet) {
+      const { saveLoading } = this.props;
+      return (
+        <FormWrapper>
+          <Formik
+            initialValues={this.initialValues()}
+            validationSchema={this.schema}
+            onSubmit={this.handleSubmit}
+            render={(form) => {
+              return (
+                <Form onFinish={form.handleSubmit}>
+                  {this.props.permissionUsers && (
+                    <ViewFormItem name={'owner'} label={'Dueño'} />
+                  )}
+                  <ViewFormItem name={'pet'} label={'Mascota'} />
+                  <DatePickerRangeFormItem
+                    name={'dates'}
+                    label={'Entrada y salida'}
+                    required={true}
+                    onChange={this.handleFee}
+                  />
+                  <TextAreaFormItem
+                    name={'clientNotes'}
+                    label={'Anotaciones del cliente'}
+                    required={false}
+                  />
+                  {this.isEditing() && (
+                    <TextAreaFormItem
+                      name={'employeeNotes'}
+                      label={'Notas de estadia: '}
+                      required={false}
+                    />
+                  )}
+                  {this.isEditing() && (
+                    <SelectFormItem
+                      name={'states'}
+                      label={'Estado'}
+                      options={this.props.states.map((state) => ({
+                        id: state.id,
+                        value: state.id,
+                        label: state.name,
+                        tittle: state.name,
+                      }))}
+                      required={true}
+                    />
+                  )}
+                  {this.props.fee && this.props.fee != 0 && (
+                    <ViewFeeItem
+                      name={'fee'}
+                      label={'Tarifa'}
+                      value={this.props.fee}
+                    />
+                  )}
 
-    if (findLoading) {
+                  <Form.Item className="form-buttons" {...tailFormItemLayout}>
+                    <Button
+                      loading={saveLoading}
+                      type="primary"
+                      htmlType="submit"
+                    >
+                      {'Guardar'}
+                    </Button>
+
+                    <Button disabled={saveLoading} onClick={form.handleReset}>
+                      {'Resetear'}
+                    </Button>
+                  </Form.Item>
+                </Form>
+              );
+            }}
+          />
+        </FormWrapper>
+      );
+    } else {
       return <Spinner />;
     }
-
-    if (this.isEditing() && !record) {
-      return <Spinner />;
-    }
-
-    return this.renderForm();
   }
 }
 
 function select(state) {
   return {
-    findLoading: selectors.selectFindLoading(state),
     saveLoading: selectors.selectSaveLoading(state),
     reservation: selectors.selectReservation(state),
+    owner: selectors.selectOnwer(state),
+    pet: selectors.selectPet(state),
+    token: authSelector.selectToken(state),
     states: selectors.selectStates(state),
+    fee: selectors.selectFee(state),
+    permissionUsers: authSelector.selectPermViewProfiles(state),
   };
 }
 

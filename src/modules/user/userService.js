@@ -61,7 +61,7 @@ export default class UserService {
     return response.data;
   }
 
-  static async fetchUsers(filter, orderBy, limit = 10, offset = 1, token) {
+  static async fetchUsers(filter, orderBy, limit = 10, offset = 1, token, _) {
     let query = '';
     for (const key in filter) {
       if (!filter[key]?.since && filter[key] && key != 'me') {

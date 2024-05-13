@@ -33,6 +33,7 @@ class PetForm extends Component {
     const { dispatch, match, token } = this.props;
 
     if (this.isEditing()) {
+      dispatch(actions.doNew());
       dispatch(
         actions.doFind(
           match.params.id,
@@ -57,10 +58,6 @@ class PetForm extends Component {
       values.me = true;
       values.owner = this.props.currentUser.id;
     }
-    if (!values.state) {
-      values.state = '7e68b58b-9a70-49b9-be76-4062cf9ed39d';
-    }
-
     if (this.isEditing()) {
       dispatch(actions.doUpdate(values, this.props.pet, this.props.token));
     } else {
@@ -104,11 +101,12 @@ class PetForm extends Component {
     };
   };
 
-  renderForm() {
+  render() {
     if (
       ((this.props.permissionToManage && this.props.users) ||
         !this.props.permissionToManage) &&
-      this.props.types
+      this.props.types &&
+      this.props.pet
     ) {
       const { saveLoading } = this.props;
 
@@ -227,28 +225,13 @@ class PetForm extends Component {
         </FormWrapper>
       );
     } else {
-      return <div>Loading...</div>;
-    }
-  }
-
-  render() {
-    const { findLoading, pet } = this.props;
-
-    if (findLoading) {
       return <Spinner />;
     }
-
-    if (this.isEditing() && !pet) {
-      return <Spinner />;
-    }
-
-    return this.renderForm();
   }
 }
 
 function select(state) {
   return {
-    findLoading: selectors.selectFindLoading(state),
     saveLoading: selectors.selectSaveLoading(state),
     pet: selectors.selectPet(state),
     token: authSelector.selectToken(state),

@@ -9,3 +9,7 @@ export function dateToString(date) {
 export function momentToUnix(moment) {
   return moment.format('YYYY-MM-DD HH:mm:ss');
 }
+
+export function momentUnix(moment) {
+  return moment.unix();
+}

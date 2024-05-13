@@ -30,7 +30,7 @@ export default (prefix, fetchFn, selectors) => {
       },
 
     doFetch:
-      (filter, token, keepPagination = false, orderBy) =>
+      (filter, token, keepPagination = false, orderBy, currentUser) =>
       async (dispatch, getState) => {
         for (const key in filter) {
           if (filter[key] instanceof Array) {
@@ -52,6 +52,7 @@ export default (prefix, fetchFn, selectors) => {
             selectors.selectLimit(getState()),
             selectors.selectOffset(getState()),
             token,
+            currentUser,
           );
           dispatch({
             type: actions.FETCH_SUCCESS,

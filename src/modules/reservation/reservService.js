@@ -2,6 +2,24 @@ import axios from 'axios';
 import { backend } from 'config/development';
 
 export default class ReservService {
+  static async create(values, petId, token) {
+    await axios.post(
+      `${backend}/reservations`,
+      {
+        pet_id: petId,
+        //I ADD STATE LATER
+        description: values.clientNotes,
+        start_date: values.startDate,
+        end_date: values.endDate,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  }
+
   static async getStates(token) {
     return new Promise((resolve) => {
       setTimeout(() => {

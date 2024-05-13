@@ -122,6 +122,7 @@ function select(state) {
     pagination: selectors.selectPagination(state),
     filter: selectors.selectFilter(state),
     permissionToEditUsers: authSelectors.selectPermManageProfiles(state),
+    permissionSeeUsers: authSelectors.selectPermViewProfiles(state),
     permissionToEdit: authSelectors.selectPermManagePets(state),
     permissionToReservSelf: authSelectors.selectPermSelfReserv(state),
     permissionToReservManage: authSelectors.selectPermManageReserv(state),

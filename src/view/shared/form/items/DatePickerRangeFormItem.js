@@ -18,6 +18,7 @@ class DatePickerRangeFormItemNotFast extends Component {
       formItemProps,
       inputProps,
       required,
+      onChange,
     } = this.props;
     return (
       <Form.Item
@@ -30,7 +31,10 @@ class DatePickerRangeFormItemNotFast extends Component {
       >
         <DatePicker.RangePicker
           id={name}
-          onChange={(value) => form.setFieldValue(name, value)}
+          onChange={(value) => {
+            form.setFieldValue(name, value);
+            if (onChange) onChange(value);
+          }}
           value={form.values[name]}
           autoFocus={autoFocus || false}
           style={{ width: '100%' }}

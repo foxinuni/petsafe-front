@@ -2,19 +2,31 @@ import { createSelector } from 'reselect';
 
 const selectRaw = (state) => state.reserv.form;
 
-const selectOwnerPets = createSelector([selectRaw], (raw) => raw.pets);
+const selectSaveLoading = createSelector(
+  [selectRaw],
+  (raw) => !!raw.saveLoading,
+);
+
+const selectReservation = createSelector(
+  [selectRaw],
+  (raw) => !!raw.reservation,
+);
 
 const selectStates = createSelector([selectRaw], (raw) => raw.states);
 
-const selectUsers = createSelector([selectRaw], (raw) => raw.owners);
-
 const selectOnwer = createSelector([selectRaw], (raw) => raw.owner);
 
+const selectPet = createSelector([selectRaw], (raw) => raw.pet);
+
+const selectFee = createSelector([selectRaw], (raw) => raw.fee);
+
 const selectors = {
-  selectOwnerPets,
+  selectSaveLoading,
+  selectReservation,
+  selectPet,
   selectStates,
   selectOnwer,
-  selectUsers,
+  selectFee,
 };
 
 export default selectors;
