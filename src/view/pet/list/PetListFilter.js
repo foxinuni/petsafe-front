@@ -43,11 +43,15 @@ class PetListFilter extends Component {
   handleReset = (form) => {
     form.setValues({});
     const { dispatch } = this.props;
-    dispatch(actions.doReset());
+    dispatch(actions.doReset(this.props.token, !this.props.permissionView));
   };
 
   render() {
-    if (this.props.types) {
+    if (
+      ((this.props.pemissionUsers && this.props.users) ||
+        !this.props.pemissionUsers) &&
+      this.props.types
+    ) {
       const { loading } = this.props;
       return (
         <FilterWrapper
@@ -82,7 +86,7 @@ class PetListFilter extends Component {
                     {this.props.permissionView && this.props.pemissionUsers && (
                       <Col md={24} lg={12}>
                         <SelectFormItem
-                          name={'owner'}
+                          name={'userId'}
                           label={'Dueño'}
                           layout={formItemLayout}
                           options={this.props.users.rows.map((user) => ({
@@ -94,27 +98,6 @@ class PetListFilter extends Component {
                         />
                       </Col>
                     )}
-                    <Col md={24} lg={12}>
-                      <SelectFormItem
-                        name={'state'}
-                        label={'Estado'}
-                        layout={formItemLayout}
-                        options={[
-                          {
-                            id: '7e68b58b-9a70-49b9-be76-4062cf9ed39d',
-                            label: 'Vivo',
-                            value: '7e68b58b-9a70-49b9-be76-4062cf9ed39d',
-                            title: 'Vivo',
-                          },
-                          {
-                            id: 'fa6e2e74-c0a7-496c-a1ae-05f80b72818d	',
-                            label: 'Muerto',
-                            value: 'fa6e2e74-c0a7-496c-a1ae-05f80b72818d	',
-                            title: 'Muerto',
-                          },
-                        ]}
-                      />
-                    </Col>
                     <Col md={24} lg={12}>
                       <InputFormItem
                         name={'age'}

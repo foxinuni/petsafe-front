@@ -95,8 +95,8 @@ const actions = {
           type: actions.FIND_STARTED,
         });
         const pet = await service.findPet(id, token);
-        const breed = await service.findBreed(pet.breedId, token);
-        const type = await service.findType(breed.typeId, token);
+        const breed = await service.findBreed(pet.breed_id, token);
+        const type = await service.findType(breed.type_id, token);
         //pending, when reservations are well
         if (seeReservs) {
           const reservations = await reservService.getAll(

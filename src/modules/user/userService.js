@@ -2,7 +2,6 @@ import axios from 'axios';
 import { backend } from 'config/development';
 import roleService from 'modules/rol/rolService';
 import authService from 'modules/auth/authService';
-import { forEach } from 'lodash';
 
 export default class UserService {
   static async edit(id, data, token) {
@@ -65,18 +64,18 @@ export default class UserService {
   static async fetchUsers(filter, orderBy, limit = 10, offset = 1, token) {
     let query = '';
     for (const key in filter) {
-      if (!filter[key].since && filter[key]) {
+      if (!filter[key]?.since && filter[key] && key != 'me') {
         query += `${key}=${filter[key]}&`;
       } else {
-        query += `createdSince=${filter[key].since}&`;
-        query += `createdTo=${filter[key].to}&`;
+        if (filter[key]?.since) query += `createdSince=${filter[key].since}&`;
+        if (filter[key]?.to) query += `createdTo=${filter[key].to}&`;
       }
     }
     if (orderBy?.field && orderBy?.order) {
       query += `orderBy=${orderBy.field}&orderType=${orderBy.order}&`;
     }
     query = query.slice(0, -1);
-    query += `&limit=${limit}&page=${offset}`;
+    query += `limit=${limit}&page=${offset}`;
     console.log(query);
     const response = await axios.get(`${backend}/profiles?${query}`, {
       headers: {

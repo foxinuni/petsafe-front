@@ -147,14 +147,14 @@ export default class PetService {
   static async fetchPets(filter, orderBy, limit = 10, offset = 1, token) {
     let query = '';
     for (const key in filter) {
-      if (!filter[key].since) {
+      if (!filter[key]?.since && filter[key] && key != 'me') {
         query += `${key}=${filter[key]}&`;
       } else {
-        query += `createdSince=${filter[key].since}&`;
-        query += `createdTo=${filter[key].to}&`;
+        if (filter[key]?.since) query += `createdSince=${filter[key].since}&`;
+        if (filter[key]?.to) query += `createdTo=${filter[key].to}&`;
       }
     }
-    if (orderBy) {
+    if (orderBy?.field && orderBy?.order) {
       query += `orderBy=${orderBy.field}&orderType=${orderBy.order}&`;
     }
     query = query.slice(0, -1);

@@ -35,7 +35,7 @@ class UserUsersFilter extends Component {
   handleReset = (form) => {
     form.setValues({});
     const { dispatch } = this.props;
-    dispatch(actions.doReset());
+    dispatch(actions.doReset(this.props.token));
   };
 
   render() {

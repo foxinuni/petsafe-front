@@ -70,15 +70,6 @@ class PetListTable extends Component {
       render: undefined,
     },
     {
-      title: 'Estado',
-      dataIndex: 'state',
-      sorter: false,
-      render: (state) => {
-        const color = state === 'Dead' ? 'red' : 'green';
-        return <Tag color={color}>{state === 'Dead' ? 'Muerto' : 'Vivo'}</Tag>;
-      },
-    },
-    {
       title: 'Creado',
       dataIndex: 'createdAt',
       sorter: true,
