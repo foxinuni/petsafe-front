@@ -1,5 +1,5 @@
 # Use the official Node 16 image as the base image
-FROM node:16
+FROM node:16.20.2-alpine3.18
 
 # COMMIT SHA args
 ARG COMMIT_SHA
@@ -16,9 +16,6 @@ RUN npm install --force
 
 # Copy the entire project to the working directory
 COPY . .
-
-# Build the React app
-RUN npm run build
 
 # Expose port 3000 for the React app
 EXPOSE 3000
