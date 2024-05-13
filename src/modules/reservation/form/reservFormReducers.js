@@ -87,5 +87,13 @@ export default (state = initialData, { type, payload }) => {
       owner: null,
     };
   }
+
+  if (type === actions.FIND_SUCCESS) {
+    return {
+      ...state,
+      reservation: payload,
+      fee: payload.fee,
+    };
+  }
   return state;
 };

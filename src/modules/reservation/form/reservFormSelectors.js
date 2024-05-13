@@ -7,10 +7,7 @@ const selectSaveLoading = createSelector(
   (raw) => !!raw.saveLoading,
 );
 
-const selectReservation = createSelector(
-  [selectRaw],
-  (raw) => !!raw.reservation,
-);
+const selectReservation = createSelector([selectRaw], (raw) => raw.reservation);
 
 const selectStates = createSelector([selectRaw], (raw) => raw.states);
 

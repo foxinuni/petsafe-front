@@ -24,13 +24,12 @@ class ReservListFilter extends Component {
     if (this.props.pemissionUsers && this.props.permissionViewPets) {
       dispatch(reservActions.getOwners(this.props.token));
     }
-    dispatch(reservActions.getStates(this.props.token));
   }
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(
       actions.doFetch(
-        { me: !this.props.permissionView },
+        { me: !this.props.permissionViewReserv },
         this.props.token,
         true,
         null,
@@ -47,11 +46,13 @@ class ReservListFilter extends Component {
   handleReset = (form) => {
     form.setValues({});
     const { dispatch } = this.props;
-    dispatch(actions.doReset());
+    dispatch(
+      actions.doReset(this.props.token, !this.props.permissionViewReserv),
+    );
   };
 
   render() {
-    if (this.props.states) {
+    if (this.props.owners || !this.props.pemissionUsers) {
       const { loading } = this.props;
       return (
         <FilterWrapper
@@ -69,36 +70,21 @@ class ReservListFilter extends Component {
               return (
                 <Form onFinish={form.handleSubmit} layout="vertical">
                   <Row gutter={24}>
-                    {this.props.permissionViewPets &&
-                      this.props.pemissionUsers && (
-                        <Col md={24} lg={12}>
-                          <SelectFormItem
-                            name={'owner'}
-                            label={'Dueño'}
-                            layout={formItemLayout}
-                            options={this.props.owners.map((user) => ({
-                              id: user.id,
-                              value: user.id,
-                              title: user.name,
-                              label: user.name,
-                            }))}
-                          />
-                        </Col>
-                      )}
-                    <Col md={24} lg={12}>
-                      <DatePickerRangeFormItem
-                        name={'arrival'}
-                        label={'Llegada'}
-                        layout={formItemLayout}
-                      />
-                    </Col>
-                    <Col md={24} lg={12}>
-                      <DatePickerRangeFormItem
-                        name={'departure'}
-                        label={'Salida'}
-                        layout={formItemLayout}
-                      />
-                    </Col>
+                    {this.props.pemissionUsers && (
+                      <Col md={24} lg={12}>
+                        <SelectFormItem
+                          name={'owner'}
+                          label={'Dueño'}
+                          layout={formItemLayout}
+                          options={this.props.owners.map((user) => ({
+                            id: user.id,
+                            value: user.id,
+                            title: user.name,
+                            label: user.name,
+                          }))}
+                        />
+                      </Col>
+                    )}
                   </Row>
                   <Row>
                     <Col className="filter-buttons" span={24}>
@@ -134,8 +120,8 @@ function select(state) {
     filter: selectors.selectFilter(state),
     pemissionUsers: authSelectors.selectPermViewProfiles(state),
     permissionViewPets: authSelectors.selectPermViewPets(state),
+    permissionViewReserv: authSelectors.selectPermViewReserv(state),
     token: authSelectors.selectToken(state),
-    states: reservSelectors.selectStates(state),
     owners: reservSelectors.selectUsers(state),
     currentUser: selectorAuth.selectCurrentUser(state),
   };

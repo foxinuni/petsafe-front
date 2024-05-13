@@ -50,15 +50,12 @@ class ReservListTable extends Component {
       render: (record) => <Text> {dateToString(record)}</Text>,
     },
     {
-      title: '',
+      title: 'Opciones',
       dataIndex: '',
       width: '160px',
       render: (_, record) => (
         <div className="table-actions">
           <Link to={`/reservation/${record.id}`}>{'Ver'}</Link>
-          {this.props.permissionToEdit && (
-            <Link to={`/booking/${record.id}/edit`}>{'Editar'}</Link>
-          )}
         </div>
       ),
     },

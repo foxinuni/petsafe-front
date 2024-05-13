@@ -2,7 +2,7 @@ import service from 'modules/reservation/reservService';
 import Error from 'modules/error/errors';
 import userService from 'modules/user/userService';
 import petService from 'modules/pet/petService';
-import { momentUnix, momentToUnix } from 'modules/shared/dates';
+import { momentUnix, momentToUnix, dateToString } from 'modules/shared/dates';
 import Message from 'view/shared/message';
 import { getHistory } from 'modules/store';
 
@@ -17,17 +17,12 @@ const actions = {
 
   CREATE_ERROR: `${prefix}_CREATE_ERROR`,
 
-  STATES_FETCH_SUCCESS: `${prefix}_STATES_FETCH_SUCCESS`,
-  STATES_FETCH_ERROR: `${prefix}_STATES_FETCH_ERROR`,
-
   OWNERS_FETCH_SUCCESS: `${prefix}_OWNERS_FETCH_SUCCESS`,
   OWNERS_FETCH_ERROR: `${prefix}_OWNERS_FETCH_ERROR`,
   OWNER_RESET: `${prefix}_OWNER_RESET`,
 
-  PETS_FETCH_SUCCESS: `${prefix}_PETS_FETCH_SUCCESS`,
-  PETS_FETCH_ERROR: `${prefix}_PETS_FETCH_ERROR`,
-  PETS_RESET: `${prefix}_PETS_RESET`,
-  PET_RESET: `${prefix}_PET_RESET`,
+  FIND_ERROR: `${prefix}_FIND_ERROR`,
+  FIND_SUCCESS: `${prefix}_FIND_SUCCESS`,
 
   doNew: () => {
     return {
@@ -123,6 +118,34 @@ const actions = {
     } catch (error) {
       Error.handle(error, dispatch, '/reservation');
       dispatch({ type: actions.CREATE_ERROR });
+    }
+  },
+
+  doFind: (id, token, pets) => async (dispatch) => {
+    try {
+      const reserv = await service.find(id, token);
+      let pet = null;
+      const fee =
+        (new Date(reserv.end_date).getTime() / 1000 -
+          new Date(reserv.start_date).getTime() / 1000) *
+        0.57;
+      if (pets) pet = await petService.findPet(reserv.pet_id, token);
+      dispatch({
+        type: actions.FIND_SUCCESS,
+        payload: {
+          owner: '',
+          pet: pet,
+          clientNotes: reserv.description,
+          fee: fee,
+          arrival: dateToString(reserv.start_date),
+          departure: dateToString(reserv.end_date),
+        },
+      });
+    } catch (error) {
+      Error.handle(error, dispatch, '/reservation');
+      dispatch({
+        type: actions.FIND_ERROR,
+      });
     }
   },
 };

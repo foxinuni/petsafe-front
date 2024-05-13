@@ -9,7 +9,6 @@ export default class ReservService {
       `${backend}/reservations`,
       {
         pet_id: petId,
-        //I ADD STATE LATER
         description: values.clientNotes,
         start_date: values.startDate,
         end_date: values.endDate,
@@ -21,7 +20,7 @@ export default class ReservService {
       },
     );
   }
-
+  //deprecated
   static async getStates(token) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -39,6 +38,15 @@ export default class ReservService {
     });
   }
 
+  static async find(id, token) {
+    const response = await axios.get(`${backend}/reservations/${id}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }
+
   static async getAll(
     filter,
     orderBy,
@@ -48,18 +56,13 @@ export default class ReservService {
     currentUser,
   ) {
     let query = '';
-    for (const key in filter) {
-      if (!filter[key]?.since && filter[key] && key != 'me') {
-        query += `${key}=${filter[key]}&`;
-      }
-    }
-    if (orderBy) {
-      query += `orderBy=${orderBy.field}&orderType=${orderBy.order}&`;
-    }
+    if (filter.owner) query += `userId=${filter.owner}&`;
     query = query.slice(0, -1);
     query += `&limit=${limit}&page=${offset}`;
-    console.log(query);
-    const response = await axios.get(`${backend}/reservations?${query}`, {
+    const path = filter.me
+      ? `${backend}/reservations/me?${query}`
+      : `${backend}/reservations?${query}`;
+    const response = await axios.get(path, {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -87,6 +90,7 @@ export default class ReservService {
         }
       }
       returning.rows.push({
+        id: reserv.id,
         creator: creator ? `${creator.name} ${creator.surname}` : '',
         pet: pet.name,
         arrival: reserv.start_date,

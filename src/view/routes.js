@@ -93,18 +93,8 @@ const privateRoutes = [
     exact: true,
   },
   {
-    path: '/reservation/:id/edit',
-    loader: () => import('view/reservation/form/ReservFormPage'),
-    menu: false,
-    permissionRequired: [
-      permissions.permReservationsSelf,
-      permissions.PermReservationsManage,
-    ],
-    exact: true,
-  },
-  {
     path: '/reservation/:id',
-    // loader: () => import(''),
+    loader: () => import('view/reservation/form/ReservFormPage'),
     menu: false,
     permissionRequired: [
       permissions.permReservationsSelf,

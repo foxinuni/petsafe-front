@@ -22,9 +22,17 @@ class ReservForm extends Component {
 
   componentDidMount() {
     const { dispatch, match } = this.props;
+    console.log(match);
+    console.log(match.params);
 
-    if (this.isEditing()) {
-      dispatch(actions.doFind(match.params.id));
+    if (!this.isNew()) {
+      dispatch(
+        actions.doFind(
+          match.params.id,
+          this.props.token,
+          this.props.permissionSeePets || this.props.permissionPetsSelf,
+        ),
+      );
     } else {
       dispatch(actions.doNew());
       dispatch(
@@ -37,18 +45,15 @@ class ReservForm extends Component {
     }
   }
 
-  isEditing = () => {
+  isNew = () => {
     const { match } = this.props;
-    return !String(match.path).includes('new');
+    return String(match.path).includes('new');
   };
 
   handleSubmit = (values) => {
     const { dispatch } = this.props;
 
-    if (this.isEditing()) {
-      dispatch(actions.doUpdate());
-    } else {
-      console.log(values);
+    if (this.isNew()) {
       dispatch(
         actions.doCreate(values, this.props.match.params.id, this.props.token),
       );
@@ -57,15 +62,15 @@ class ReservForm extends Component {
 
   initialValues = () => {
     const reservation = this.props.reservation;
+    console.log('reservation essss');
+    console.log(reservation);
 
-    if (this.isEditing() && reservation) {
+    if (!this.isNew() && reservation) {
       return {
         owner: reservation.owner,
-        pet: reservation.pet,
-        arrival: moment(reservation.arrival),
-        departure: moment(reservation.departure),
+        pet: reservation.pet.name,
+        dates: `De: ${reservation.arrival}    Hasta: ${reservation.departure}`,
         clientNotes: reservation.clientNotes,
-        employeeNotes: reservation.employeeNotes,
         fee: reservation.fee,
       };
     }
@@ -87,7 +92,10 @@ class ReservForm extends Component {
   };
 
   render() {
-    if ((this.props.owner || !this.props.permissionUsers) && this.props.pet) {
+    if (
+      ((this.props.owner || !this.props.permissionUsers) && this.props.pet) ||
+      this.props.reservation
+    ) {
       const { saveLoading } = this.props;
       return (
         <FormWrapper>
@@ -98,40 +106,30 @@ class ReservForm extends Component {
             render={(form) => {
               return (
                 <Form onFinish={form.handleSubmit}>
-                  {this.props.permissionUsers && (
+                  {this.props.permissionUsers && this.isNew() && (
                     <ViewFormItem name={'owner'} label={'Dueño'} />
                   )}
                   <ViewFormItem name={'pet'} label={'Mascota'} />
-                  <DatePickerRangeFormItem
-                    name={'dates'}
-                    label={'Entrada y salida'}
-                    required={true}
-                    onChange={this.handleFee}
-                  />
-                  <TextAreaFormItem
-                    name={'clientNotes'}
-                    label={'Anotaciones del cliente'}
-                    required={false}
-                  />
-                  {this.isEditing() && (
+                  {this.isNew() && (
+                    <DatePickerRangeFormItem
+                      name={'dates'}
+                      label={'Entrada y salida'}
+                      required={true}
+                      onChange={this.handleFee}
+                    />
+                  )}
+                  {!this.isNew() && (
+                    <ViewFormItem name={'dates'} label={'Entrada y salida'} />
+                  )}
+                  {this.isNew() && (
                     <TextAreaFormItem
-                      name={'employeeNotes'}
-                      label={'Notas de estadia: '}
+                      name={'clientNotes'}
+                      label={'Anotaciones'}
                       required={false}
                     />
                   )}
-                  {this.isEditing() && (
-                    <SelectFormItem
-                      name={'states'}
-                      label={'Estado'}
-                      options={this.props.states.map((state) => ({
-                        id: state.id,
-                        value: state.id,
-                        label: state.name,
-                        tittle: state.name,
-                      }))}
-                      required={true}
-                    />
+                  {!this.isNew() && (
+                    <ViewFormItem name={'clientNotes'} label={'Anotaciones'} />
                   )}
                   {this.props.fee && this.props.fee != 0 && (
                     <ViewFeeItem
@@ -140,20 +138,21 @@ class ReservForm extends Component {
                       value={this.props.fee}
                     />
                   )}
+                  {this.isNew() && (
+                    <Form.Item className="form-buttons" {...tailFormItemLayout}>
+                      <Button
+                        loading={saveLoading}
+                        type="primary"
+                        htmlType="submit"
+                      >
+                        {'Guardar'}
+                      </Button>
 
-                  <Form.Item className="form-buttons" {...tailFormItemLayout}>
-                    <Button
-                      loading={saveLoading}
-                      type="primary"
-                      htmlType="submit"
-                    >
-                      {'Guardar'}
-                    </Button>
-
-                    <Button disabled={saveLoading} onClick={form.handleReset}>
-                      {'Resetear'}
-                    </Button>
-                  </Form.Item>
+                      <Button disabled={saveLoading} onClick={form.handleReset}>
+                        {'Resetear'}
+                      </Button>
+                    </Form.Item>
+                  )}
                 </Form>
               );
             }}
@@ -176,6 +175,8 @@ function select(state) {
     states: selectors.selectStates(state),
     fee: selectors.selectFee(state),
     permissionUsers: authSelector.selectPermViewProfiles(state),
+    permissionSeePets: authSelector.selectPermViewPets(state),
+    permissionPetsSelf: authSelector.selectPermSelfPets(state),
   };
 }
 
