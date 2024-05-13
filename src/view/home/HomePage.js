@@ -49,7 +49,7 @@ class HomePage extends PureComponent {
           que tenga los mejores desarrolladores de paginas web, entonces debes
           escoger a Pet safe
         </Paragraph>
-        <p>Version actual: {process.env.REACT_COMMIT_SHA} </p>
+        <p>Version actual: {process.env.REACT_APP_COMMIT_SHA || 'desconocida'} </p>
         <Row gutter={[16, 16]}>
           {cards.map((card, index) => (
             <Col key={index} xs={24} sm={12} md={8} lg={6}>
