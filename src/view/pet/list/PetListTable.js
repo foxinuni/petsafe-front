@@ -38,7 +38,7 @@ class PetListTable extends Component {
       render: (record) => {
         return this.props.permissionToEditUsers ? (
           <div key={record.id}>
-            <Link to={`/user/${record.id}`}>{record.label}</Link>
+            <Link to={`/user/${record.id}/edit`}>{record.label}</Link>
           </div>
         ) : (
           <div key={record.id}>{record.label}</div>
@@ -48,12 +48,6 @@ class PetListTable extends Component {
     {
       title: 'Nombre',
       dataIndex: 'name',
-      sorter: true,
-      render: undefined,
-    },
-    {
-      title: 'Tipo',
-      dataIndex: 'type',
       sorter: true,
       render: undefined,
     },

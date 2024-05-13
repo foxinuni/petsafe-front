@@ -97,9 +97,9 @@ const actions = {
         const pet = await service.findPet(id, token);
         const breed = await service.findBreed(pet.breed_id, token);
         const type = await service.findType(breed.type_id, token);
-        //pending, when reservations are well
+        let reservations;
         if (seeReservs) {
-          const reservations = await reservService.getAll(
+          reservations = await reservService.getAll(
             { petId: id },
             null,
             100,
@@ -108,12 +108,16 @@ const actions = {
           );
         }
         const owner = notMyOwn
-          ? await userService.findProfile(pet.userId, token)
+          ? await userService.findProfile(pet.user_id, token)
           : {
               name: `${currentUser.name} ${currentUser.surname}`,
               id: currentUser.id,
             };
-        //  const reservString = reservations?.map((reservation) => (`${dateToString(reservation.)}`))  not by now since there are no dates
+        const reservString = reservations.rows
+          ? reservations.rows.map(
+              (reservation) => `${dateToString(reservation.start_date)}`,
+            )
+          : '';
         dispatch({
           type: actions.FIND_SUCCESS,
           payload: {
@@ -126,7 +130,7 @@ const actions = {
             type: type.name,
             createdAt: dateToString(pet.createdAt),
             updatedAt: dateToString(pet.updatedAt),
-            reservations: '',
+            reservations: reservString,
           },
         });
       } catch (error) {

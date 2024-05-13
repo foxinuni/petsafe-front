@@ -1,4 +1,5 @@
 import axios from 'axios';
+import userService from 'modules/user/userService';
 import { backend } from 'config/development';
 
 export default class PetService {
@@ -15,12 +16,8 @@ export default class PetService {
     await axios.patch(
       `${backend}${url}${pet.id}`,
       {
-        id: values.id,
         name: values.name,
         age: values.age,
-        stateId: values.state,
-        breedId: pet.breed.id,
-        userId: pet.owner.id,
       },
       {
         headers: {
@@ -36,7 +33,11 @@ export default class PetService {
         authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+    return {
+      ...response.data,
+      createdAt: response.data.created_at,
+      updatedAt: response.data.updated_at,
+    };
   }
 
   static async findBreed(id, token) {
@@ -98,7 +99,7 @@ export default class PetService {
       const newBreed = await axios.post(
         `${backend}/pets/breeds`,
         {
-          typeId: values.type,
+          type_id: values.type,
           name: values.newBreed,
         },
         {
@@ -113,9 +114,8 @@ export default class PetService {
       await axios.post(
         `${backend}/pets/me`,
         {
-          userId: values.owner,
-          breedId: values.breed,
-          stateId: values.state,
+          user_id: values.owner,
+          breed_id: values.breed,
           name: values.name,
           age: values.age,
         },
@@ -129,9 +129,8 @@ export default class PetService {
       await axios.post(
         `${backend}/pets`,
         {
-          userId: values.owner,
-          breedId: values.breed,
-          stateId: values.state,
+          user_id: values.owner,
+          breed_id: values.breed,
           name: values.name,
           age: values.age,
         },
@@ -169,21 +168,22 @@ export default class PetService {
       },
     });
     const returning = { rows: [] };
-    returning.rows = response.data.map((pet) => ({
-      id: pet.id,
-      owner: {
-        id: 'sssss',
-        label: 'juan diego',
-      },
-      name: pet.name,
-      type: 'nose',
-      breed: pet.breedId,
-      state: pet.stateId,
-      age: pet.age,
-      createdAt: pet.createdAt,
-    }));
-    //returning.count = parseInt(response.data.count);
-    returning.count = 50;
+    for (const pet of response.data) {
+      const owner = await userService.findProfile(pet.user_id, token);
+      const breed = await PetService.findBreed(pet.breed_id, token);
+      returning.rows.push({
+        id: pet.id,
+        owner: {
+          id: owner.id,
+          label: `${owner.name} ${owner.surname}`,
+        },
+        name: pet.name,
+        breed: breed.name,
+        age: pet.age,
+        createdAt: pet.created_at,
+      });
+    }
+    returning.count = 1000;
     return returning;
   }
 }
