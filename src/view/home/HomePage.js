@@ -8,7 +8,7 @@ class HomePage extends PureComponent {
   render() {
     const cards = [
       {
-        title: 'La mejor universidad',
+        title: 'La mejor universidad2',
         description:
           'Pontificia universidad Javeriana, la mejor universidad, con los mejores estudiantes',
         url: 'https://www.javeriana.edu.co/inicio',
