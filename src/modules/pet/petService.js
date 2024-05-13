@@ -178,10 +178,7 @@ export default class PetService {
     for (const pet of response.data) {
       let owner = null;
       if (filter.me) {
-        owner = {
-          id: currentUser.id,
-          label: `${currentUser.name} ${currentUser.surname}`,
-        };
+        owner = `${currentUser.name} ${currentUser.surname}`;
       } else if (permissUsers) {
         try {
           owner = await userService.findProfile(pet.user_id, token);
@@ -192,12 +189,7 @@ export default class PetService {
       const breed = await PetService.findBreed(pet.breed_id, token);
       returning.rows.push({
         id: pet.id,
-        owner: owner
-          ? {
-              id: owner.id,
-              label: `${owner.name} ${owner.surname}`,
-            }
-          : null,
+        owner: owner ? `${owner.name} ${owner.surname}` : null,
         name: pet.name,
         breed: breed.name,
         age: pet.age,

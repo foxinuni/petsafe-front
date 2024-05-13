@@ -8,35 +8,6 @@ import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 
 class UserUsersToolbar extends Component {
-  doExport = () => {
-    const { dispatch } = this.props;
-    //a implementar exportacion excel
-  };
-
-  renderExportButton() {
-    const { loading, exportLoading } = this.props;
-
-    const disabled = loading;
-
-    const button = (
-      <Button
-        disabled={disabled}
-        onClick={this.doExport}
-        loading={exportLoading}
-      >
-        {'Exportar'}
-      </Button>
-    );
-
-    if (disabled) {
-      return (
-        <Tooltip title={'No hay informacion para exportar'}>{button}</Tooltip>
-      );
-    }
-
-    return button;
-  }
-
   render() {
     return (
       <Toolbar>
@@ -47,8 +18,6 @@ class UserUsersToolbar extends Component {
             </Button>
           </Link>
         )}
-
-        {this.renderExportButton()}
       </Toolbar>
     );
   }

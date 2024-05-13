@@ -105,22 +105,6 @@ const actions = {
     }
   },
 
-  getPetsFrom: (token, value) => async (dispatch) => {
-    try {
-      //change filter to the pets from user selected which is the value passed
-      const pets = await petService.fetchPets(null, null, 100, 0, token);
-      dispatch({
-        type: actions.PETS_FETCH_SUCCESS,
-        payload: { pets: pets.rows },
-      });
-    } catch (error) {
-      Error.handle(error, dispatch);
-      dispatch({
-        type: actions.PETS_FETCH_ERROR,
-      });
-    }
-  },
-
   resetPets: () => async (dispatch) => {
     dispatch({
       type: actions.PETS_RESET,

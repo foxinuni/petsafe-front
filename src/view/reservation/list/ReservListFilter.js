@@ -7,13 +7,14 @@ import { selectors } from 'modules/reservation/reservListActions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Spinner from 'view/shared/Spinner';
 import FilterWrapper, {
   formItemLayout,
 } from 'view/shared/styles/FilterWrapper';
 import authSelectors from 'authorization/authorizationSelector';
 import DatePickerRangeFormItem from 'view/shared/form/items/DatePickerRangeFormItem';
-import InputRangeFormItem from 'view/shared/form/items/InputRangeFormItem';
 import SelectFormItem from 'view/shared/form/items/SelectFormItem';
+import selectorAuth from 'modules/auth/authSelectors';
 
 const initialValues = {};
 
@@ -27,7 +28,15 @@ class ReservListFilter extends Component {
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(actions.doFetch(null, this.props.token));
+    dispatch(
+      actions.doFetch(
+        { me: !this.props.permissionView },
+        this.props.token,
+        true,
+        null,
+        this.props.currentUser,
+      ),
+    );
   }
 
   handleSubmit = (values) => {
@@ -39,16 +48,6 @@ class ReservListFilter extends Component {
     form.setValues({});
     const { dispatch } = this.props;
     dispatch(actions.doReset());
-  };
-
-  handleOwnerChange = (value) => {
-    const { dispatch } = this.props;
-    dispatch(reservActions.resetOwner());
-    if (value) {
-      dispatch(reservActions.getPetsFrom(this.props.token, value));
-    } else {
-      dispatch(reservActions.resetPets());
-    }
   };
 
   render() {
@@ -70,13 +69,6 @@ class ReservListFilter extends Component {
               return (
                 <Form onFinish={form.handleSubmit} layout="vertical">
                   <Row gutter={24}>
-                    <Col md={24} lg={12}>
-                      <DatePickerRangeFormItem
-                        name={'createdAt'}
-                        label={'creado'}
-                        layout={formItemLayout}
-                      />
-                    </Col>
                     {this.props.permissionViewPets &&
                       this.props.pemissionUsers && (
                         <Col md={24} lg={12}>
@@ -90,25 +82,9 @@ class ReservListFilter extends Component {
                               title: user.name,
                               label: user.name,
                             }))}
-                            onChange={this.handleOwnerChange}
                           />
                         </Col>
                       )}
-                    {this.props.ownerPets && (
-                      <Col md={24} lg={12}>
-                        <SelectFormItem
-                          name={'pet'}
-                          label={'Mascota'}
-                          layout={formItemLayout}
-                          options={this.props.ownerPets.map((pet) => ({
-                            id: pet.id,
-                            value: pet.id,
-                            title: pet.name,
-                            label: pet.name,
-                          }))}
-                        />
-                      </Col>
-                    )}
                     <Col md={24} lg={12}>
                       <DatePickerRangeFormItem
                         name={'arrival'}
@@ -120,26 +96,6 @@ class ReservListFilter extends Component {
                       <DatePickerRangeFormItem
                         name={'departure'}
                         label={'Salida'}
-                        layout={formItemLayout}
-                      />
-                    </Col>
-                    <Col md={24} lg={12}>
-                      <SelectFormItem
-                        name={'status'}
-                        label={'Estado'}
-                        options={this.props.states.map((state) => ({
-                          id: state.id,
-                          value: state.id,
-                          label: state.name,
-                          title: state.name,
-                        }))}
-                        layout={formItemLayout}
-                      />
-                    </Col>
-                    <Col md={24} lg={12}>
-                      <InputRangeFormItem
-                        name={'feeRange'}
-                        label={'Tarifa'}
                         layout={formItemLayout}
                       />
                     </Col>
@@ -168,7 +124,7 @@ class ReservListFilter extends Component {
         </FilterWrapper>
       );
     } else {
-      return <div>Loading...</div>;
+      return <Spinner />;
     }
   }
 }
@@ -181,7 +137,7 @@ function select(state) {
     token: authSelectors.selectToken(state),
     states: reservSelectors.selectStates(state),
     owners: reservSelectors.selectUsers(state),
-    ownerPets: reservSelectors.selectOwnerPets(state),
+    currentUser: selectorAuth.selectCurrentUser(state),
   };
 }
 

@@ -1,4 +1,4 @@
-import { Table, Popconfirm } from 'antd';
+import { Table, Popconfirm, Typography } from 'antd';
 import actions from 'modules/reservation/reservListActions';
 import { selectors } from 'modules/reservation/reservListActions';
 import authSelectors from 'authorization/authorizationSelector';
@@ -6,6 +6,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import TableWrapper from 'view/shared/styles/TableWrapper';
+import { dateToString } from 'modules/shared/dates';
+
+const { Text } = Typography;
 
 class ReservListTable extends Component {
   handleTableChange = (pagination, _, sorter) => {
@@ -23,50 +26,28 @@ class ReservListTable extends Component {
 
   columns = [
     {
-      title: 'Dueño',
-      dataIndex: 'owner',
+      title: 'Creador',
+      dataIndex: 'creator',
       sorter: true,
-      render: (record) => {
-        return this.props.permissionToEditUsers ? (
-          <div key={record.id}>
-            <Link to={`/user/${record.id}`}>{record.label}</Link>
-          </div>
-        ) : (
-          <div key={record.id}>{record.label}</div>
-        );
-      },
+      render: undefined,
     },
     {
       title: 'Mascota',
       dataIndex: 'pet',
       sorter: true,
-      render: (record) => {
-        return this.props.permissionToEditPets ? (
-          <div key={record.id}>
-            <Link to={`/pet/${record.id}`}>{record.label}</Link>
-          </div>
-        ) : (
-          <div key={record.id}>{record.label}</div>
-        );
-      },
+      render: undefined,
     },
     {
       title: 'Llegada',
       dataIndex: 'arrival',
       sorter: false,
-      render: undefined,
+      render: (record) => <Text> {dateToString(record)}</Text>,
     },
     {
       title: 'Salida',
       dataIndex: 'departure',
       sorter: false,
-      render: undefined,
-    },
-    {
-      title: 'Estado',
-      dataIndex: 'state',
-      sorter: false,
-      render: undefined,
+      render: (record) => <Text> {dateToString(record)}</Text>,
     },
     {
       title: '',

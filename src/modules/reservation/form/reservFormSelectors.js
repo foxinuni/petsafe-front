@@ -20,6 +20,8 @@ const selectPet = createSelector([selectRaw], (raw) => raw.pet);
 
 const selectFee = createSelector([selectRaw], (raw) => raw.fee);
 
+const selectUsers = createSelector([selectRaw], (raw) => raw.owners);
+
 const selectors = {
   selectSaveLoading,
   selectReservation,
@@ -27,6 +29,7 @@ const selectors = {
   selectStates,
   selectOnwer,
   selectFee,
+  selectUsers,
 };
 
 export default selectors;

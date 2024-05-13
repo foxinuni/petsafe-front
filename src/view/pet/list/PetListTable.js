@@ -34,39 +34,31 @@ class PetListTable extends Component {
     {
       title: 'Dueño',
       dataIndex: 'owner',
-      sorter: true,
-      render: (record) => {
-        return this.props.permissionToEditUsers ? (
-          <div key={record.id}>
-            <Link to={`/user/${record.id}/edit`}>{record.label}</Link>
-          </div>
-        ) : (
-          <div key={record.id}>{record.label}</div>
-        );
-      },
+      sorter: false,
+      render: undefined,
     },
     {
       title: 'Nombre',
       dataIndex: 'name',
-      sorter: true,
+      sorter: false,
       render: undefined,
     },
     {
       title: 'Raza',
       dataIndex: 'breed',
-      sorter: true,
+      sorter: false,
       render: undefined,
     },
     {
       title: 'Edad',
       dataIndex: 'age',
-      sorter: true,
+      sorter: false,
       render: undefined,
     },
     {
       title: 'Creado',
       dataIndex: 'createdAt',
-      sorter: true,
+      sorter: false,
       render: (record) => <Text> {dateToString(record)}</Text>,
     },
     {

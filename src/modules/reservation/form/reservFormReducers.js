@@ -3,7 +3,6 @@ import actions from 'modules/reservation/form/reservFormActions';
 const initialData = {
   saveLoading: false,
   owners: null,
-  pets: null,
   reservation: null,
   states: null,
   owner: null,
@@ -86,27 +85,6 @@ export default (state = initialData, { type, payload }) => {
     return {
       ...state,
       owner: null,
-    };
-  }
-
-  if (type === actions.PETS_FETCH_SUCCESS) {
-    return {
-      ...state,
-      pets: payload.pets,
-    };
-  }
-
-  if (type === actions.PETS_FETCH_ERROR) {
-    return {
-      ...state,
-      pets: null,
-    };
-  }
-
-  if (type === actions.PETS_RESET) {
-    return {
-      ...state,
-      pets: null,
     };
   }
   return state;

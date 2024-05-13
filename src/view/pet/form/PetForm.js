@@ -106,7 +106,7 @@ class PetForm extends Component {
       ((this.props.permissionToManage && this.props.users) ||
         !this.props.permissionToManage) &&
       this.props.types &&
-      this.props.pet
+      (this.props.pet || !this.isEditing())
     ) {
       const { saveLoading } = this.props;
 

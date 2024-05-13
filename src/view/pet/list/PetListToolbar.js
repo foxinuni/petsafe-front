@@ -10,35 +10,6 @@ import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 
 class PetToolbar extends Component {
-  doExport = () => {
-    /*const { dispatch } = this.props;
-    dispatch(actions.doExport());*/
-  };
-
-  renderExportButton() {
-    const { hasRows, loading, exportLoading } = this.props;
-    const disabled = !hasRows || loading;
-
-    const button = (
-      <Button
-        disabled={disabled}
-        onClick={this.doExport}
-        loading={exportLoading}
-        style={{ margin: '0 8px' }}
-      >
-        {'Exportar'}
-      </Button>
-    );
-
-    if (disabled) {
-      return (
-        <Tooltip title={'No hay informacion para exportar'}>{button}</Tooltip>
-      );
-    }
-
-    return button;
-  }
-
   render() {
     return (
       <Toolbar>
@@ -53,8 +24,6 @@ class PetToolbar extends Component {
             </Button>
           </Link>
         )}
-
-        {this.renderExportButton()}
       </Toolbar>
     );
   }

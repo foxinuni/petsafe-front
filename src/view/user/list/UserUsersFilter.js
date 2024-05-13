@@ -7,6 +7,7 @@ import actionsRoles from 'modules/rol/rolActions';
 import React, { Component } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
+import Spinner from 'view/shared/Spinner';
 import { withRouter } from 'react-router-dom';
 import SelectFormItem from 'view/shared/form/items/SelectFormItem';
 import InputFormItem from 'view/shared/form/items/InputFormItem';
@@ -119,7 +120,7 @@ class UserUsersFilter extends Component {
         </FilterWrapper>
       );
     } else {
-      return <div>Loading...</div>;
+      return <Spinner />;
     }
   }
 }

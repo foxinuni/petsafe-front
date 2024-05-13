@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { SearchOutlined } from '@ant-design/icons';
 import actions from 'modules/pet/petListActions';
+import Spinner from 'view/shared/Spinner';
 import FilterWrapper, {
   formItemLayout,
 } from 'view/shared/styles/FilterWrapper';
@@ -161,7 +162,7 @@ class PetListFilter extends Component {
         </FilterWrapper>
       );
     } else {
-      return <div>Loading...</div>;
+      return <Spinner />;
     }
   }
 }
