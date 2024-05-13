@@ -83,21 +83,23 @@ class PetListFilter extends Component {
                         layout={formItemLayout}
                       />
                     </Col>
-                    {this.props.permissionView && this.props.pemissionUsers && (
-                      <Col md={24} lg={12}>
-                        <SelectFormItem
-                          name={'userId'}
-                          label={'Dueño'}
-                          layout={formItemLayout}
-                          options={this.props.users.rows.map((user) => ({
-                            id: user.id,
-                            value: user.id,
-                            title: user.name,
-                            label: user.name,
-                          }))}
-                        />
-                      </Col>
-                    )}
+                    {this.props.permissionView &&
+                      this.props.pemissionUsers &&
+                      this.props.users?.rows && (
+                        <Col md={24} lg={12}>
+                          <SelectFormItem
+                            name={'userId'}
+                            label={'Dueño'}
+                            layout={formItemLayout}
+                            options={this.props.users.rows.map((user) => ({
+                              id: user.id,
+                              value: user.id,
+                              title: user.name,
+                              label: user.name,
+                            }))}
+                          />
+                        </Col>
+                      )}
                     <Col md={24} lg={12}>
                       <InputFormItem
                         name={'age'}
@@ -105,19 +107,21 @@ class PetListFilter extends Component {
                         layout={formItemLayout}
                       />
                     </Col>
-                    <Col md={24} lg={12}>
-                      <SelectFormItem
-                        name={'type'}
-                        label={'Tipo'}
-                        options={this.props.types.map((type) => ({
-                          id: type.id,
-                          value: type.id,
-                          label: type.name,
-                          title: type.name,
-                        }))}
-                        layout={formItemLayout}
-                      />
-                    </Col>
+                    {this.props.types && (
+                      <Col md={24} lg={12}>
+                        <SelectFormItem
+                          name={'type'}
+                          label={'Tipo'}
+                          options={this.props.types.map((type) => ({
+                            id: type.id,
+                            value: type.id,
+                            label: type.name,
+                            title: type.name,
+                          }))}
+                          layout={formItemLayout}
+                        />
+                      </Col>
+                    )}
                   </Row>
                   <Row>
                     <Col
