@@ -113,7 +113,7 @@ const actions = {
               name: `${currentUser.name} ${currentUser.surname}`,
               id: currentUser.id,
             };
-        const reservString = reservations.rows
+        const reservString = reservations?.rows
           ? reservations.rows.map(
               (reservation) => `${dateToString(reservation.start_date)}`,
             )

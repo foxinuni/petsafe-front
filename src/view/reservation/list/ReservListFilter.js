@@ -87,21 +87,23 @@ class ReservListFilter extends Component {
                     )}
                   </Row>
                   <Row>
-                    <Col className="filter-buttons" span={24}>
-                      <Button
-                        loading={loading}
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        {'Guardar'}
-                      </Button>
-                      <Button
-                        loading={loading}
-                        onClick={() => this.handleReset(form)}
-                      >
-                        {'Resetear'}
-                      </Button>
-                    </Col>
+                    {this.props.pemissionUsers && (
+                      <Col className="filter-buttons" span={24}>
+                        <Button
+                          loading={loading}
+                          type="primary"
+                          htmlType="submit"
+                        >
+                          {'Buscar'}
+                        </Button>
+                        <Button
+                          loading={loading}
+                          onClick={() => this.handleReset(form)}
+                        >
+                          {'Resetear'}
+                        </Button>
+                      </Col>
+                    )}
                   </Row>
                 </Form>
               );

@@ -178,7 +178,7 @@ export default class PetService {
     for (const pet of response.data) {
       let owner = null;
       if (filter.me) {
-        owner = `${currentUser.name} ${currentUser.surname}`;
+        owner = { name: currentUser.name, surname: currentUser.surname };
       } else if (permissUsers) {
         try {
           owner = await userService.findProfile(pet.user_id, token);

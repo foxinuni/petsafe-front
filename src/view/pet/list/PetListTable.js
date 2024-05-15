@@ -71,10 +71,10 @@ class PetListTable extends Component {
             this.props.permissionToReservManage) && (
             <Link to={`/reservation/${record.id}/new`}>{'Reservar'}</Link>
           )}
-          {this.props.permissionToEdit && (
+          {(this.props.permissionToEdit || this.props.permissionSelfPets) && (
             <Link to={`/pet/${record.id}/edit`}>{'Editar'}</Link>
           )}
-          {this.props.permissionToEdit && (
+          {(this.props.permissionToEdit || this.props.permissionSelfPets) && (
             <Popconfirm
               title={'Estas seguro?'}
               onConfirm={() => this.doDestroy(record.id)}
@@ -118,6 +118,7 @@ function select(state) {
     permissionToEdit: authSelectors.selectPermManagePets(state),
     permissionToReservSelf: authSelectors.selectPermSelfReserv(state),
     permissionToReservManage: authSelectors.selectPermManageReserv(state),
+    permissionSelfPets: authSelectors.selectPermSelfPets(state),
     token: authSelectors.selectToken(state),
   };
 }
