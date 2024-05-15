@@ -32,11 +32,12 @@ class HomePage extends PureComponent {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQrzTwr_Rd-2x7fQe7pPbxhgG27kULt1WimTK3hEqVww&s',
       },
       {
-        title: 'Juan Diego Bermudez',
-        description: 'XD, despues cambio esto jjsdhjshdjshdjsh',
-        url: 'https://www.linkedin.com/in/diegobermu/',
+        title: 'Nuestro hotel',
+        description:
+          'Mira las instalaciones del hotel en donde dejaras a tu pequeño amigo',
+        url: 'https://www.youtube.com/watch?v=nFW3RvRFaBM&ab_channel=BaysidePetResort',
         imageUrl:
-          'https://media.licdn.com/dms/image/C5603AQEoerUvVlNAqg/profile-displayphoto-shrink_200_200/0/1644726039220?e=2147483647&v=beta&t=ymQESsFHDE-73FHdXfLeJAbmGvAxPqg22yntqPbA12k',
+          'https://howtostartanllc.com/images/business-ideas/business-idea-images/pet-hotel.jpg',
       },
     ];
 
@@ -49,7 +50,9 @@ class HomePage extends PureComponent {
           que tenga los mejores desarrolladores de paginas web, entonces debes
           escoger a Pet safe
         </Paragraph>
-        <p>Version actual: {process.env.REACT_APP_COMMIT_SHA || 'desconocida'} </p>
+        <p>
+          Version actual: {process.env.REACT_APP_COMMIT_SHA || 'desconocida'}{' '}
+        </p>
         <Row gutter={[16, 16]}>
           {cards.map((card, index) => (
             <Col key={index} xs={24} sm={12} md={8} lg={6}>

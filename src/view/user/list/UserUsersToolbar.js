@@ -11,13 +11,14 @@ class UserUsersToolbar extends Component {
   render() {
     return (
       <Toolbar>
-        {this.props.permissionToManage && (
+        {(this.props.permissionToManage && (
           <Link to="/user/new">
             <Button type="primary" icon={<PlusOutlined />}>
               {'Nuevo'}
             </Button>
           </Link>
-        )}
+        )) ||
+          null}
       </Toolbar>
     );
   }

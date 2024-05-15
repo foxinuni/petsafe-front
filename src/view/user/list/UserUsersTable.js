@@ -32,7 +32,7 @@ class UserUsersTable extends Component {
         return (
           <Avatar
             src={
-              'https://yt3.ggpht.com/fokeCONf6oIpN0gnHnZODLBaDXXYL9WZyx5B--YLb_8hupDtkNQnK4uVJqidWpjO0VnvdTkbsw=s176-c-k-c0x00ffffff-no-rj-mo'
+              'https://static.vecteezy.com/system/resources/previews/004/274/186/non_2x/person-icon-user-interface-icon-silhouette-of-man-simple-symbol-a-glyph-symbol-in-your-web-site-design-logo-app-ui-webinar-video-chat-ect-vector.jpg'
             }
             alt="avatar"
           />

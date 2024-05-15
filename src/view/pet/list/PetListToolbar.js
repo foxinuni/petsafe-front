@@ -13,7 +13,7 @@ class PetToolbar extends Component {
   render() {
     return (
       <Toolbar>
-        {(this.props.permissionToManage || this.props.permissionSelf) && (
+        {((this.props.permissionToManage || this.props.permissionSelf) && (
           <Link to="/pet/new">
             <Button
               type="primary"
@@ -23,7 +23,8 @@ class PetToolbar extends Component {
               {'Nuevo'}
             </Button>
           </Link>
-        )}
+        )) ||
+          null}
       </Toolbar>
     );
   }
@@ -34,9 +35,6 @@ function select(state) {
     loading: false,
     exportLoading: false,
     hasRows: false,
-    // loading: selectors.selectLoading(state),
-    //exportLoading: selectors.selectExportLoading(state),
-    //hasRows: selectors.selectHasRows(state),
     permissionToManage: authSelector.selectPermManagePets(state),
     permissionSelf: authSelector.selectPermSelfPets(state),
   };

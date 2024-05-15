@@ -90,7 +90,7 @@ class PetListFilter extends Component {
                         layout={formItemLayout}
                       />
                     </Col>
-                    {this.props.permissionView &&
+                    {(this.props.permissionView &&
                       this.props.pemissionUsers &&
                       this.props.users?.rows && (
                         <Col md={24} lg={12}>
@@ -106,7 +106,8 @@ class PetListFilter extends Component {
                             }))}
                           />
                         </Col>
-                      )}
+                      )) ||
+                      null}
                     <Col md={24} lg={12}>
                       <InputFormItem
                         name={'age'}
@@ -114,7 +115,7 @@ class PetListFilter extends Component {
                         layout={formItemLayout}
                       />
                     </Col>
-                    {this.props.types && (
+                    {(this.props.types && (
                       <Col md={24} lg={12}>
                         <SelectFormItem
                           name={'type'}
@@ -128,7 +129,8 @@ class PetListFilter extends Component {
                           layout={formItemLayout}
                         />
                       </Col>
-                    )}
+                    )) ||
+                      null}
                   </Row>
                   <Row>
                     <Col

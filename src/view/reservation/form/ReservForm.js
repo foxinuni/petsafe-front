@@ -106,39 +106,45 @@ class ReservForm extends Component {
             render={(form) => {
               return (
                 <Form onFinish={form.handleSubmit}>
-                  {this.props.permissionUsers && this.isNew() && (
+                  {(this.props.permissionUsers && this.isNew() && (
                     <ViewFormItem name={'owner'} label={'Dueño'} />
-                  )}
+                  )) ||
+                    null}
                   <ViewFormItem name={'pet'} label={'Mascota'} />
-                  {this.isNew() && (
+                  {(this.isNew() && (
                     <DatePickerRangeFormItem
                       name={'dates'}
                       label={'Entrada y salida'}
                       required={true}
                       onChange={this.handleFee}
                     />
-                  )}
-                  {!this.isNew() && (
+                  )) ||
+                    null}
+                  {(!this.isNew() && (
                     <ViewFormItem name={'dates'} label={'Entrada y salida'} />
-                  )}
-                  {this.isNew() && (
+                  )) ||
+                    null}
+                  {(this.isNew() && (
                     <TextAreaFormItem
                       name={'clientNotes'}
                       label={'Anotaciones'}
                       required={false}
                     />
-                  )}
-                  {!this.isNew() && (
+                  )) ||
+                    null}
+                  {(!this.isNew() && (
                     <ViewFormItem name={'clientNotes'} label={'Anotaciones'} />
-                  )}
-                  {this.props.fee && this.props.fee != 0 && (
+                  )) ||
+                    null}
+                  {(this.props.fee && this.props.fee != 0 && (
                     <ViewFeeItem
                       name={'fee'}
                       label={'Tarifa'}
                       value={this.props.fee}
                     />
-                  )}
-                  {this.isNew() && (
+                  )) ||
+                    null}
+                  {(this.isNew() && (
                     <Form.Item className="form-buttons" {...tailFormItemLayout}>
                       <Button
                         loading={saveLoading}
@@ -152,7 +158,8 @@ class ReservForm extends Component {
                         {'Resetear'}
                       </Button>
                     </Form.Item>
-                  )}
+                  )) ||
+                    null}
                 </Form>
               );
             }}

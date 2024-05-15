@@ -1,4 +1,4 @@
-import { Table, Popconfirm, Tag, Typography } from 'antd';
+import { Table, Popconfirm, Tag, Typography, Avatar } from 'antd';
 import actions from 'modules/pet/petListActions';
 import { selectors } from 'modules/pet/petListActions';
 import React, { Component } from 'react';
@@ -31,6 +31,21 @@ class PetListTable extends Component {
   };
 
   columns = [
+    {
+      title: 'Avatar',
+      sorter: false,
+      dataIndex: 'avatar',
+      render: (_, record) => {
+        return (
+          <Avatar
+            src={
+              'https://i.pinimg.com/474x/46/5d/f2/465df2e54f32abdc771e704db608e313.jpg'
+            }
+            alt="avatar"
+          />
+        );
+      },
+    },
     {
       title: 'Dueño',
       dataIndex: 'owner',
@@ -67,14 +82,16 @@ class PetListTable extends Component {
       width: '160px',
       render: (_, record) => (
         <div className="table-actions">
-          {(this.props.permissionToReservSelf ||
+          {((this.props.permissionToReservSelf ||
             this.props.permissionToReservManage) && (
             <Link to={`/reservation/${record.id}/new`}>{'Reservar'}</Link>
-          )}
-          {(this.props.permissionToEdit || this.props.permissionSelfPets) && (
+          )) ||
+            null}
+          {((this.props.permissionToEdit || this.props.permissionSelfPets) && (
             <Link to={`/pet/${record.id}/edit`}>{'Editar'}</Link>
-          )}
-          {(this.props.permissionToEdit || this.props.permissionSelfPets) && (
+          )) ||
+            null}
+          {((this.props.permissionToEdit || this.props.permissionSelfPets) && (
             <Popconfirm
               title={'Estas seguro?'}
               onConfirm={() => this.doDestroy(record.id)}
@@ -83,7 +100,8 @@ class PetListTable extends Component {
             >
               <ButtonLink>{'Eliminar'}</ButtonLink>
             </Popconfirm>
-          )}
+          )) ||
+            null}
         </div>
       ),
     },

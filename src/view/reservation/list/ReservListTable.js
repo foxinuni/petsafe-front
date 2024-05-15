@@ -28,13 +28,13 @@ class ReservListTable extends Component {
     {
       title: 'Creador',
       dataIndex: 'creator',
-      sorter: true,
+      sorter: false,
       render: undefined,
     },
     {
       title: 'Mascota',
       dataIndex: 'pet',
-      sorter: true,
+      sorter: false,
       render: undefined,
     },
     {

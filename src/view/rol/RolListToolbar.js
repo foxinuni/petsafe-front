@@ -10,11 +10,12 @@ class RolToolbar extends Component {
   render() {
     return (
       <Toolbar>
-        {this.props.permissionToManage && (
+        {(this.props.permissionToManage && (
           <Link to="/roles/new">
             <Button type="primary">{'Nuevo'}</Button>
           </Link>
-        )}
+        )) ||
+          null}
       </Toolbar>
     );
   }

@@ -12,7 +12,7 @@ class BookingFormPage extends Component {
   };
 
   title = () => {
-    return this.isEditing() ? 'Edicion' : 'Nueva reserva';
+    return 'Reserva';
   };
 
   render() {

@@ -70,7 +70,7 @@ class ReservListFilter extends Component {
               return (
                 <Form onFinish={form.handleSubmit} layout="vertical">
                   <Row gutter={24}>
-                    {this.props.pemissionUsers && (
+                    {(this.props.pemissionUsers && (
                       <Col md={24} lg={12}>
                         <SelectFormItem
                           name={'owner'}
@@ -84,10 +84,11 @@ class ReservListFilter extends Component {
                           }))}
                         />
                       </Col>
-                    )}
+                    )) ||
+                      null}
                   </Row>
                   <Row>
-                    {this.props.pemissionUsers && (
+                    {(this.props.pemissionUsers && (
                       <Col className="filter-buttons" span={24}>
                         <Button
                           loading={loading}
@@ -103,7 +104,8 @@ class ReservListFilter extends Component {
                           {'Resetear'}
                         </Button>
                       </Col>
-                    )}
+                    )) ||
+                      null}
                   </Row>
                 </Form>
               );

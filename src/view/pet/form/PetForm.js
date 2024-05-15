@@ -134,25 +134,28 @@ class PetForm extends Component {
                       }))}
                     />
                   )}
-                  {this.isEditing() && (
+                  {(this.isEditing() && (
                     <ViewFormItem name={'owner'} label={'Dueño'} />
-                  )}
-                  {this.isEditing() && (
+                  )) ||
+                    null}
+                  {(this.isEditing() && (
                     <ViewFormItem name={'createdAt'} label={'Creada'} />
-                  )}
-                  {this.isEditing() && (
+                  )) ||
+                    null}
+                  {(this.isEditing() && (
                     <ViewFormItem
                       name={'updatedAt'}
                       label={'Ultima actualizacion'}
                     />
-                  )}
+                  )) ||
+                    null}
                   <InputFormItem
                     name={'name'}
                     label={'Nombre'}
                     required={true}
                   />
                   <InputFormItem name={'age'} label={'Edad'} required={true} />
-                  {!this.isEditing() && this.props.types && (
+                  {(!this.isEditing() && this.props.types && (
                     <SelectFormItem
                       name={'type'}
                       label={'Tipo'}
@@ -164,18 +167,22 @@ class PetForm extends Component {
                       }))}
                       onChange={this.handleTypeChange}
                     />
-                  )}
-                  {(this.newType || !this.props.types) && !this.isEditing() && (
-                    <InputFormItem
-                      name={'newType'}
-                      label={'Tipo diferente'}
-                      required={true}
-                    />
-                  )}
-                  {this.isEditing() && (
+                  )) ||
+                    null}
+                  {((this.newType || !this.props.types) &&
+                    !this.isEditing() && (
+                      <InputFormItem
+                        name={'newType'}
+                        label={'Tipo diferente'}
+                        required={true}
+                      />
+                    )) ||
+                    null}
+                  {(this.isEditing() && (
                     <ViewFormItem name={'type'} label={'Tipo'} />
-                  )}
-                  {this.props.breeds && (
+                  )) ||
+                    null}
+                  {(this.props.breeds && (
                     <SelectFormItem
                       name={'breed'}
                       label={'Raza'}
@@ -187,25 +194,29 @@ class PetForm extends Component {
                       }))}
                       onChange={this.handleBreedChange}
                     />
-                  )}
-                  {(this.newBreed || !this.props.breeds) &&
+                  )) ||
+                    null}
+                  {((this.newBreed || !this.props.breeds) &&
                     !this.isEditing() && (
                       <InputFormItem
                         name={'newBreed'}
                         label={'Raza distinta'}
                         required={true}
                       />
-                    )}
-                  {this.isEditing() && (
+                    )) ||
+                    null}
+                  {(this.isEditing() && (
                     <ViewFormItem name={'breed'} label={'Raza'} />
-                  )}
+                  )) ||
+                    null}
 
-                  {this.isEditing() && !this.props.permissionToSeeReserv && (
+                  {(this.isEditing() && !this.props.permissionToSeeReserv && (
                     <ViewFormItem
                       name={'reservations'}
                       label={'Reservaciones'}
                     />
-                  )}
+                  )) ||
+                    null}
 
                   <Form.Item className="form-buttons" {...tailFormItemLayout}>
                     <Button

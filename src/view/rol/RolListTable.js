@@ -33,14 +33,6 @@ class RolesTable extends Component {
       render: (disabled, record) => {
         const color = 'green';
         return <Tag color={color}>{'Activo'}</Tag>;
-        //Implement correctly when we have status at backend
-        /*render: (disabled, record) => {
-        if (record.type === 'role') {
-          return;
-        }
-
-        const color = disabled ? 'red' : 'green';
-        return <Tag color={color}>{disabled ? 'Inactivo' : 'Activo'}</Tag>;*/
       },
     },
     {
@@ -49,10 +41,11 @@ class RolesTable extends Component {
       width: '160px',
       render: (_, record) => (
         <div className="table-actions">
-          {this.props.permissionToManage && (
+          {(this.props.permissionToManage && (
             <Link to={`/roles/${record.id}/edit`}>{'Editar'}</Link>
-          )}
-          {this.props.permissionToManage && (
+          )) ||
+            null}
+          {(this.props.permissionToManage && (
             <Popconfirm
               title={'Estas seguro?'}
               onConfirm={() => this.doDestroy(record.id)}
@@ -61,7 +54,8 @@ class RolesTable extends Component {
             >
               <ButtonLink>{'Eliminar'}</ButtonLink>
             </Popconfirm>
-          )}
+          )) ||
+            null}
         </div>
       ),
     },

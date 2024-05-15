@@ -88,7 +88,7 @@ class Header extends Component {
                 className="user-dropdown-avatar"
                 size="small"
                 src={
-                  'https://media.licdn.com/dms/image/C5603AQEoerUvVlNAqg/profile-displayphoto-shrink_200_200/0/1644726039220?e=2147483647&v=beta&t=ymQESsFHDE-73FHdXfLeJAbmGvAxPqg22yntqPbA12k'
+                  'https://c1.klipartz.com/pngpicture/1022/1004/sticker-png-happy-face-emoji-smiley-emoticon-apple-color-emoji-sticker-art-emoji-face-with-tears-of-joy-emoji-web-design.png'
                 }
                 alt="avatar"
               />
