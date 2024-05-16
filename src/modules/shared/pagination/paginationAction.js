@@ -13,11 +13,11 @@ export default (prefix, fetchFn, selectors) => {
     PAGINATION_CHANGED: `${prefix}_PAGINATION_CHANGED`,
     SORTER_CHANGED: `${prefix}_SORTER_CHANGED`,
 
-    doReset: (token, me) => async (dispatch) => {
+    doReset: (token, me, currentUser) => async (dispatch) => {
       dispatch({
         type: actions.RESETED,
       });
-      dispatch(actions.doFetch({ me: me }, token, null, null));
+      dispatch(actions.doFetch({ me: me }, token, null, null, currentUser));
     },
 
     doChangePaginationAndSort:

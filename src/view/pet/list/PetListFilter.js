@@ -44,13 +44,27 @@ class PetListFilter extends Component {
   handleSubmit = (values) => {
     const { dispatch } = this.props;
     if (!this.props.permissionView) values.me = true;
-    dispatch(actions.doFetch(values, this.props.token));
+    dispatch(
+      actions.doFetch(
+        values,
+        this.props.token,
+        true,
+        null,
+        this.props.currentUser,
+      ),
+    );
   };
 
   handleReset = (form) => {
     form.setValues({});
     const { dispatch } = this.props;
-    dispatch(actions.doReset(this.props.token, !this.props.permissionView));
+    dispatch(
+      actions.doReset(
+        this.props.token,
+        !this.props.permissionView,
+        this.props.currentUser,
+      ),
+    );
   };
 
   render() {
