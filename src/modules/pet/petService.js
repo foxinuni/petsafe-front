@@ -71,6 +71,8 @@ export default class PetService {
   static async getBreeds(token, type) {
     let query = '';
     if (type) query = `?type=${type}`;
+    console.log('query esssssssss');
+    console.log(query);
     const response = await axios.get(`${backend}/pets/breeds${query}`, {
       headers: {
         authorization: `Bearer ${token}`,

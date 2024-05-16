@@ -50,8 +50,6 @@ class PetForm extends Component {
 
   isEditing() {
     const { match } = this.props;
-    console.log('is editing esssss');
-    console.log(match.params.id);
     return !!match.params.id;
   }
   handleSubmit = (values) => {
@@ -121,7 +119,7 @@ class PetForm extends Component {
             render={(form) => {
               return (
                 <Form onFinish={form.handleSubmit}>
-                  {!this.isEditing() && this.props.permissionToManage && (
+                  {(!this.isEditing() && this.props.permissionToManage && (
                     <SelectFormItem
                       name={'owner'}
                       label={'Dueño'}
@@ -133,7 +131,8 @@ class PetForm extends Component {
                         label: user.name,
                       }))}
                     />
-                  )}
+                  )) ||
+                    null}
                   {(this.isEditing() && (
                     <ViewFormItem name={'owner'} label={'Dueño'} />
                   )) ||

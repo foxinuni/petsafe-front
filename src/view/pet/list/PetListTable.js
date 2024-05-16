@@ -9,6 +9,7 @@ import ButtonLink from 'view/shared/styles/ButtonLink';
 import authSelectors from 'authorization/authorizationSelector';
 import { dateToString } from 'modules/shared/dates';
 import petActions from 'modules/pet/form/petFormActions';
+import selectorAuth from 'modules/auth/authSelectors';
 
 const { Text } = Typography;
 class PetListTable extends Component {
@@ -21,6 +22,7 @@ class PetListTable extends Component {
         this.props.filter,
         token,
         sorter,
+        this.props.currentUser,
       ),
     );
   };
@@ -138,6 +140,7 @@ function select(state) {
     permissionToReservManage: authSelectors.selectPermManageReserv(state),
     permissionSelfPets: authSelectors.selectPermSelfPets(state),
     token: authSelectors.selectToken(state),
+    currentUser: selectorAuth.selectCurrentUser(state),
   };
 }
 

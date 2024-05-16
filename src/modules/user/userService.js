@@ -75,7 +75,7 @@ export default class UserService {
       query += `orderBy=${orderBy.field}&orderType=${orderBy.order}&`;
     }
     query = query.slice(0, -1);
-    query += `limit=${limit}&page=${offset}`;
+    query += `&limit=${limit}&page=${offset}`;
     console.log(query);
     const response = await axios.get(`${backend}/profiles?${query}`, {
       headers: {

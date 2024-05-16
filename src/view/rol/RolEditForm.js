@@ -33,9 +33,9 @@ class rolEditForm extends Component {
       .filter((value) => role.permissions == 1 || role.permissions & value.bit)
       .map((value) => ({
         value: value.bit + (value.prereq ?? 0),
-        tittle: value.name,
+        tittle: value.label,
         id: 0,
-        label: value.name,
+        label: value.label,
       }));
     return role;
   };
